@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Services\Usuario\UsuarioService;
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -25,7 +26,7 @@ class UserController extends Controller
         return $this->service->login();
     }
 
-    public function cadastrar(Request $request)
+    public function cadastrar(UserRequest $request)
     {
         return $this->service->cadastrar($request);
     }

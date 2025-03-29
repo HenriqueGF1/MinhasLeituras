@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Services\Usuario;
 
+use Exception;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class UsuarioService
@@ -32,40 +34,54 @@ class UsuarioService
 
     public static function getUsuario()
     {
-        // try {
         return response()->json(Auth::user());
-        // } catch (\Exception $exception) {
-        //     throw new ErroGeralException($exception->getMessage());
-        // }
     }
 
     public function cadastrar($request)
     {
+        try {
 
-        $usuario = User::create([
-            "nome" => $request->nome,
-            "email" => $request->email,
-            "password" => $request->password,
-            "data_nascimento" => $request->data_nascimento,
-        ]);
+            DB::beginTransaction();
 
-        $token = Auth::attempt([
-            "email" => $usuario->email,
-            "password" => $request->password,
-        ]);
+            $usuario = User::create(
+                $request->safe()->all()
+            );
 
-        return $this->respondWithToken($token);
+            $token = Auth::attempt([
+                "email" => $usuario->email,
+                "password" => $request->password
+            ]);
+
+            DB::commit();
+
+            return $this->respondWithToken($token);
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception(json_encode([
+                'msg' => 'Erro ao cadastrar usuario',
+                'erroDev' => $e->getMessage()
+            ]));
+        }
     }
 
     public function login()
     {
-        $credentials = request(['email', 'password']);
 
-        if (!$token = Auth::attempt($credentials)) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'Usuario ou Senha Incorretos'
-            ]);
+        try {
+
+            $credentials = request(['email', 'password']);
+
+            if (!$token = Auth::attempt($credentials)) {
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Usuario ou Senha Incorretos'
+                ]);
+            }
+        } catch (Exception $e) {
+            throw new Exception(json_encode([
+                'msg' => 'Erro ao efetuar login',
+                'erroDev' => $e->getMessage()
+            ]));
         }
 
         return $this->respondWithToken($token);
@@ -73,16 +89,20 @@ class UsuarioService
 
     public function logout()
     {
-        // try {
 
-        Auth::logout();
+        try {
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Sucesso logout'
-        ]);
-        // } catch (\Exception $exception) {
-        //     throw new ErroGeralException($exception->getMessage());
-        // }
+            Auth::logout();
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Sucesso logout'
+            ]);
+        } catch (Exception $e) {
+            throw new Exception(json_encode([
+                'msg' => 'Erro ao efetuar logout',
+                'erroDev' => $e->getMessage()
+            ]));
+        }
     }
 }
