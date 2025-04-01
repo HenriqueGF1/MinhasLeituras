@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\StatusLeitura;
 use Illuminate\Database\Eloquent\Model;
 
 class Leituras extends Model
@@ -28,5 +29,6 @@ class Leituras extends Model
     protected $attributes = [
         'qtd_capitulos' => 1,
         'qtd_paginas' => 1,
+        'id_status_leitura' => StatusLeitura::STATUS_LENDO,
     ];
 }
