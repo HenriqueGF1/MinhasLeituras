@@ -18,6 +18,14 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (Exception $e, Request $request) {
 
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                // Deixa o Laravel processar a exceção de validação
+                return response()->json(
+                    $e->errors(),
+                    422
+                );
+            }
+
             $mensagem = json_decode($e->getMessage());
 
             $msg = $mensagem->msg ?? 'Ocorreu um erro inesperado.';

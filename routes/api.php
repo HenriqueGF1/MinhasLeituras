@@ -1,14 +1,27 @@
 <?php
 
+use App\Http\Controllers\LeiturasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
-Route::controller(UserController::class)->group(function () {
-    Route::post('/login', 'login')->name('usuario.login');
-    Route::post('/cadastrar', 'cadastrar')->name('usuario.cadastrar');
-    Route::get('/logout', 'logout')->name('usuario.logout');
+Route::prefix('usuario')->name('usuario.')->controller(UserController::class)->group(function () {
+    // Rotas públicas
+    Route::post('/login', 'login')->name('login');
+    Route::post('/cadastrar', 'cadastrar')->name('cadastrar');
+    Route::get('/logout', 'logout')->name('logout');
 
+    // Rotas protegidas por middleware de autenticação
     Route::middleware(['auth:api'])->group(function () {
-        Route::get('/teste', action: 'teste')->name(name: 'usuario.teste');
+        Route::get('/teste', 'teste')->name('teste');
+    });
+});
+
+Route::prefix('leituras')->name('leituras.')->controller(LeiturasController::class)->group(function () {
+    // Rotas públicas
+    Route::get('/', 'index')->name('pesquisarLeituras');
+
+    // Rotas protegidas por middleware de autenticação
+    Route::middleware(['auth:api'])->group(function () {
+        Route::post('/cadastrar', 'store')->name('cadastrar');
     });
 });

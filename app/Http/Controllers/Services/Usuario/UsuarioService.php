@@ -55,11 +55,11 @@ class UsuarioService
             DB::commit();
 
             return $this->respondWithToken($token);
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             DB::rollBack();
             throw new Exception(json_encode([
                 'msg' => 'Erro ao cadastrar usuario',
-                'erroDev' => $e->getMessage()
+                'erroDev' => $exception->getMessage()
             ]));
         }
     }
@@ -77,10 +77,10 @@ class UsuarioService
                     'message' => 'Usuario ou Senha Incorretos'
                 ]);
             }
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             throw new Exception(json_encode([
                 'msg' => 'Erro ao efetuar login',
-                'erroDev' => $e->getMessage()
+                'erroDev' => $exception->getMessage()
             ]));
         }
 
@@ -98,10 +98,10 @@ class UsuarioService
                 'code' => 200,
                 'message' => 'Sucesso logout'
             ]);
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             throw new Exception(json_encode([
                 'msg' => 'Erro ao efetuar logout',
-                'erroDev' => $e->getMessage()
+                'erroDev' => $exception->getMessage()
             ]));
         }
     }
