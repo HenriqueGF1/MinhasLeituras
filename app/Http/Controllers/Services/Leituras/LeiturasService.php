@@ -8,20 +8,36 @@ use Illuminate\Support\Facades\DB;
 
 class LeiturasService
 {
-    private $model;
-    public function __construct()
+    protected $model;
+
+    public function __construct(Leituras $leituras)
     {
-        $this->model = new Leituras();
+        $this->model = $leituras;
     }
+
     public function pesquisarLeituras()
     {
         return $this->model->paginate();
     }
 
+    public function pesquisaIsbn($isbn)
+    {
+
+        $isbn = isset($isbn->isbn) ? $isbn->isbn : $isbn;
+
+        return $this->model->where('isbn', '=', $isbn)->first();
+    }
+
     public function cadastrarLeitura($request)
     {
+
+        $dadosLeitura = $this->pesquisaIsbn($request->isbn);
+
+        dd($dadosLeitura);
+
         try {
             DB::beginTransaction();
+
 
             $leitura = $this->model->create(
                 $request->safe()->all()

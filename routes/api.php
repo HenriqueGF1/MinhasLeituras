@@ -22,6 +22,7 @@ Route::prefix('leituras')->name('leituras.')->controller(LeiturasController::cla
 
     // Rotas protegidas por middleware de autenticação
     Route::middleware(['auth:api'])->group(function () {
+        Route::post('/isbn', 'pesquisaIsbn')->name('pesquisaIsbn');
         Route::post('/cadastrar', 'store')->name('cadastrar');
     });
 });

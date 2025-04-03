@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class UsuarioService
 {
+    protected $model;
 
-    private $model;
-    public function __construct()
+    public function __construct(User $user)
     {
-        $this->model = User::class;
+        $this->model = $user;
     }
 
     protected function respondWithToken($token)

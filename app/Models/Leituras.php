@@ -22,13 +22,11 @@ class Leituras extends Model
         'qtd_capitulos',
         'qtd_paginas',
         'isbn',
-        'data_inicio_leitura',
-        'id_status_leitura',
         'data_registro',
     ];
+
     protected $attributes = [
         'qtd_capitulos' => 1,
         'qtd_paginas' => 1,
-        'id_status_leitura' => StatusLeitura::STATUS_LENDO,
     ];
 }

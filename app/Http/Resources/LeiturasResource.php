@@ -26,8 +26,6 @@ class LeiturasResource extends JsonResource
             'qtd_capitulos'        => $this->qtd_capitulos,
             'qtd_paginas'          => $this->qtd_paginas,
             'isbn'                 => $this->isbn,
-            'data_inicio_leitura'  => Carbon::parse($this->data_inicio_leitura)->format('d/m/Y'),
-            'id_status_leitura'    => $this->id_status_leitura,
             'data_registro'        => Carbon::parse($this->data_registro)->format('d/m/Y'),
         ];
     }

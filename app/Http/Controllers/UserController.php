@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
-    private $service;
+    protected $service;
 
-    public function __construct()
+    public function __construct(UsuarioService $service)
     {
-        $this->service = new UsuarioService();
+        $this->service = $service;
     }
 
     public function teste()

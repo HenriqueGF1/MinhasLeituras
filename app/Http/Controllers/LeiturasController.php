@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Services\Leituras\LeiturasService;
+use App\Http\Requests\IsbnRequest;
 use App\Http\Requests\LeiturasRequest;
 use App\Http\Resources\LeiturasResource;
 
@@ -12,11 +13,11 @@ use App\Http\Resources\LeiturasResource;
  */
 class LeiturasController extends Controller
 {
-    private $service;
+    protected $service;
 
-    public function __construct()
+    public function __construct(LeiturasService $service)
     {
-        $this->service = new LeiturasService();
+        $this->service = $service;
     }
 
     /**
@@ -33,6 +34,13 @@ class LeiturasController extends Controller
     {
         return LeiturasResource::collection(
             $this->service->pesquisarLeituras()
+        );
+    }
+
+    public function pesquisaIsbn(IsbnRequest $request)
+    {
+        return new LeiturasResource(
+            $this->service->pesquisaIsbn($request)
         );
     }
 

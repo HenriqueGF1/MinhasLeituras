@@ -4,15 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Autor extends Model
+class GeneroLeitura extends Model
 {
-    protected $table = 'editora';
-    protected $primaryKey = "id_autor";
+    protected $table = 'genero_leitura';
+    protected $primaryKey = "id_genero_leitura";
     public $incrementing = false;
     public $timestamps = false;
     protected $fillable = [
-        'id_autor',
-        'nome',
+        'id_genero_leitura',
+        'id_genero',
+        'id_leitura',
         'data_registro',
     ];
 }
