@@ -29,7 +29,7 @@ class IsbnRequest extends FormRequest
     {
         return [
             'isbn.required' => 'O campo ISBN é obrigatório.',
-            'isbn.regex'    => 'O ISBN deve ter 10 ou 13 caracteres numéricos, podendo terminar com X no caso do ISBN-10.',
+            'isbn.regex' => 'O ISBN deve ter 10 ou 13 caracteres numéricos, podendo terminar com X no caso do ISBN-10.',
         ];
     }
 }

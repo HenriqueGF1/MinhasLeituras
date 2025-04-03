@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Services\Usuario;
 
-use Exception;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UsuarioService
 {
@@ -48,8 +48,8 @@ class UsuarioService
             );
 
             $token = Auth::attempt([
-                "email" => $usuario->email,
-                "password" => $request->password
+                'email' => $usuario->email,
+                'password' => $request->password,
             ]);
 
             DB::commit();
@@ -59,7 +59,7 @@ class UsuarioService
             DB::rollBack();
             throw new Exception(json_encode([
                 'msg' => 'Erro ao cadastrar usuario',
-                'erroDev' => $exception->getMessage()
+                'erroDev' => $exception->getMessage(),
             ]));
         }
     }
@@ -71,16 +71,16 @@ class UsuarioService
 
             $credentials = request(['email', 'password']);
 
-            if (!$token = Auth::attempt($credentials)) {
+            if (! $token = Auth::attempt($credentials)) {
                 return response()->json([
                     'code' => 200,
-                    'message' => 'Usuario ou Senha Incorretos'
+                    'message' => 'Usuario ou Senha Incorretos',
                 ]);
             }
         } catch (Exception $exception) {
             throw new Exception(json_encode([
                 'msg' => 'Erro ao efetuar login',
-                'erroDev' => $exception->getMessage()
+                'erroDev' => $exception->getMessage(),
             ]));
         }
 
@@ -96,12 +96,12 @@ class UsuarioService
 
             return response()->json([
                 'code' => 200,
-                'message' => 'Sucesso logout'
+                'message' => 'Sucesso logout',
             ]);
         } catch (Exception $exception) {
             throw new Exception(json_encode([
                 'msg' => 'Erro ao efetuar logout',
-                'erroDev' => $exception->getMessage()
+                'erroDev' => $exception->getMessage(),
             ]));
         }
     }

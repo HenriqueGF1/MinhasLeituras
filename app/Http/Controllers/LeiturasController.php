@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Services\Leituras\LeiturasService;
 use App\Http\Requests\IsbnRequest;
 use App\Http\Requests\LeiturasRequest;
 use App\Http\Resources\LeiturasResource;
+use Illuminate\Http\Request;
 
 /**
  * @OA\PathItem(path="/api/leituras")
@@ -27,6 +27,7 @@ class LeiturasController extends Controller
      *     path="/api/leituras",
      *     summary="Retorna a lista de leituras",
      *     tags={"Leituras"},
+     *
      *     @OA\Response(response=200, description="Lista de leituras")
      * )
      */
@@ -51,10 +52,13 @@ class LeiturasController extends Controller
      *     path="/api/leituras",
      *     summary="Cria uma nova leitura",
      *     tags={"Leituras"},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
      *             required={"titulo", "descricao", "id_editora", "id_autor", "data_publicacao", "qtd_capitulos", "qtd_paginas", "isbn"},
+     *
      *             @OA\Property(property="id_leitura", type="integer", example=1),
      *             @OA\Property(property="titulo", type="string", example="O Senhor dos Anéis"),
      *             @OA\Property(property="descricao", type="string", example="Um livro sobre uma jornada épica."),
@@ -70,6 +74,7 @@ class LeiturasController extends Controller
      *             @OA\Property(property="data_registro", type="string", format="date-time", example="2024-03-20T14:30:00Z")
      *         )
      *     ),
+     *
      *     @OA\Response(response=201, description="Leitura criada com sucesso")
      * )
      */
@@ -87,17 +92,22 @@ class LeiturasController extends Controller
      *     path="/api/leituras/{id}",
      *     summary="Atualiza uma leitura existente",
      *     tags={"Leituras"},
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
      *         description="ID da leitura",
+     *
      *         @OA\Schema(type="integer")
      *     ),
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
      *             required={"titulo", "descricao", "id_editora", "id_autor", "data_publicacao", "qtd_capitulos", "qtd_paginas", "isbn"},
+     *
      *             @OA\Property(property="id_leitura", type="integer", example=1),
      *             @OA\Property(property="titulo", type="string", example="1984"),
      *             @OA\Property(property="descricao", type="string", example="Uma distopia clássica."),
@@ -113,6 +123,7 @@ class LeiturasController extends Controller
      *             @OA\Property(property="data_registro", type="string", format="date-time", example="2024-04-01T12:00:00Z")
      *         )
      *     ),
+     *
      *     @OA\Response(response=200, description="Leitura atualizada com sucesso")
      * )
      */
@@ -128,13 +139,16 @@ class LeiturasController extends Controller
      *     path="/api/leituras/{id}",
      *     summary="Remove uma leitura",
      *     tags={"Leituras"},
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
      *         description="ID da leitura a ser removida",
+     *
      *         @OA\Schema(type="integer")
      *     ),
+     *
      *     @OA\Response(response=204, description="Leitura excluída com sucesso"),
      *     @OA\Response(response=404, description="Leitura não encontrada")
      * )

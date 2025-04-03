@@ -16,17 +16,17 @@ class LeiturasResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id_leitura'           => $this->id_leitura,
-            'titulo'               => $this->titulo,
-            'descricao'            => $this->descricao,
-            'capa'                 => $this->capa,
-            'id_editora'           => $this->id_editora,
-            'id_autor'             => $this->id_autor,
-            'ano_publicacao'       => $this->ano_publicacao,
-            'qtd_capitulos'        => $this->qtd_capitulos,
-            'qtd_paginas'          => $this->qtd_paginas,
-            'isbn'                 => $this->isbn,
-            'data_registro'        => Carbon::parse($this->data_registro)->format('d/m/Y'),
+            'id_leitura' => $this->id_leitura,
+            'titulo' => $this->titulo,
+            'descricao' => $this->descricao,
+            'capa' => $this->capa,
+            'id_editora' => $this->id_editora,
+            'id_autor' => $this->id_autor,
+            'ano_publicacao' => $this->ano_publicacao,
+            'qtd_capitulos' => $this->qtd_capitulos,
+            'qtd_paginas' => $this->qtd_paginas,
+            'isbn' => $this->isbn,
+            'data_registro' => Carbon::parse($this->data_registro)->format('d/m/Y'),
         ];
     }
 }

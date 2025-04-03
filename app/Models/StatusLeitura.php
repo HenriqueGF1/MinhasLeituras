@@ -7,9 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class StatusLeitura extends Model
 {
     protected $table = 'status_leitura';
-    protected $primaryKey = "id_status_leitura";
+
+    protected $primaryKey = 'id_status_leitura';
+
     public $incrementing = false;
+
     public $timestamps = false;
+
     protected $fillable = [
         'id_status_leitura',
         'descricao',
@@ -17,7 +21,9 @@ class StatusLeitura extends Model
     ];
 
     public const STATUS_LIDO = 1;
+
     public const STATUS_LENDO = 2;
+
     public const STATUS_PRETENDO_LER = 3;
 
     public static function pegarStatus()

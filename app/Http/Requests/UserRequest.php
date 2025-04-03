@@ -4,11 +4,9 @@ namespace App\Http\Requests;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Hash;
 
 class UserRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;

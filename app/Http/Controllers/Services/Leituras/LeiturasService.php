@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Services\Leituras;
 
-use Exception;
 use App\Models\Leituras;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class LeiturasService
@@ -38,17 +38,17 @@ class LeiturasService
         try {
             DB::beginTransaction();
 
-
             $leitura = $this->model->create(
                 $request->safe()->all()
             );
             DB::commit();
+
             return $leitura;
         } catch (Exception $exception) {
             DB::rollBack();
             throw new Exception(json_encode([
                 'msg' => 'Erro ao cadastrar leitura',
-                'erroDev' => $exception->getMessage()
+                'erroDev' => $exception->getMessage(),
             ]));
         }
     }

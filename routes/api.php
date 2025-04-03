@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\LeiturasController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 Route::prefix('usuario')->name('usuario.')->controller(UserController::class)->group(function () {
     // Rotas públicas
