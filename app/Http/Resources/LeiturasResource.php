@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
@@ -8,11 +10,6 @@ use Illuminate\Support\Carbon;
 
 class LeiturasResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         return [
@@ -22,11 +19,21 @@ class LeiturasResource extends JsonResource
             'capa' => $this->capa,
             'id_editora' => $this->id_editora,
             'id_autor' => $this->id_autor,
-            'ano_publicacao' => $this->ano_publicacao,
+            'data_publicacao' => Carbon::parse($this->data_publicacao)->format('d/m/Y'),
             'qtd_capitulos' => $this->qtd_capitulos,
             'qtd_paginas' => $this->qtd_paginas,
             'isbn' => $this->isbn,
             'data_registro' => Carbon::parse($this->data_registro)->format('d/m/Y'),
         ];
+    }
+
+    public function toResponse($request)
+    {
+        return response()->json([
+            'statusCode' => $this->additional['statusCode'],
+            'success' => $this->additional['success'],
+            'message' => $this->additional['message'],
+            'data' => $this->toArray($request),
+        ], $this->additional['statusCode']);
     }
 }

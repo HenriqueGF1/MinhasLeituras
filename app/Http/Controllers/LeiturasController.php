@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Services\Leituras\LeiturasService;
@@ -38,10 +40,10 @@ class LeiturasController extends Controller
         );
     }
 
-    public function pesquisaIsbn(IsbnRequest $request)
+    public function pesquisaIsbnBase(IsbnRequest $request)
     {
         return new LeiturasResource(
-            $this->service->pesquisaIsbn($request)
+            $this->service->pesquisaIsbnBase($request)
         );
     }
 
@@ -80,9 +82,13 @@ class LeiturasController extends Controller
      */
     public function store(LeiturasRequest $request)
     {
-        return new LeiturasResource(
-            $this->service->cadastrarLeitura($request)
-        );
+        $leitura = $this->service->cadastrarLeitura($request);
+
+        return (new LeiturasResource($leitura->getData()->data ?? null))->additional([
+            'statusCode' => $leitura->getStatusCode(),
+            'success' => $leitura->getData()->success,
+            'message' => $leitura->getData()->message,
+        ]);
     }
 
     /**
@@ -127,10 +133,7 @@ class LeiturasController extends Controller
      *     @OA\Response(response=200, description="Leitura atualizada com sucesso")
      * )
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    public function update(Request $request, string $id) {}
 
     /**
      * Excluir uma leitura.
@@ -153,8 +156,5 @@ class LeiturasController extends Controller
      *     @OA\Response(response=404, description="Leitura não encontrada")
      * )
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+    public function destroy(string $id) {}
 }

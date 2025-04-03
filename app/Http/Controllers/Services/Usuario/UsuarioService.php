@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Services\Usuario;
 
 use App\Models\User;
@@ -34,13 +36,12 @@ class UsuarioService
 
     public static function getUsuario()
     {
-        return response()->json(Auth::user());
+        return Auth::user();
     }
 
     public function cadastrar($request)
     {
         try {
-
             DB::beginTransaction();
 
             $usuario = User::create(
@@ -57,6 +58,7 @@ class UsuarioService
             return $this->respondWithToken($token);
         } catch (Exception $exception) {
             DB::rollBack();
+
             throw new Exception(json_encode([
                 'msg' => 'Erro ao cadastrar usuario',
                 'erroDev' => $exception->getMessage(),
@@ -66,9 +68,7 @@ class UsuarioService
 
     public function login()
     {
-
         try {
-
             $credentials = request(['email', 'password']);
 
             if (! $token = Auth::attempt($credentials)) {
@@ -89,9 +89,7 @@ class UsuarioService
 
     public function logout()
     {
-
         try {
-
             Auth::logout();
 
             return response()->json([

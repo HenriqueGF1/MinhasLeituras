@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +12,7 @@ class GeneroLeitura extends Model
 
     protected $primaryKey = 'id_genero_leitura';
 
-    public $incrementing = false;
+    public $incrementing = true;
 
     public $timestamps = false;
 

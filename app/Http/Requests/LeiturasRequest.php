@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -8,9 +10,12 @@ class LeiturasRequest extends FormRequest
 {
     protected $isbnRequest;
 
+    protected $usuarioLeituraRequest;
+
     public function __construct()
     {
         $this->isbnRequest = new IsbnRequest;
+        $this->usuarioLeituraRequest = new UsuarioLeituraRequest;
     }
 
     public function authorize()
@@ -29,6 +34,7 @@ class LeiturasRequest extends FormRequest
     {
         return array_merge(
             $this->isbnRequest->rules(),
+            $this->usuarioLeituraRequest->rules(),
             [
                 'titulo' => 'required|string|max:255',
                 'descricao' => 'nullable|string|max:500',
@@ -47,6 +53,7 @@ class LeiturasRequest extends FormRequest
     {
         return array_merge(
             $this->isbnRequest->messages(),
+            $this->usuarioLeituraRequest->messages(),
             [
                 'id_leitura.required' => 'O campo ID da leitura é obrigatório.',
                 'id_leitura.integer' => 'O campo ID da leitura deve ser um número inteiro.',
