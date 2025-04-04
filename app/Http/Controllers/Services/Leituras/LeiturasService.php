@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Services\Leituras;
 
+use App\Http\Controllers\Services\Editora\EditoraService;
 use App\Http\Controllers\Services\Usuario\UsuarioLeituraService;
 use App\Models\Leituras;
 use Exception;
@@ -31,46 +32,79 @@ class LeiturasService
         return $this->model->where('isbn', '=', $isbn)->first();
     }
 
-    public function cadastrarLeitura($request)
+    public function cadastrarLeitura($dadosRequisicao)
     {
+        $resultado = [
+            'statusCode' => 400,
+            'cadastroEditora' => false,
+            'cadastroLeitura' => false,
+            'cadastroLeituraUsuario' => false,
+            'mensagens' => [
+                'cadastroEditora' => null,
+                'cadastroLeitura' => null,
+                'cadastroLeituraUsuario' => null,
+            ],
+        ];
+
         try {
             DB::beginTransaction();
 
-            $dadosRequisicao = $request->safe()->all();
-            $dadosLeitura = $this->pesquisaIsbnBase($dadosRequisicao['isbn']);
-            $usuarioLeituraService = new UsuarioLeituraService;
-
+            $dadosLeitura = isset($dadosRequisicao['isbn']) ? $this->pesquisaIsbnBase($dadosRequisicao['isbn']) : null;
             $idLeitura = $dadosLeitura->id_leitura ?? null;
-            $novaLeitura = null;
 
             if (! $idLeitura) {
-                $novaLeitura = $this->model->create($dadosRequisicao);
-                $idLeitura = $novaLeitura->id_leitura;
+                if (empty($dadosRequisicao['id_editora'])) {
+                    $editoraService = new EditoraService;
+                    $editoraNova = $editoraService->cadastrarEditora($dadosRequisicao);
+
+                    $resultado['cadastroEditora'] = $editoraNova->getData()->success;
+                    $resultado['mensagens']['cadastroEditora'] = $editoraNova->getData()->message;
+                    $resultado['statusCode'] = $editoraNova->getStatusCode();
+
+                    $dadosRequisicao['id_editora'] = $editoraNova->getData()->data->id_editora ?? null;
+                }
+
+                if (! empty($dadosRequisicao['id_editora'])) {
+                    $novaLeitura = $this->model->create($dadosRequisicao);
+                    $idLeitura = $novaLeitura->id_leitura;
+
+                    $resultado['cadastroLeitura'] = $idLeitura > 0;
+                    $resultado['mensagens']['cadastroLeitura'] = $idLeitura > 0 ? 'Sucesso ao cadastrar leitura' : 'Erro ao cadastrar leitura';
+                    $resultado['statusCode'] = $idLeitura > 0 ? 200 : $resultado['statusCode'];
+                }
+            } else {
+                $resultado['mensagens']['cadastroLeitura'] = 'Já existe essa leitura no banco de dados';
+                $resultado['statusCode'] = 409;
             }
 
-            $cadastroLeituraUsuario = $usuarioLeituraService->salvarLeituraUsuario($idLeitura, $dadosRequisicao);
+            if ($idLeitura) {
+                $usuarioLeituraService = new UsuarioLeituraService;
+                $cadastroLeituraUsuario = $usuarioLeituraService->salvarLeituraUsuario($idLeitura, $dadosRequisicao);
+
+                $resultado['cadastroLeituraUsuario'] = $cadastroLeituraUsuario->getData()->success;
+                $resultado['mensagens']['cadastroLeituraUsuario'] = $cadastroLeituraUsuario->getData()->message;
+                $resultado['statusCode'] = $cadastroLeituraUsuario->getStatusCode();
+            }
 
             DB::commit();
 
             return response()->json([
                 'success' => [
-                    'cadastroLeitura' => (bool) $novaLeitura,
-                    'cadastroLeituraUsuario' => $cadastroLeituraUsuario->getData()->success,
+                    'cadastroEditora' => $resultado['cadastroEditora'],
+                    'cadastroLeitura' => $resultado['cadastroLeitura'],
+                    'cadastroLeituraUsuario' => $resultado['cadastroLeituraUsuario'],
                 ],
-                'message' => [
-                    'cadastroLeitura' => $novaLeitura ? 'Sucesso ao cadastrar leitura' : null,
-                    'cadastroLeituraUsuario' => $cadastroLeituraUsuario->getData()->message,
-                ],
+                'message' => $resultado['mensagens'],
                 'data' => $this->model->find($idLeitura),
-            ], $cadastroLeituraUsuario->getStatusCode());
+            ], $resultado['statusCode']);
         } catch (Exception $exception) {
             DB::rollBack();
 
-            throw new Exception(json_encode([
+            return response()->json([
                 'success' => false,
-                'msg' => 'Erro ao cadastrar leitura',
+                'message' => 'Erro ao cadastrar leitura',
                 'erroDev' => $exception->getMessage(),
-            ]));
+            ], 500);
         }
     }
 }

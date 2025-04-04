@@ -12,10 +12,13 @@ class LeiturasRequest extends FormRequest
 
     protected $usuarioLeituraRequest;
 
+    protected $editoraRequest;
+
     public function __construct()
     {
         $this->isbnRequest = new IsbnRequest;
         $this->usuarioLeituraRequest = new UsuarioLeituraRequest;
+        $this->editoraRequest = new EditoraRequest;
     }
 
     public function authorize()
@@ -25,22 +28,33 @@ class LeiturasRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge([
-            'isbn' => preg_replace('/[^0-9Xx]/', '', $this->isbn), // Remove traços e mantém o "X" (para ISBN-10)
-        ]);
+        if (! is_null($this->isbn)) {
+            $this->merge([
+                'isbn' => preg_replace('/[^0-9Xx]/', '', $this->isbn), // Remove traços e mantém o "X" (para ISBN-10)
+            ]);
+        }
     }
 
     public function rules()
     {
+        $outrasValidacoes = [
+            $this->editoraRequest->rules(),
+        ];
+
+        if (! is_null($this->isbn)) {
+            $outrasValidacoes[] = $this->isbnRequest->rules();
+        }
+
         return array_merge(
-            $this->isbnRequest->rules(),
+            $outrasValidacoes[0],
+            $outrasValidacoes[1],
             $this->usuarioLeituraRequest->rules(),
             [
                 'titulo' => 'required|string|max:255',
                 'descricao' => 'nullable|string|max:500',
                 'capa' => 'nullable|url',
-                'id_editora' => 'required|integer',
-                'id_autor' => 'required|integer',
+                // 'id_editora' => 'integer',
+                'id_autor' => 'integer',
                 'data_publicacao' => 'required|date',
                 'qtd_capitulos' => 'required|integer|min:1',
                 'qtd_paginas' => 'required|integer|min:1',
@@ -51,8 +65,16 @@ class LeiturasRequest extends FormRequest
 
     public function messages()
     {
+        $outrasValidacoesMensagens = [
+            $this->editoraRequest->messages(),
+        ];
+
+        if (! is_null($this->isbn)) {
+            $outrasValidacoesMensagens[] = $this->isbnRequest->messages();
+        }
+
         return array_merge(
-            $this->isbnRequest->messages(),
+            $outrasValidacoesMensagens,
             $this->usuarioLeituraRequest->messages(),
             [
                 'id_leitura.required' => 'O campo ID da leitura é obrigatório.',

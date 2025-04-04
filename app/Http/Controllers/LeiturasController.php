@@ -82,7 +82,9 @@ class LeiturasController extends Controller
      */
     public function store(LeiturasRequest $request)
     {
-        $leitura = $this->service->cadastrarLeitura($request);
+        // dd($request);
+
+        $leitura = $this->service->cadastrarLeitura($request->safe()->all());
 
         return (new LeiturasResource($leitura->getData()->data ?? null))->additional([
             'statusCode' => $leitura->getStatusCode(),

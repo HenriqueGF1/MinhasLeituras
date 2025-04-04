@@ -19,10 +19,13 @@ class UsuarioLeituraService
 
     public function salvarLeituraUsuario($idLeitura, $dados)
     {
+        // dd($idLeitura, $dados);
+
         if ($this->model->where('id_leitura', $idLeitura)->exists()) {
             return response()->json([
                 'success' => false,
                 'message' => 'O usuário já possui essa leitura',
+                'data' => $this->model->where('id_leitura', '=', $idLeitura)->first(),
             ], 409);
         }
 
