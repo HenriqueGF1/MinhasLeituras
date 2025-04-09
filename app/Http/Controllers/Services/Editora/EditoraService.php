@@ -17,14 +17,10 @@ class EditoraService
 
     public function cadastrarEditora($dados)
     {
-        // dd('EditoraService', $dados);
+        // dd($dados);
 
         if ($this->model->where('descricao', $dados['descricao_editora'])->exists()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'A editora já existe',
-                'data' => $this->model->where('descricao', '=', $dados['descricao_editora'])->first(),
-            ], 409);
+            return $this->model->where('descricao', '=', $dados['descricao_editora'])->first();
         }
 
         try {
@@ -36,19 +32,10 @@ class EditoraService
 
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Sucesso Cadastro de Editora',
-                'data' => $editora,
-            ], 201);
+            return $editora;
         } catch (Exception $exception) {
             DB::rollBack();
-
-            throw new Exception(json_encode([
-                'success' => false,
-                'msg' => 'Erro ao cadastrar editora',
-                'erroDev' => $exception->getMessage(),
-            ]));
+            throw $exception;
         }
     }
 }

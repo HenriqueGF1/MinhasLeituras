@@ -19,14 +19,8 @@ class UsuarioLeituraService
 
     public function salvarLeituraUsuario($idLeitura, $dados)
     {
-        // dd($idLeitura, $dados);
-
-        if ($this->model->where('id_leitura', $idLeitura)->exists()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'O usuário já possui essa leitura',
-                'data' => $this->model->where('id_leitura', '=', $idLeitura)->first(),
-            ], 409);
+        if ($this->model->where('id_leitura', $idLeitura)->where('id_usuario', $dados['id_usuario'])->exists()) {
+            return $this->model->where('id_leitura', $idLeitura)->where('id_usuario', $dados['id_usuario'])->first();
         }
 
         try {
@@ -40,19 +34,10 @@ class UsuarioLeituraService
 
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Leitura associada ao usuário com sucesso',
-                'data' => $usuarioLeitura,
-            ], 201);
+            return $usuarioLeitura;
         } catch (Exception $exception) {
             DB::rollBack();
-
-            throw new Exception(json_encode([
-                'success' => false,
-                'msg' => 'Erro ao cadastrar leitura para o usuário',
-                'erroDev' => $exception->getMessage(),
-            ]));
+            throw $exception;
         }
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Services\Leituras\LeiturasService;
 use App\Http\Requests\IsbnRequest;
 use App\Http\Requests\LeiturasRequest;
@@ -82,15 +83,12 @@ class LeiturasController extends Controller
      */
     public function store(LeiturasRequest $request)
     {
-        // dd($request);
-
-        $leitura = $this->service->cadastrarLeitura($request->safe()->all());
-
-        return (new LeiturasResource($leitura->getData()->data ?? null))->additional([
-            'statusCode' => $leitura->getStatusCode(),
-            'success' => $leitura->getData()->success,
-            'message' => $leitura->getData()->message,
-        ]);
+        try {
+            $leitura = $this->service->cadastrarLeitura($request->safe()->all());
+            return ApiResponse::success(new LeiturasResource($leitura), 'Leitura cadastrada com sucesso');
+        } catch (\Throwable $exception) {
+            return ApiResponse::fromException($exception);
+        }
     }
 
     /**

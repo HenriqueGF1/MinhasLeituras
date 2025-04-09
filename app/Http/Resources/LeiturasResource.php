@@ -26,14 +26,4 @@ class LeiturasResource extends JsonResource
             'data_registro' => Carbon::parse($this->data_registro)->format('d/m/Y'),
         ];
     }
-
-    public function toResponse($request)
-    {
-        return response()->json([
-            'statusCode' => $this->additional['statusCode'],
-            'success' => $this->additional['success'],
-            'message' => $this->additional['message'],
-            'data' => $this->toArray($request),
-        ], $this->additional['statusCode']);
-    }
 }
