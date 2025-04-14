@@ -4,25 +4,29 @@ namespace App\Http\Controllers\Services\Leituras;
 
 use App\Http\Controllers\Services\Autor\AutorService;
 use App\Http\Controllers\Services\Editora\EditoraService;
+use App\Http\Controllers\Services\Genero\GeneroLeituraService;
 use App\Http\Controllers\Services\Usuario\UsuarioLeituraService;
 
 class CadastroDeLeituraService
 {
+    protected $autorService;
+
+    protected $editoraService;
+
+    protected $generoLeituraService;
+
     protected $leitura;
 
     protected $leituraService;
 
     protected $usuarioService;
 
-    protected $autorService;
-
-    protected $editoraService;
-
     public function __construct()
     {
-        $this->leituraService = new LeiturasService;
         $this->autorService = new AutorService;
         $this->editoraService = new EditoraService;
+        $this->generoLeituraService = new GeneroLeituraService;
+        $this->leituraService = new LeiturasService;
         $this->usuarioService = new UsuarioLeituraService;
     }
 
@@ -41,6 +45,10 @@ class CadastroDeLeituraService
         if (is_null($dados['id_leitura'])) {
             $leituraNova = $this->leituraService->cadastramentoDeLeitura($dados);
             $dados['id_leitura'] = $leituraNova->id_leitura ?? null;
+        }
+
+        if (! is_null($dados['id_leitura'])) {
+            $this->generoLeituraService->cadastrarGeneroLeitura($dados);
         }
 
         $this->usuarioService->salvarLeituraUsuario($dados['id_leitura'], $dados);

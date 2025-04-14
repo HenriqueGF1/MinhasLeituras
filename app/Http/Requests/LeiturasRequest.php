@@ -16,12 +16,15 @@ class LeiturasRequest extends FormRequest
 
     protected $autorRequest;
 
+    protected $generoLeituraRequest;
+
     public function __construct()
     {
         $this->isbnRequest = new IsbnRequest;
         $this->usuarioLeituraRequest = new UsuarioLeituraRequest;
         $this->editoraRequest = new EditoraRequest;
         $this->autorRequest = new AutorRequest;
+        $this->generoLeituraRequest = new GeneroleituraRequest;
     }
 
     public function authorize()
@@ -43,6 +46,7 @@ class LeiturasRequest extends FormRequest
         $outrasValidacoes = [
             $this->autorRequest->rules(),
             $this->editoraRequest->rules(),
+            $this->generoLeituraRequest->rules(),
         ];
 
         if (! is_null($this->isbn)) {
@@ -69,6 +73,7 @@ class LeiturasRequest extends FormRequest
         $outrasValidacoesMensagens = [
             $this->autorRequest->messages(),
             $this->editoraRequest->messages(),
+            $this->generoLeituraRequest->messages(),
         ];
 
         if (! is_null($this->isbn)) {

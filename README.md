@@ -1,3 +1,9 @@
+# TODO
+
+Fazer as validacoes de leituras ja cadastradas
+e os outros dados que devem ser unicos no banco de dados
+
+
 # Gerenciamento de Leituras
 
 Este projeto é uma aplicação de **gerenciamento de leituras** onde os usuários podem cadastrar, organizar e acompanhar seu progresso de leitura de livros, HQs e outros materiais. O sistema permite que os usuários gerenciem suas leituras, definam metas, escrevam avaliações, recebam lembretes para ler, e muito mais.

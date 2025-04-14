@@ -85,6 +85,7 @@ class LeiturasController extends Controller
     {
         try {
             $leitura = $this->service->cadastrarLeitura($request->safe()->all());
+
             return ApiResponse::success(new LeiturasResource($leitura), 'Leitura cadastrada com sucesso');
         } catch (\Throwable $exception) {
             return ApiResponse::fromException($exception);
