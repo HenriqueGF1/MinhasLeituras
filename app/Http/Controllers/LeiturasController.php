@@ -9,7 +9,6 @@ use App\Http\Requests\IsbnRequest;
 use App\Http\Requests\LeiturasRequest;
 use App\Http\Resources\LeiturasResource;
 use App\Http\Services\Leituras\LeiturasService;
-use Illuminate\Http\Request;
 
 /**
  * @OA\PathItem(path="/api/leituras")
@@ -91,71 +90,4 @@ class LeiturasController extends Controller
             return ApiResponse::fromException($exception);
         }
     }
-
-    /**
-     * Atualizar uma leitura existente.
-     *
-     * @OA\Put(
-     *     path="/api/leituras/{id}",
-     *     summary="Atualiza uma leitura existente",
-     *     tags={"Leituras"},
-     *
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         description="ID da leitura",
-     *
-     *         @OA\Schema(type="integer")
-     *     ),
-     *
-     *     @OA\RequestBody(
-     *         required=true,
-     *
-     *         @OA\JsonContent(
-     *             required={"titulo", "descricao", "id_editora", "id_autor", "data_publicacao", "qtd_capitulos", "qtd_paginas", "isbn"},
-     *
-     *             @OA\Property(property="id_leitura", type="integer", example=1),
-     *             @OA\Property(property="titulo", type="string", example="1984"),
-     *             @OA\Property(property="descricao", type="string", example="Uma distopia clássica."),
-     *             @OA\Property(property="capa", type="string", format="url", example="https://example.com/1984.jpg"),
-     *             @OA\Property(property="id_editora", type="integer", example=3),
-     *             @OA\Property(property="id_autor", type="integer", example=7),
-     *             @OA\Property(property="data_publicacao", type="string", format="date", example="1949-06-08"),
-     *             @OA\Property(property="qtd_capitulos", type="integer", example=24),
-     *             @OA\Property(property="qtd_paginas", type="integer", example=328),
-     *             @OA\Property(property="isbn", type="string", example="978-85-359-0277-2"),
-     *             @OA\Property(property="data_inicio_leitura", type="string", format="date", example="2024-02-10"),
-     *             @OA\Property(property="id_status_leitura", type="integer", example=1),
-     *             @OA\Property(property="data_registro", type="string", format="date-time", example="2024-04-01T12:00:00Z")
-     *         )
-     *     ),
-     *
-     *     @OA\Response(response=200, description="Leitura atualizada com sucesso")
-     * )
-     */
-    public function update(Request $request, string $id) {}
-
-    /**
-     * Excluir uma leitura.
-     *
-     * @OA\Delete(
-     *     path="/api/leituras/{id}",
-     *     summary="Remove uma leitura",
-     *     tags={"Leituras"},
-     *
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         description="ID da leitura a ser removida",
-     *
-     *         @OA\Schema(type="integer")
-     *     ),
-     *
-     *     @OA\Response(response=204, description="Leitura excluída com sucesso"),
-     *     @OA\Response(response=404, description="Leitura não encontrada")
-     * )
-     */
-    public function destroy(string $id) {}
 }

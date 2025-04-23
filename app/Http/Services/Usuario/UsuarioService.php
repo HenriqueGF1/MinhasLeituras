@@ -1,8 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Http\Services\UsuarioService;
+namespace App\Http\Services\Usuario;
 
 use App\Models\User;
 use Exception;

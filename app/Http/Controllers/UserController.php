@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
-use App\Http\Services\UsuarioService\UsuarioService;
+use App\Http\Services\Usuario\UsuarioService;
 
 class UserController extends Controller
 {

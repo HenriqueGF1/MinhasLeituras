@@ -32,27 +32,11 @@ class CadastroDeLeituraService
 
     public function cadastroDeLeitura($dados)
     {
-        
-        if (is_null($dados['id_autor'])) {
-            $autorNovo = $this->autorService->cadastrarAutor($dados);
-            $dados['id_autor'] = $autorNovo->id_autor ?? null;
-        }
+        $dados['id_autor'] ??= $this->autorService->cadastrarAutor($dados)->id_autor ?? null;
+        $dados['id_editora'] ??= $this->editoraService->cadastrarEditora($dados)->id_editora ?? null;
+        $dados['id_leitura'] ??= $this->leituraService->cadastramentoDeLeitura($dados)->id_leitura ?? null;
 
-        if (is_null($dados['id_editora'])) {
-            $editoraNova = $this->editoraService->cadastrarEditora($dados);
-            $dados['id_editora'] = $editoraNova->id_editora ?? null;
-        }
-
-        if (is_null($dados['id_leitura'])) {
-            $leituraNova = $this->leituraService->cadastramentoDeLeitura($dados);
-            $dados['id_leitura'] = $leituraNova->id_leitura ?? null;
-        }
-
-        dd($dados);
-
-        if (is_null($dados['id_leitura'])) {
-            $this->generoLeituraService->cadastrarGeneroLeitura($dados);
-        }
+        $this->generoLeituraService->cadastrarGeneroLeitura($dados);
 
         $this->usuarioService->salvarLeituraUsuario($dados['id_leitura'], $dados);
 

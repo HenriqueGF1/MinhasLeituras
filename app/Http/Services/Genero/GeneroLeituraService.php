@@ -18,16 +18,16 @@ class GeneroLeituraService
     public function cadastrarGeneroLeitura($dadosGeneroleitura)
     {
         try {
-            DB::beginTransaction();
-
-            $generosCadastrodos = $this->model
-                ->whereIn('id_genero', [1, 2, 3])
+            $generosCadastrados = $this->model
+                ->whereIn('id_genero', $dadosGeneroleitura['id_genero'])
                 ->where('id_leitura', $dadosGeneroleitura['id_leitura'])
                 ->get();
 
-            $novoGeneroLeitura = array_diff($dadosGeneroleitura['id_genero'], $generosCadastrodos->pluck('id_genero')->toArray());
+            $novoGeneroLeitura = array_diff($dadosGeneroleitura['id_genero'], $generosCadastrados->pluck('id_genero')->toArray());
 
             if (count($novoGeneroLeitura) > 0) {
+                DB::beginTransaction();
+
                 foreach ($novoGeneroLeitura as $valor) {
                     $generoleitura = $this->model->create(
                         [
@@ -36,11 +36,11 @@ class GeneroLeituraService
                         ]
                     );
                 }
+
+                DB::commit();
+
+                return $generoleitura;
             }
-
-            DB::commit();
-
-            return $generoleitura;
         } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;

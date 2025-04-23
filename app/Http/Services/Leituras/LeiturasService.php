@@ -36,6 +36,7 @@ class LeiturasService
             DB::beginTransaction();
 
             $dadosLeitura = isset($dadosRequisicao['isbn']) ? $this->pesquisaIsbnBase($dadosRequisicao['isbn']) : null;
+
             $dadosRequisicao['id_leitura'] = $dadosLeitura['id_leitura'] ?? null;
             $dadosRequisicao['id_editora'] = $dadosLeitura['id_editora'] ?? null;
 
