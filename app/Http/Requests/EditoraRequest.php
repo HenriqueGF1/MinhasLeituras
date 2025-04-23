@@ -23,4 +23,14 @@ class EditoraRequest extends FormRequest
             'descricao_editora' => 'string|max:50',
         ]);
     }
+
+    public function messages(): array
+    {
+        return [
+            'id_editora.required' => 'O campo editora é obrigatório.',
+            'id_editora.exists' => 'A editora selecionada é inválida.',
+            'descricao_editora.string' => 'A descrição da editora deve ser um texto.',
+            'descricao_editora.max' => 'A descrição da editora não pode ter mais que 50 caracteres.',
+        ];
+    }
 }

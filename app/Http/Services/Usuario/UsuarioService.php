@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Services\Usuario;
+namespace App\Http\Services\UsuarioService;
 
 use App\Models\User;
 use Exception;

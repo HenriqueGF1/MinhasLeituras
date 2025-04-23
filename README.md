@@ -1,7 +1,29 @@
 # TODO
 
-Fazer as validacoes de leituras ja cadastradas
-e os outros dados que devem ser unicos no banco de dados
+O sistema funcionará da seguinte forma:
+
+1 - O usuário fará o cadastro da sua leitura.
+2 - Não terá como alterar a leitura.
+3 - Nos dados da tabela de leitura, os usuários irão informar editora e autor. Serão os usuários e o próprio banco de dados (ou seja, no select haverá uma pesquisa para editoras e autores. Caso o usuário não encontre, ele poderá cadastrar um novo).
+Na tabela de gênero de leitura, os usuários não cadastrarão um novo, escolherão dos gêneros disponíveis (fazer uma carga com os gêneros mais utilizados).
+
+3 - Quando for cadastrar a leitura, ela será cadastrada nessas 5 tabelas:
+
+leituras
+
+editora
+
+autor
+
+gênero_leitura
+
+usuario_leitura
+
+4 - Agora, tendo essa leitura no sistema, quando outro usuário for cadastrar, ele informará apenas os dados do ISBN. Caso já exista no banco, a leitura será cadastrada somente na tabela usuario_leitura.
+
+---- 
+
+Refazer as validações nos formRequest 
 
 
 # Gerenciamento de Leituras

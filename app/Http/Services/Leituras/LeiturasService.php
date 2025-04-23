@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Services\Leituras;
+namespace App\Http\Services\Leituras;
 
 use App\Models\Leituras;
 use Exception;

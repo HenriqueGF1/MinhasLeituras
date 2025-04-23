@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Services\Editora;
+namespace App\Http\Services\Editora;
 
 use App\Models\Editora;
 use Exception;

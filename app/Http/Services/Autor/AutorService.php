@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Services\Autor;
+namespace App\Http\Services\Autor;
 
 use App\Models\Autor;
 use Exception;

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
-use App\Http\Controllers\Services\Leituras\LeiturasService;
 use App\Http\Requests\IsbnRequest;
 use App\Http\Requests\LeiturasRequest;
 use App\Http\Resources\LeiturasResource;
+use App\Http\Services\Leituras\LeiturasService;
 use Illuminate\Http\Request;
 
 /**

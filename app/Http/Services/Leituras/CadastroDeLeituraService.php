@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Services\Leituras;
+namespace App\Http\Services\Leituras;
 
-use App\Http\Controllers\Services\Autor\AutorService;
-use App\Http\Controllers\Services\Editora\EditoraService;
-use App\Http\Controllers\Services\Genero\GeneroLeituraService;
-use App\Http\Controllers\Services\Usuario\UsuarioLeituraService;
+use App\Http\Services\Autor\AutorService;
+use App\Http\Services\Editora\EditoraService;
+use App\Http\Services\Genero\GeneroLeituraService;
+use App\Http\Services\Usuario\UsuarioLeituraService;
 
 class CadastroDeLeituraService
 {
@@ -32,6 +32,7 @@ class CadastroDeLeituraService
 
     public function cadastroDeLeitura($dados)
     {
+        
         if (is_null($dados['id_autor'])) {
             $autorNovo = $this->autorService->cadastrarAutor($dados);
             $dados['id_autor'] = $autorNovo->id_autor ?? null;
@@ -47,7 +48,9 @@ class CadastroDeLeituraService
             $dados['id_leitura'] = $leituraNova->id_leitura ?? null;
         }
 
-        if (! is_null($dados['id_leitura'])) {
+        dd($dados);
+
+        if (is_null($dados['id_leitura'])) {
             $this->generoLeituraService->cadastrarGeneroLeitura($dados);
         }
 

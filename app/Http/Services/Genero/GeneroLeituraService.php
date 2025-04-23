@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Services\Genero;
+namespace App\Http\Services\Genero;
 
 use App\Models\GeneroLeitura;
 use Exception;

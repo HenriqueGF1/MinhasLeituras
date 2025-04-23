@@ -6,19 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class AutorRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return false;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         $idEditora = ['id_autor' => 'nullable'];
@@ -30,5 +22,15 @@ class AutorRequest extends FormRequest
         return array_merge($idEditora, [
             'nome' => 'string|max:50',
         ]);
+    }
+
+    public function messages(): array
+    {
+        return [
+            'id_autor.required' => 'O campo autor é obrigatório.',
+            'id_autor.exists' => 'O autor selecionado é inválido.',
+            'nome.string' => 'O nome deve ser um texto.',
+            'nome.max' => 'O nome não pode ter mais que 50 caracteres.',
+        ];
     }
 }
