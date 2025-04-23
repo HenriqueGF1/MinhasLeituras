@@ -23,7 +23,8 @@ usuario_leitura
 
 ---- 
 
-Refazer as validações nos formRequest 
+Fazer testes 
+OK Refazer as validações nos formRequest 
 
 
 # Gerenciamento de Leituras
