@@ -17,10 +17,11 @@ class EditoraService
 
     public function cadastrarEditora($dados)
     {
-        // dd($dados);
+        $valor = isset($dados['descricao_editora']) ? $dados['descricao_editora'] : $dados['id_editora'];
+        $campo = isset($dados['descricao_editora']) ? 'descricao' : 'id_editora';
 
-        if ($this->model->where('descricao', $dados['descricao_editora'])->exists()) {
-            return $this->model->where('descricao', '=', $dados['descricao_editora'])->first();
+        if ($this->model->where($campo, $valor)->exists()) {
+            return $this->model->where($campo, '=', $valor)->first();
         }
 
         try {

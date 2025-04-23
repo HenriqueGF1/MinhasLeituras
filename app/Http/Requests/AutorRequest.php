@@ -13,15 +13,23 @@ class AutorRequest extends FormRequest
 
     public function rules(): array
     {
-        $idEditora = ['id_autor' => 'nullable'];
+        return [];
+    }
 
-        if (isset($this->id_autor)) {
-            $idEditora['id_autor'] = '"required|exists:autor,id_autor';
-        }
-
-        return array_merge($idEditora, [
+    public function rulesRequiredIdAutor(): array
+    {
+        return [
+            'id_autor' => 'required|exists:autor,id_autor',
             'nome' => 'string|max:50',
-        ]);
+        ];
+    }
+
+    public function rulesNullableIdAutor(): array
+    {
+        return [
+            'id_autor' => 'nullable',
+            'nome' => 'string|max:50',
+        ];
     }
 
     public function messages(): array

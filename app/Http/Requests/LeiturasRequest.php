@@ -44,8 +44,6 @@ class LeiturasRequest extends FormRequest
     public function rules()
     {
         $outrasValidacoes = [
-            $this->autorRequest->rules(),
-            $this->editoraRequest->rules(),
             $this->generoLeituraRequest->rules(),
         ];
 
@@ -53,12 +51,24 @@ class LeiturasRequest extends FormRequest
             $outrasValidacoes[] = $this->isbnRequest->rules();
         }
 
+        if (! is_null($this->id_autor)) {
+            $outrasValidacoes[] = $this->autorRequest->rulesRequiredIdAutor();
+        } else {
+            $outrasValidacoes[] = $this->autorRequest->rulesNullableIdAutor();
+        }
+
+        if (! is_null($this->id_editora)) {
+            $outrasValidacoes[] = $this->editoraRequest->rulesRequiredIdEditora();
+        } else {
+            $outrasValidacoes[] = $this->editoraRequest->rulesNullableIdEditora();
+        }
+
         $outrasValidacoes[] = $this->usuarioLeituraRequest->rules();
 
         $outrasValidacoes[] = [
             'titulo' => 'required|string|max:255',
-            'descricao' => 'nullable|string|max:500',
-            'capa' => 'nullable|url',
+            'descricao' => 'required|string|max:500|min:20',
+            'capa' => 'required|url',
             'data_publicacao' => 'required|date',
             'qtd_capitulos' => 'required|integer|min:1',
             'qtd_paginas' => 'required|integer|min:1',
@@ -83,30 +93,31 @@ class LeiturasRequest extends FormRequest
         $outrasValidacoesMensagens[] = $this->usuarioLeituraRequest->messages();
 
         $outrasValidacoesMensagens[] = [
-            'id_leitura.required' => 'O campo ID da leitura é obrigatório.',
-            'id_leitura.integer' => 'O campo ID da leitura deve ser um número inteiro.',
-            'titulo.required' => 'O campo título é obrigatório.',
-            'titulo.string' => 'O título deve ser uma string.',
-            'titulo.max' => 'O título não pode ter mais de 255 caracteres.',
-            'descricao.string' => 'A descrição deve ser uma string.',
-            'descricao.max' => 'A descrição não pode ter mais de 500 caracteres.',
+            'titulo.required' => 'O título é obrigatório.',
+            'titulo.string' => 'O título deve ser um texto.',
+            'titulo.max' => 'O título não pode ter mais que 255 caracteres.',
+
+            'descricao.required' => 'A descrição é obrigatória.',
+            'descricao.string' => 'A descrição deve ser um texto.',
+            'descricao.min' => 'A descrição deve ter no mínimo 20 caracteres.',
+            'descricao.max' => 'A descrição não pode ter mais que 500 caracteres.',
+
+            'capa.required' => 'A URL da capa é obrigatória.',
             'capa.url' => 'A capa deve ser uma URL válida.',
-            'id_editora.required' => 'O campo ID da editora é obrigatório.',
-            'id_editora.integer' => 'O campo ID da editora deve ser um número inteiro.',
-            'id_autor.required' => 'O campo ID do autor é obrigatório.',
-            'id_autor.integer' => 'O campo ID do autor deve ser um número inteiro.',
-            'data_publicacao.required' => 'O campo ano de publicação é obrigatório.',
-            'data_publicacao.integer' => 'O ano de publicação deve ser um número inteiro.',
-            'data_publicacao.min' => 'O ano de publicação deve ser no mínimo 1900.',
-            'data_publicacao.max' => 'O ano de publicação não pode ser superior ao ano atual.',
-            'qtd_capitulos.required' => 'O campo quantidade de capítulos é obrigatório.',
+
+            'data_publicacao.required' => 'A data de publicação é obrigatória.',
+            'data_publicacao.date' => 'A data de publicação deve ser uma data válida.',
+
+            'qtd_capitulos.required' => 'A quantidade de capítulos é obrigatória.',
             'qtd_capitulos.integer' => 'A quantidade de capítulos deve ser um número inteiro.',
             'qtd_capitulos.min' => 'A quantidade de capítulos deve ser no mínimo 1.',
-            'qtd_paginas.required' => 'O campo quantidade de páginas é obrigatório.',
+
+            'qtd_paginas.required' => 'A quantidade de páginas é obrigatória.',
             'qtd_paginas.integer' => 'A quantidade de páginas deve ser um número inteiro.',
             'qtd_paginas.min' => 'A quantidade de páginas deve ser no mínimo 1.',
-            'data_registro.required' => 'O campo data de registro é obrigatório.',
-            'data_registro.date_format' => 'A data de registro deve estar no formato DD/MM/YYYY.',
+
+            'data_registro.required' => 'A data de registro é obrigatória.',
+            'data_registro.date' => 'A data de registro deve ser uma data válida.',
         ];
 
         return call_user_func_array('array_merge', $outrasValidacoesMensagens);

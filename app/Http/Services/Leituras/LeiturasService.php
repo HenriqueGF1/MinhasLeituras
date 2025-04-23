@@ -37,8 +37,8 @@ class LeiturasService
 
             $dadosLeitura = isset($dadosRequisicao['isbn']) ? $this->pesquisaIsbnBase($dadosRequisicao['isbn']) : null;
 
-            $dadosRequisicao['id_leitura'] = $dadosLeitura['id_leitura'] ?? null;
-            $dadosRequisicao['id_editora'] = $dadosLeitura['id_editora'] ?? null;
+            $dadosRequisicao['id_leitura'] = $dadosLeitura['id_leitura'] ?? $dadosRequisicao['id_leitura'] ?? null;
+            $dadosRequisicao['id_editora'] = $dadosLeitura['id_editora'] ?? $dadosRequisicao['id_editora'] ?? null;
 
             $cadastroDeLeituraService = new CadastroDeLeituraService;
             $leitura = $cadastroDeLeituraService->cadastroDeLeitura($dadosRequisicao);

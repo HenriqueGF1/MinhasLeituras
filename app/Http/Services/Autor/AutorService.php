@@ -17,8 +17,11 @@ class AutorService
 
     public function cadastrarAutor($dados)
     {
-        if ($this->model->where('nome', $dados['nome'])->exists()) {
-            return $this->model->where('nome', '=', $dados['nome'])->first();
+        $valor = isset($dados['nome']) ? $dados['nome'] : $dados['id_autor'];
+        $campo = isset($dados['nome']) ? 'nome' : 'id_autor';
+
+        if ($this->model->where($campo, $valor)->exists()) {
+            return $this->model->where($campo, '=', $valor)->first();
         }
 
         try {
