@@ -32,9 +32,27 @@ class UsuarioService
         ]);
     }
 
-    public static function getUsuario()
+    public static function getUsuario(): array
     {
-        return Auth::user();
+        $user = Auth::user();
+
+        if (! $user) {
+            return [
+                'user' => null,
+                'token' => null,
+            ];
+        }
+
+        try {
+            $token = auth('api')->tokenById($user->id);
+        } catch (\Exception $e) {
+            $token = null;
+        }
+
+        return [
+            'user' => $user,
+            'token' => $token,
+        ];
     }
 
     public function cadastrar($request)

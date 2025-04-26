@@ -83,7 +83,7 @@ class LeiturasController extends Controller
     public function store(LeiturasRequest $request)
     {
         try {
-            $leitura = $this->service->cadastrarLeitura($request->safe()->all());
+            $leitura = $this->service->cadastrarLeitura((array) $request->safe()->all());
 
             return ApiResponse::success(new LeiturasResource($leitura), 'Leitura cadastrada com sucesso');
         } catch (\Throwable $exception) {

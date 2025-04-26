@@ -66,6 +66,7 @@ class LeiturasRequest extends FormRequest
         $outrasValidacoes[] = $this->usuarioLeituraRequest->rules();
 
         $outrasValidacoes[] = [
+            'id_usuario' => 'required|exists:usuario,id_usuario',
             'titulo' => 'required|string|max:255',
             'descricao' => 'required|string|max:500|min:20',
             'capa' => 'required|url',
@@ -93,6 +94,9 @@ class LeiturasRequest extends FormRequest
         $outrasValidacoesMensagens[] = $this->usuarioLeituraRequest->messages();
 
         $outrasValidacoesMensagens[] = [
+            'id_usuario.required' => 'O campo ID do usuário é obrigatório.',
+            'id_usuario.exists' => 'O ID do usuário informado não existe.',
+
             'titulo.required' => 'O título é obrigatório.',
             'titulo.string' => 'O título deve ser um texto.',
             'titulo.max' => 'O título não pode ter mais que 255 caracteres.',

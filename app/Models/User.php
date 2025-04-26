@@ -41,6 +41,8 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
+    const USUARIO_TESTE = 1;
+
     // JWT
     public function getJWTIdentifier()
     {

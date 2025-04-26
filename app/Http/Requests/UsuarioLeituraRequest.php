@@ -18,7 +18,7 @@ class UsuarioLeituraRequest extends FormRequest
         $idLeitura = ['id_leitura' => 'nullable'];
 
         if (isset($this->id_leitura)) {
-            $idLeitura['id_leitura'] = '"required|exists:leituras,id_leitura';
+            $idLeitura['id_leitura'] = 'required|exists:leituras,id_leitura';
         }
 
         return array_merge($idLeitura, [
