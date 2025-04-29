@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class EditoraService
 {
-    protected $model;
+    protected Editora $model;
 
-    public function __construct()
+    public function __construct(Editora $model)
     {
-        $this->model = new Editora;
+        $this->model = $model;
     }
 
     public function cadastrarEditora($dados)

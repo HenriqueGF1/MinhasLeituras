@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class UsuarioService
 {
-    protected $model;
+    protected User $model;
 
-    public function __construct(User $user)
+    public function __construct(User $model)
     {
-        $this->model = $user;
+        $this->model = $model;
     }
 
     protected function respondWithToken($token)

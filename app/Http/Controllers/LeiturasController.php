@@ -15,7 +15,7 @@ use App\Http\Services\Leituras\LeiturasService;
  */
 class LeiturasController extends Controller
 {
-    protected $service;
+    protected LeiturasService $service;
 
     public function __construct(LeiturasService $service)
     {
@@ -83,7 +83,9 @@ class LeiturasController extends Controller
     public function store(LeiturasRequest $request)
     {
         try {
-            $leitura = $this->service->cadastrarLeitura((array) $request->safe()->all());
+            $validatedData = $request->safe()->all();
+
+            $leitura = $this->service->cadastrarLeitura($validatedData);
 
             return ApiResponse::success(new LeiturasResource($leitura), 'Leitura cadastrada com sucesso');
         } catch (\Throwable $exception) {

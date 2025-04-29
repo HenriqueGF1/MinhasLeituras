@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class GeneroLeituraService
 {
-    protected $model;
+    protected GeneroLeitura $model;
 
-    public function __construct()
+    public function __construct(GeneroLeitura $model)
     {
-        $this->model = new GeneroLeitura;
+        $this->model = $model;
     }
 
     public function cadastrarGeneroLeitura($dadosGeneroleitura)

@@ -24,6 +24,8 @@ class LeiturasApiTest extends TestCase
         // WHEN: Ação - fazendo a requisição POST para cadastrar a leitura
         $response = $this->postJson('/api/leituras/cadastrar', $payload, $headers); // Realiza a requisição com os dados e cabeçalhos acima
 
+        dd($response);
+
         // THEN: Verificação - checa se a resposta tem o status de erro de validação 422
         // Verifica se o campo 'titulo' foi validado e retornou um erro (validação falhou porque o título está vazio)
         $response->assertStatus(422) // Verifica se o status da resposta é 422 (erro de validação)

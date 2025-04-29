@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class UsuarioLeituraService
 {
-    protected $model;
+    protected UsuarioLeitura $model;
 
-    public function __construct()
+    public function __construct(UsuarioLeitura $model)
     {
-        $this->model = new UsuarioLeitura;
+        $this->model = $model;
     }
 
     public function salvarLeituraUsuario($idLeitura, $dados)

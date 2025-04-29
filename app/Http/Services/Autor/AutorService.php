@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class AutorService
 {
-    protected $model;
+    protected Autor $model;
 
-    public function __construct()
+    public function __construct(Autor $model)
     {
-        $this->model = new Autor;
+        $this->model = $model;
     }
 
     public function cadastrarAutor($dados)

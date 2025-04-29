@@ -6,40 +6,43 @@ use App\Http\Services\Autor\AutorService;
 use App\Http\Services\Editora\EditoraService;
 use App\Http\Services\Genero\GeneroLeituraService;
 use App\Http\Services\Usuario\UsuarioLeituraService;
+use App\Models\Leituras;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class CadastroDeLeituraService
 {
-    protected $autorService;
+    public function __construct(
+        protected AutorService $autorService,
+        protected EditoraService $editoraService,
+        protected GeneroLeituraService $generoLeituraService,
+        protected UsuarioLeituraService $usuarioService
+    ) {}
 
-    protected $editoraService;
-
-    protected $generoLeituraService;
-
-    protected $leitura;
-
-    protected $leituraService;
-
-    protected $usuarioService;
-
-    public function __construct()
+    public function cadastroDeLeitura(array $dados): Leituras
     {
-        $this->autorService = new AutorService;
-        $this->editoraService = new EditoraService;
-        $this->generoLeituraService = new GeneroLeituraService;
-        $this->leituraService = new LeiturasService;
-        $this->usuarioService = new UsuarioLeituraService;
-    }
+        try {
+            DB::beginTransaction();
 
-    public function cadastroDeLeitura($dados)
-    {
-        $dados['id_autor'] ??= $this->autorService->cadastrarAutor($dados)->id_autor ?? null;
-        $dados['id_editora'] ??= $this->editoraService->cadastrarEditora($dados)->id_editora ?? null;
-        $dados['id_leitura'] ??= $this->leituraService->cadastramentoDeLeitura($dados)->id_leitura ?? null;
+            $dados['id_autor'] ??= $this->autorService->cadastrarAutor($dados)?->id_autor;
+            $dados['id_editora'] ??= $this->editoraService->cadastrarEditora($dados)?->id_editora;
 
-        $this->generoLeituraService->cadastrarGeneroLeitura($dados);
+            if (empty($dados['id_leitura'])) {
+                $leitura = Leituras::create($dados);
+                $dados['id_leitura'] = $leitura->id_leitura;
+            } else {
+                $leitura = Leituras::findOrFail($dados['id_leitura']);
+            }
 
-        $this->usuarioService->salvarLeituraUsuario($dados['id_leitura'], $dados);
+            $this->generoLeituraService->cadastrarGeneroLeitura($dados);
+            $this->usuarioService->salvarLeituraUsuario($dados['id_leitura'], $dados);
 
-        return $dados;
+            DB::commit();
+
+            return $leitura;
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
     }
 }
