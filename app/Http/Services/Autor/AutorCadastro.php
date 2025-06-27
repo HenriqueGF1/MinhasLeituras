@@ -6,19 +6,14 @@ use App\Models\Autor;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class AutorService
+class AutorCadastro
 {
-    protected Autor $model;
+    public function __construct(protected Autor $model) {}
 
-    public function __construct(Autor $model)
+    public function cadastrarAutor(array $dados = []): ?Autor
     {
-        $this->model = $model;
-    }
-
-    public function cadastrarAutor($dados)
-    {
-        $valor = isset($dados['nome']) ? $dados['nome'] : $dados['id_autor'];
-        $campo = isset($dados['nome']) ? 'nome' : 'id_autor';
+        $valor = isset($dados['nome_autor']) ? $dados['nome_autor'] : $dados['id_autor'];
+        $campo = isset($dados['nome_autor']) ? 'nome_autor' : 'id_autor';
 
         if ($this->model->where($campo, $valor)->exists()) {
             return $this->model->where($campo, '=', $valor)->first();
@@ -28,7 +23,7 @@ class AutorService
             DB::beginTransaction();
 
             $autor = $this->model->create([
-                'nome' => $dados['nome'],
+                'nome' => $dados['nome_autor'],
             ]);
 
             DB::commit();

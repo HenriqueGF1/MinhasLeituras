@@ -6,7 +6,7 @@ use App\Models\Editora;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class EditoraService
+class EditoraCadastro
 {
     protected Editora $model;
 
@@ -15,7 +15,7 @@ class EditoraService
         $this->model = $model;
     }
 
-    public function cadastrarEditora($dados)
+    public function cadastrarEditora(array $dados = []): ?Editora
     {
         $valor = isset($dados['descricao_editora']) ? $dados['descricao_editora'] : $dados['id_editora'];
         $campo = isset($dados['descricao_editora']) ? 'descricao' : 'id_editora';

@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\LeiturasController;
+use App\Http\Controllers\Leituras\CadastroDeLeituraController;
+use App\Http\Controllers\Leituras\PesquisarLeituraController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,13 +19,25 @@ Route::prefix('usuario')->name('usuario.')->controller(UserController::class)->g
     });
 });
 
-Route::prefix('leituras')->name('leituras.')->controller(LeiturasController::class)->group(function () {
+// Route::prefix('leituras')->name('leituras.')->controller(LeiturasController::class)->group(function () {
+//     // Rotas públicas
+//     Route::get('/', 'index')->name('pesquisarLeituras');
+
+//     // Rotas protegidas por middleware de autenticação
+//     Route::middleware(['auth:api'])->group(function () {
+//         Route::post('/isbn', 'pesquisaIsbn')->name('pesquisaIsbn');
+//         Route::post('/cadastrar', 'store')->name('cadastrar');
+//     });
+// });
+
+Route::prefix('leituras')->name('leituras.')->group(function () {
     // Rotas públicas
-    Route::get('/', 'index')->name('pesquisarLeituras');
+
+    Route::get('/', PesquisarLeituraController::class)->name('pesquisarLeituras');
 
     // Rotas protegidas por middleware de autenticação
     Route::middleware(['auth:api'])->group(function () {
-        Route::post('/isbn', 'pesquisaIsbn')->name('pesquisaIsbn');
-        Route::post('/cadastrar', 'store')->name('cadastrar');
+        Route::post('/isbn', PesquisarLeituraController::class)->name('pesquisaIsbn');
+        Route::post('/cadastrar', CadastroDeLeituraController::class)->name('cadastrar');
     });
 });
