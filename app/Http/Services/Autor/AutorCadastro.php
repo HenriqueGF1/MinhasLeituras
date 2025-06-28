@@ -10,20 +10,13 @@ class AutorCadastro
 {
     public function __construct(protected Autor $model) {}
 
-    public function cadastrarAutor(array $dados = []): ?Autor
+    public function cadastrarAutor(string $nome_autor): ?Autor
     {
-        $valor = isset($dados['nome_autor']) ? $dados['nome_autor'] : $dados['id_autor'];
-        $campo = isset($dados['nome_autor']) ? 'nome_autor' : 'id_autor';
-
-        if ($this->model->where($campo, $valor)->exists()) {
-            return $this->model->where($campo, '=', $valor)->first();
-        }
-
         try {
             DB::beginTransaction();
 
             $autor = $this->model->create([
-                'nome' => $dados['nome_autor'],
+                'nome' => $nome_autor,
             ]);
 
             DB::commit();

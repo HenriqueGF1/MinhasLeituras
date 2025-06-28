@@ -28,7 +28,7 @@ class AutorRequest extends FormRequest
     {
         return [
             'id_autor' => 'nullable',
-            'nome' => 'string|max:50',
+            'nome_autor' => 'string|max:50',
         ];
     }
 
@@ -37,8 +37,8 @@ class AutorRequest extends FormRequest
         return [
             'id_autor.required' => 'O campo autor é obrigatório.',
             'id_autor.exists' => 'O autor selecionado é inválido.',
-            'nome.string' => 'O nome deve ser um texto.',
-            'nome.max' => 'O nome não pode ter mais que 50 caracteres.',
+            'nome_autor.string' => 'O nome deve ser um texto.',
+            'nome_autor.max' => 'O nome não pode ter mais que 50 caracteres.',
         ];
     }
 }

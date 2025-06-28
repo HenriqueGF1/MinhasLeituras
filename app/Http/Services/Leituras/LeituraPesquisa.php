@@ -10,14 +10,28 @@ class LeituraPesquisa
 {
     public function __construct(protected Leituras $model) {}
 
-    public function pesquisaLeitura(int $id_leitura): Leituras
+    public function pesquisaLeitura(int $id_leitura, ?string $titulo = null): ?Leituras
     {
         try {
-            if ($this->model->where('id_leitura', $id_leitura)->exists()) {
-                return $this->model->find($id_leitura);
+            if (! is_null($id_leitura)) {
+                $leitura = $this->model->find($id_leitura);
+
+                if ($leitura) {
+                    return $leitura;
+                }
             }
 
-            throw new Exception("Leitura com ID {$id_leitura} não encontrada.");
+            if (! is_null($titulo)) {
+                $leitura = $this->model
+                    ->where('titulo', 'LIKE', '%' . $titulo . '%')
+                    ->first();
+
+                if ($leitura) {
+                    return $leitura;
+                }
+            }
+
+            return null;
         } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;

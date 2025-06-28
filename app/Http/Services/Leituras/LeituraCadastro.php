@@ -15,15 +15,8 @@ class LeituraCadastro
         DB::beginTransaction();
 
         try {
-            if (! empty($dados['id_leitura'])) {
-                $leitura = $this->pesquisaLeitura->pesquisaLeitura($dados['id_leitura']);
-
-                if (! empty($leitura->id_leitura)) {
-                    return $leitura;
-                }
-            }
-
             $leitura = Leituras::create($dados);
+
             DB::commit();
 
             return $leitura;

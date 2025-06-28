@@ -8,27 +8,15 @@ use Illuminate\Support\Facades\DB;
 
 class EditoraCadastro
 {
-    protected Editora $model;
+    public function __construct(protected Editora $model) {}
 
-    public function __construct(Editora $model)
+    public function cadastrarEditora(string $descricao_editora): ?Editora
     {
-        $this->model = $model;
-    }
-
-    public function cadastrarEditora(array $dados = []): ?Editora
-    {
-        $valor = isset($dados['descricao_editora']) ? $dados['descricao_editora'] : $dados['id_editora'];
-        $campo = isset($dados['descricao_editora']) ? 'descricao' : 'id_editora';
-
-        if ($this->model->where($campo, $valor)->exists()) {
-            return $this->model->where($campo, '=', $valor)->first();
-        }
-
         try {
             DB::beginTransaction();
 
             $editora = $this->model->create([
-                'descricao' => $dados['descricao_editora'],
+                'descricao' => $descricao_editora,
             ]);
 
             DB::commit();
