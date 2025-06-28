@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Autor;
 
+use App\Http\DTO\AutorDTO;
 use App\Models\Autor;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -10,13 +11,13 @@ class AutorCadastro
 {
     public function __construct(protected Autor $model) {}
 
-    public function cadastrarAutor(string $nome_autor): ?Autor
+    public function cadastrarAutor(AutorDTO $autorDTO): ?Autor
     {
         try {
             DB::beginTransaction();
 
             $autor = $this->model->create([
-                'nome' => $nome_autor,
+                'nome' => $autorDTO->nome_autor,
             ]);
 
             DB::commit();

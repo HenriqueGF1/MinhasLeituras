@@ -2,52 +2,45 @@
 
 namespace App\Http\Services\Autor;
 
+use App\Http\DTO\AutorDTO;
+use App\Http\DTO\CadastroLeituraDTO;
 use App\Http\Services\Leituras\ProcessoCadastroLeituraHandler;
 
 class AutorPrecessoHandler extends ProcessoCadastroLeituraHandler
 {
     public function __construct(
         protected AutorPesquisa $autorPesquisa,
-        protected AutorCadastro $autorCadastro
+        protected AutorCadastro $autorCadastro,
     ) {}
 
-    public function processar(array &$dados): array
+    public function processar(CadastroLeituraDTO $leituraDto): CadastroLeituraDTO
     {
-        $this->checaSeExisteRegistro($dados);
+        $autorDto = new AutorDTO($leituraDto->toArray());
 
-        if (! empty($dados['id_autor'])) {
-            unset($dados['nome_autor']);
+        $this->checaSeExisteRegistro($autorDto);
 
-            return $dados;
+        if (empty($autorDto->id_autor)) {
+            $this->cadastra($autorDto);
         }
 
-        $this->cadastra($dados);
+        $leituraDto->id_autor = $autorDto->id_autor;
 
-        if ($this->next) {
-            return $this->next->processar($dados);
-        }
-
-        return $dados;
+        return $this->next
+            ? $this->next->processar($leituraDto)
+            : $leituraDto;
     }
 
-    private function checaSeExisteRegistro(array &$dados): array
+    private function checaSeExisteRegistro(AutorDTO $autorDto): void
     {
-        if (! empty($dados['id_autor']) || ! empty($dados['nome'])) {
-            $dadosAutor = $this->autorPesquisa->pesquisaAutor(
-                isset($dados['id_autor']),
-                $dados['nome_autor'] ?? ''
-            );
-
-            $dados['id_autor'] = isset($dadosAutor?->id_autor) ? $dadosAutor?->id_autor : null;
-
-            return $dados;
+        if (! empty($autorDto->id_autor) || ! empty($autorDto->nome_autor)) {
+            $registro = $this->autorPesquisa->pesquisaAutor($autorDto);
+            $autorDto->id_autor = $registro?->id_autor ?? null;
         }
-
-        return $dados;
     }
 
-    private function cadastra(array &$dados)
+    private function cadastra(AutorDTO $autorDto): void
     {
-        $dados['id_autor'] = $this->autorCadastro->cadastrarAutor($dados['nome'] ?? '')?->id_autor;
+        $autorDto->id_autor = $this->autorCadastro
+            ->cadastrarAutor($autorDto)?->id_autor;
     }
 }

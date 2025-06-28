@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Editora;
 
+use App\Http\DTO\EditoraDTO;
 use App\Models\Editora;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -10,13 +11,13 @@ class EditoraCadastro
 {
     public function __construct(protected Editora $model) {}
 
-    public function cadastrarEditora(string $descricao_editora): ?Editora
+    public function cadastrarEditora(EditoraDTO $editoraDTO): ?Editora
     {
         try {
             DB::beginTransaction();
 
             $editora = $this->model->create([
-                'descricao' => $descricao_editora,
+                'descricao' => $editoraDTO->descricao_editora,
             ]);
 
             DB::commit();

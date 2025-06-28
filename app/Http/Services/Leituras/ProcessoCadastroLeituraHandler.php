@@ -2,6 +2,8 @@
 
 namespace App\Http\Services\Leituras;
 
+use App\Http\DTO\CadastroLeituraDTO;
+
 // padrao Chain of Responsibility
 abstract class ProcessoCadastroLeituraHandler
 {
@@ -16,5 +18,5 @@ abstract class ProcessoCadastroLeituraHandler
     }
 
     // Processa a requisição ou passa para o próximo
-    abstract public function processar(array &$data): array;
+    abstract public function processar(CadastroLeituraDTO $data): CadastroLeituraDTO;
 }

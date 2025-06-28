@@ -2,6 +2,9 @@
 
 namespace App\Http\Services\Leituras;
 
+use App\Http\DTO\CadastroLeituraDTO;
+use App\Http\DTO\LeituraDTO;
+
 class LeituraProcessoHandler extends ProcessoCadastroLeituraHandler
 {
     public function __construct(
@@ -9,41 +12,36 @@ class LeituraProcessoHandler extends ProcessoCadastroLeituraHandler
         protected LeituraCadastro $leituraCadastro
     ) {}
 
-    public function processar(array &$dados): array
+    public function processar(CadastroLeituraDTO $cadastroDto): CadastroLeituraDTO
     {
-        $this->checaSeExisteRegistro($dados);
+        $leituraDto = new LeituraDTO($cadastroDto->toArray());
 
-        if (! empty($dados['id_leitura'])) {
-            return $dados;
+        if (isset($leituraDto->id_leitura)) {
+            $this->checaSeExisteRegistro($leituraDto);
         }
 
-        $this->cadastra($dados);
-
-        if ($this->next) {
-            return $this->next->processar($dados);
+        if (empty($leituraDto->id_leitura)) {
+            $this->cadastra($leituraDto);
         }
 
-        return $dados;
+        $cadastroDto->id_leitura = $leituraDto->id_leitura;
+
+        return $this->next
+            ? $this->next->processar($cadastroDto)
+            : $cadastroDto;
     }
 
-    protected function checaSeExisteRegistro(array &$dados): array
+    protected function checaSeExisteRegistro(LeituraDTO $leituraDto): void
     {
-        if (! empty($dados['id_leitura']) || ! empty($dados['titulo'])) {
-            $dadosLeitura = $this->leituraPesquisa->pesquisaLeitura(
-                isset($dados['id_leitura']),
-                $dados['titulo'] ?? ''
-            );
-
-            $dados['id_leitura'] = isset($dadosLeitura?->id_leitura) ? $dadosLeitura?->id_leitura : null;
-
-            return $dados;
+        if (! empty($leituraDto->id_leitura) || ! empty($leituraDto->titulo)) {
+            $registro = $this->leituraPesquisa->pesquisaLeitura($leituraDto);
+            $leituraDto->id_leitura = $registro?->id_leitura ?? null;
         }
-
-        return $dados;
     }
 
-    protected function cadastra(array &$dados): void
+    protected function cadastra(LeituraDTO $leituraDto): void
     {
-        $dados['id_leitura'] = $this->leituraCadastro->cadastroDeLeitura($dados)?->id_leitura;
+        $leituraDto->id_leitura = $this->leituraCadastro
+            ->cadastroDeLeitura($leituraDto)?->id_leitura;
     }
 }

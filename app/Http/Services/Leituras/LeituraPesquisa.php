@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Leituras;
 
+use App\Http\DTO\LeituraDTO;
 use App\Models\Leituras;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -10,20 +11,20 @@ class LeituraPesquisa
 {
     public function __construct(protected Leituras $model) {}
 
-    public function pesquisaLeitura(int $id_leitura, ?string $titulo = null): ?Leituras
+    public function pesquisaLeitura(LeituraDTO $leituraDto): ?Leituras
     {
         try {
-            if (! is_null($id_leitura)) {
-                $leitura = $this->model->find($id_leitura);
+            if (! is_null($leituraDto->id_leitura)) {
+                $leitura = $this->model->find($leituraDto->id_leitura);
 
                 if ($leitura) {
                     return $leitura;
                 }
             }
 
-            if (! is_null($titulo)) {
+            if (! is_null($leituraDto->titulo)) {
                 $leitura = $this->model
-                    ->where('titulo', 'LIKE', '%' . $titulo . '%')
+                    ->where('titulo', 'LIKE', '%' . $leituraDto->titulo . '%')
                     ->first();
 
                 if ($leitura) {

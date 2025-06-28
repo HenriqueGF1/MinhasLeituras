@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Leituras;
 
+use App\Http\DTO\CadastroLeituraDTO;
 use App\Http\Services\Autor\AutorCadastro;
 use App\Http\Services\Autor\AutorPesquisa;
 use App\Http\Services\Autor\AutorPrecessoHandler;
@@ -9,6 +10,8 @@ use App\Http\Services\Editora\EditoraCadastro;
 use App\Http\Services\Editora\EditoraPesquisa;
 use App\Http\Services\Editora\EditoraPrecessoHandler;
 use App\Http\Services\Genero\GeneroLeituraCadastro;
+use App\Http\Services\Genero\GeneroPesquisa;
+use App\Http\Services\Genero\GeneroPrecessoHandler;
 use App\Http\Services\Usuario\LeituraUsuarioProcessoHandler;
 use App\Http\Services\Usuario\UsuarioLeituraCadastro;
 use App\Http\Services\Usuario\UsuarioLeituraPesquisa;
@@ -20,76 +23,53 @@ class CadastramentoDeLeituraFacade
 {
     public function __construct(
         protected AutorCadastro $autorCadastro,
+        protected AutorPesquisa $autorPesquisa,
         protected EditoraCadastro $editoraCadastro,
+        protected EditoraPesquisa $editoraPesquisa,
         protected GeneroLeituraCadastro $generoLeituraCadastro,
-        protected UsuarioLeituraCadastro $usuarioLeituraCadastro,
+        protected GeneroPesquisa $generoPesquisa,
         protected IsbnPesquisa $isbnPesquisa,
         protected LeituraCadastro $leituraCadastro,
-        protected AutorPesquisa $autorPesquisa,
-        protected EditoraPesquisa $editoraPesquisa,
         protected LeituraPesquisa $leituraPesquisa,
+        protected UsuarioLeituraCadastro $usuarioLeituraCadastro,
         protected UsuarioLeituraPesquisa $usuarioLeituraPesquisa,
     ) {}
 
-    public function processoDeCadastroDeLeitura(array $dadosRequisicao): Leituras
+    public function processoDeCadastroDeLeitura(CadastroLeituraDTO $dtoLeitura): Leituras
     {
-        $dadosIsbn = isset($dadosRequisicao['isbn'])
-            ? $this->isbnPesquisa->pesquisaIsbnBase($dadosRequisicao['isbn'])?->toArray() ?? []
-            : [];
+        if (! empty($dtoLeitura->isbn)) {
+            $dadosIsbn = isset($dtoLeitura->isbn)
+                ? $this->isbnPesquisa->pesquisaIsbnBase($dtoLeitura->isbn)?->toArray() ?? []
+                : [];
 
-        $dadosParaCadastroLeitura = array_merge($dadosRequisicao, $dadosIsbn);
+            if (! empty($dadosIsbn) > 0) {
+                $dtoLeitura->id_leitura = ! empty($dadosIsbn['id_leitura']) ? $dadosIsbn['id_leitura'] : null;
+                $dtoLeitura->id_editora = ! empty($dadosIsbn['id_editora']) ? $dadosIsbn['id_editora'] : null;
+                $dtoLeitura->id_autor = ! empty($dadosIsbn['id_autor']) ? $dadosIsbn['id_autor'] : null;
+            }
+        }
 
         try {
             DB::beginTransaction();
-
-            // if (array_key_exists('id_autor', $dadosParaCadastroLeitura) || array_key_exists('nome_autor', $dadosParaCadastroLeitura)) {
-            //     $dadosAutor = $this->autorPesquisa->pesquisaAutor(isset($dadosParaCadastroLeitura['id_autor']), isset($dadosParaCadastroLeitura['nome_autor']));
-            //     $dadosParaCadastroLeitura['id_autor'] = is_null($dadosAutor) ? null : $dadosAutor->id_autor;
-            // }
-
-            // if (is_null($dadosAutor)) {
-            //     $dadosParaCadastroLeitura['id_autor'] ??= $this->autorCadastro->cadastrarAutor($dadosParaCadastroLeitura['nome_autor'])?->id_autor;
-            // }
-
-            // if (array_key_exists('id_autor', $dadosParaCadastroLeitura) || array_key_exists('descricao_editora', $dadosParaCadastroLeitura)) {
-            //     $dadosEditora = $this->editoraPesquisa->pesquisaEditora(isset($dadosParaCadastroLeitura['id_editora']), isset($dadosParaCadastroLeitura['descricao_editora']));
-            //     $dadosParaCadastroLeitura['id_editora'] = is_null($dadosEditora) ? null : $dadosEditora->id_editora;
-            // }
-
-            // if (is_null($dadosEditora)) {
-            //     $dadosParaCadastroLeitura['id_editora'] ??= $this->editoraCadastro->cadastrarEditora($dadosParaCadastroLeitura['descricao_editora'])?->id_editora;
-            // }
-
-            // if (! empty($dadosParaCadastroLeitura['id_leitura'])) {
-            //     $dadosLeitura = $this->leituraPesquisa->pesquisaLeitura($dadosParaCadastroLeitura['id_leitura'], $dadosParaCadastroLeitura['titulo']);
-            //     $dadosParaCadastroLeitura['id_leitura'] = $dadosLeitura->id_leitura;
-            // } else {
-            //     $dadosLeitura = $this->leituraCadastro->cadastroDeLeitura($dadosParaCadastroLeitura);
-            //     $dadosParaCadastroLeitura['id_leitura'] ??= $dadosLeitura->id_leitura;
-            // }
-
-            // $dadosLeituraUsuario = $this->usuarioLeituraPesquisa->pesquisaLeituraUsuario($dadosParaCadastroLeitura['id_leitura']);
-
-            // if (is_null($dadosLeituraUsuario)) {
-            //     $this->usuarioLeituraCadastro->cadastrarLeituraDoUsuario($dadosParaCadastroLeitura['id_leitura'], $dadosParaCadastroLeitura);
-            // }
 
             $autorHandler = new AutorPrecessoHandler($this->autorPesquisa, $this->autorCadastro);
             $editoraHandler = new EditoraPrecessoHandler($this->editoraPesquisa, $this->editoraCadastro);
             $leituraHandler = new LeituraProcessoHandler($this->leituraPesquisa, $this->leituraCadastro);
             $leituraUsuarioHandler = new LeituraUsuarioProcessoHandler($this->usuarioLeituraPesquisa, $this->usuarioLeituraCadastro);
+            $generoPrecessoHandler = new GeneroPrecessoHandler($this->generoPesquisa, $this->generoLeituraCadastro);
 
-            $autorHandler
-                ->setNext($editoraHandler)
-                ->setNext($leituraHandler)
-                ->setNext($leituraUsuarioHandler)
-                ->processar($dadosParaCadastroLeitura);
+            // Passo a passo de cadastro
+            $autorHandler->setNext($editoraHandler);
+            $editoraHandler->setNext($leituraHandler);
+            $leituraHandler->setNext($leituraUsuarioHandler);
+            $leituraUsuarioHandler->setNext($generoPrecessoHandler);
 
-            $this->generoLeituraCadastro->cadastrarGeneroLeitura($dadosParaCadastroLeitura['id_leitura'], $dadosParaCadastroLeitura);
+            // Inciar (Passo a passo de cadastro)
+            $autorHandler->processar($dtoLeitura);
 
             DB::commit();
 
-            return Leituras::find($dadosParaCadastroLeitura['id_leitura'])->first();
+            return Leituras::where('id_leitura', '=', $dtoLeitura->id_leitura)->first();
         } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;

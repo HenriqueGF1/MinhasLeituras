@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Usuario;
 
+use App\Http\DTO\UsuarioLeituraDTO;
 use App\Models\UsuarioLeitura;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -10,15 +11,16 @@ class UsuarioLeituraPesquisa
 {
     public function __construct(protected UsuarioLeitura $model) {}
 
-    public function pesquisaLeituraUsuario(int $id_leitura): ?UsuarioLeitura
+    public function pesquisaLeituraUsuario(UsuarioLeituraDTO $dto): ?UsuarioLeitura
     {
         try {
-            if (! is_null($id_leitura)) {
-                $leitura = $this->model->find($id_leitura);
+            $leitura = $this->model
+                ->where('id_usuario', $dto->id_usuario)
+                ->where('id_leitura', $dto->id_leitura)
+                ->first();
 
-                if ($leitura) {
-                    return $leitura;
-                }
+            if ($leitura) {
+                return $leitura;
             }
 
             return null;

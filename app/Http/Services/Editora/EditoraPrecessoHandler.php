@@ -2,52 +2,46 @@
 
 namespace App\Http\Services\Editora;
 
+use App\Http\DTO\CadastroLeituraDTO;
+use App\Http\DTO\EditoraDTO;
 use App\Http\Services\Leituras\ProcessoCadastroLeituraHandler;
 
 class EditoraPrecessoHandler extends ProcessoCadastroLeituraHandler
 {
     public function __construct(
         protected EditoraPesquisa $editoraPesquisa,
-        protected EditoraCadastro $editoraCadastro
+        protected EditoraCadastro $editoraCadastro,
     ) {}
 
-    public function processar(array &$dados): array
+    public function processar(CadastroLeituraDTO $leituraDto): CadastroLeituraDTO
     {
-        $this->checaSeExisteRegistro($dados);
+        $editoraDto = new EditoraDTO($leituraDto->toArray());
 
-        if (! empty($dados['id_editora'])) {
-            unset($dados['descricao_editora']);
+        $this->checaSeExisteRegistro($editoraDto);
 
-            return $dados;
+        if (empty($editoraDto->id_editora)) {
+            $this->cadastra($editoraDto);
         }
 
-        $this->cadastra($dados);
+        $leituraDto->id_editora = $editoraDto->id_editora;
+        $leituraDto->descricao_editora = $editoraDto->descricao_editora;
 
-        if ($this->next) {
-            return $this->next->processar($dados);
-        }
-
-        return $dados;
+        return $this->next
+            ? $this->next->processar($leituraDto)
+            : $leituraDto;
     }
 
-    private function checaSeExisteRegistro(array &$dados): array
+    private function checaSeExisteRegistro(EditoraDTO $dto): void
     {
-        if (! empty($dados['id_editora']) || ! empty($dados['descricao'])) {
-            $dadosAutor = $this->editoraPesquisa->pesquisaEditora(
-                isset($dados['id_editora']),
-                $dados['descricao'] ?? ''
-            );
-
-            $dados['id_editora'] = isset($dadosAutor?->id_editora) ? $dadosAutor?->id_editora : null;
-
-            return $dados;
+        if (! empty($dto->id_editora) || ! empty($dto->descricao_editora)) {
+            $registro = $this->editoraPesquisa->pesquisaEditora($dto);
+            $dto->id_editora = $registro?->id_editora ?? null;
         }
-
-        return $dados;
     }
 
-    private function cadastra(array &$dados)
+    private function cadastra(EditoraDTO $dto): void
     {
-        $dados['id_editora'] = $this->editoraCadastro->cadastrarEditora($dados['descricao'] ?? '')?->id_editora;
+        $dto->id_editora = $this->editoraCadastro
+            ->cadastrarEditora($dto)?->id_editora;
     }
 }
