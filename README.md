@@ -1,5 +1,8 @@
 # TODO
 
+Fazer o fluxo de quando a leitura ja existe no banco de dados
+E verificar todos os fluxos
+
 O sistema funcionará da seguinte forma:
 
 1 - O usuário fará o cadastro da sua leitura. <br>
