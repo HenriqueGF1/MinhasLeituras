@@ -41,6 +41,7 @@ class EditoraPrecessoHandler extends ProcessoCadastroLeituraHandler
 
     private function cadastra(EditoraDTO $dto): void
     {
+        dd('Vai cadastrar EditoraDTO');
         $dto->id_editora = $this->editoraCadastro
             ->cadastrarEditora($dto)?->id_editora;
     }

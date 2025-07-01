@@ -20,11 +20,7 @@ class GeneroPesquisa
                 ->whereIn('id_genero', $dto->id_genero)
                 ->get();
 
-            if ($generosCadastrados) {
-                return $generosCadastrados;
-            }
-
-            return null;
+            return $generosCadastrados;
         } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;

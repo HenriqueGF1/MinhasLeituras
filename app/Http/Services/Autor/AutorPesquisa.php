@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Autor;
 
-use App\Http\DTO\AutorDTO;
+use App\Http\DTO\Autor\AutorPesquisaDTO;
 use App\Models\Autor;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +11,7 @@ class AutorPesquisa
 {
     public function __construct(protected Autor $model) {}
 
-    public function pesquisaAutor(AutorDTO $autorDto): ?Autor
+    public function pesquisaAutor(AutorPesquisaDTO $autorDto): ?Autor
     {
         try {
             if (! is_null($autorDto->id_autor)) {

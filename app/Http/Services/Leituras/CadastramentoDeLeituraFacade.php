@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Leituras;
 
+use App\Http\DTO\Autor\Strategy\AutorDTOStrategy;
 use App\Http\DTO\CadastroLeituraDTO;
 use App\Http\Services\Autor\AutorCadastro;
 use App\Http\Services\Autor\AutorPesquisa;
@@ -10,8 +11,9 @@ use App\Http\Services\Editora\EditoraCadastro;
 use App\Http\Services\Editora\EditoraPesquisa;
 use App\Http\Services\Editora\EditoraPrecessoHandler;
 use App\Http\Services\Genero\GeneroLeituraCadastro;
+
+use App\Http\Services\Genero\GeneroLeituraPrecessoHandler;
 use App\Http\Services\Genero\GeneroPesquisa;
-use App\Http\Services\Genero\GeneroPrecessoHandler;
 use App\Http\Services\Usuario\LeituraUsuarioProcessoHandler;
 use App\Http\Services\Usuario\UsuarioLeituraCadastro;
 use App\Http\Services\Usuario\UsuarioLeituraPesquisa;
@@ -33,6 +35,7 @@ class CadastramentoDeLeituraFacade
         protected LeituraPesquisa $leituraPesquisa,
         protected UsuarioLeituraCadastro $usuarioLeituraCadastro,
         protected UsuarioLeituraPesquisa $usuarioLeituraPesquisa,
+        protected AutorDTOStrategy $autorDTOStrategy
     ) {}
 
     public function processoDeCadastroDeLeitura(CadastroLeituraDTO $dtoLeitura): Leituras
@@ -49,20 +52,26 @@ class CadastramentoDeLeituraFacade
             }
         }
 
+        // dd($dtoLeitura);
+
         try {
             DB::beginTransaction();
 
-            $autorHandler = new AutorPrecessoHandler($this->autorPesquisa, $this->autorCadastro);
+            $autorHandler = new AutorPrecessoHandler(
+                $this->autorPesquisa,
+                $this->autorCadastro,
+                $this->autorDTOStrategy
+            );
             $editoraHandler = new EditoraPrecessoHandler($this->editoraPesquisa, $this->editoraCadastro);
             $leituraHandler = new LeituraProcessoHandler($this->leituraPesquisa, $this->leituraCadastro);
             $leituraUsuarioHandler = new LeituraUsuarioProcessoHandler($this->usuarioLeituraPesquisa, $this->usuarioLeituraCadastro);
-            $generoPrecessoHandler = new GeneroPrecessoHandler($this->generoPesquisa, $this->generoLeituraCadastro);
+            $generoLeituraPrecessoHandler = new GeneroLeituraPrecessoHandler($this->generoPesquisa, $this->generoLeituraCadastro);
 
             // Passo a passo de cadastro
             $autorHandler->setNext($editoraHandler);
             $editoraHandler->setNext($leituraHandler);
             $leituraHandler->setNext($leituraUsuarioHandler);
-            $leituraUsuarioHandler->setNext($generoPrecessoHandler);
+            $leituraUsuarioHandler->setNext($generoLeituraPrecessoHandler);
 
             // Inciar (Passo a passo de cadastro)
             $autorHandler->processar($dtoLeitura);

@@ -4,13 +4,14 @@ namespace App\Http\Services\Genero;
 
 use App\Http\DTO\GeneroLeituraDTO;
 use App\Models\GeneroLeitura;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class GeneroLeituraCadastro
 {
     public function __construct(protected GeneroLeitura $model) {}
 
-    public function cadastrarGeneroLeitura(GeneroLeituraDTO $generoLeituraDTO): array
+    public function cadastrarGeneroLeitura(GeneroLeituraDTO $generoLeituraDTO): Collection
     {
         try {
             DB::beginTransaction();
@@ -24,14 +25,13 @@ class GeneroLeituraCadastro
 
             $this->model->insert($dados);
 
-            $idsGenero = $this->model
+            $genero = $this->model
                 ->whereIn('id_genero', $generoLeituraDTO->id_genero)
-                ->pluck('id_genero')
-                ->toArray();
+                ->get();
 
             DB::commit();
 
-            return $idsGenero;
+            return $genero;
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

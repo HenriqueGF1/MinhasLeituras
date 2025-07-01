@@ -41,6 +41,7 @@ class LeituraProcessoHandler extends ProcessoCadastroLeituraHandler
 
     protected function cadastra(LeituraDTO $leituraDto): void
     {
+        dd('Vai cadastrar LeituraDTO');
         $leituraDto->id_leitura = $this->leituraCadastro
             ->cadastroDeLeitura($leituraDto)?->id_leitura;
     }

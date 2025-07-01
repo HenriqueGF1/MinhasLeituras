@@ -40,6 +40,7 @@ class LeituraUsuarioProcessoHandler extends ProcessoCadastroLeituraHandler
 
     private function cadastra(UsuarioLeituraDTO $dto): void
     {
+        dd('Vai cadastrar UsuarioLeituraDTO');
         $dto->id_leitura_usuario = $this->usuarioLeituraCadastro
             ->cadastrarLeituraDoUsuario($dto)?->id_leitura;
     }

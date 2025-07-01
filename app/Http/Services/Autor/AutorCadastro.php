@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Autor;
 
-use App\Http\DTO\AutorDTO;
+use App\Http\DTO\Autor\AutorCadastroDTO;
 use App\Models\Autor;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +11,7 @@ class AutorCadastro
 {
     public function __construct(protected Autor $model) {}
 
-    public function cadastrarAutor(AutorDTO $autorDTO): ?Autor
+    public function cadastrarAutor(AutorCadastroDTO $autorDTO): ?Autor
     {
         try {
             DB::beginTransaction();

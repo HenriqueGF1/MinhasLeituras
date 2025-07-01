@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Autor;
 
-class AutorDTO
+class AutorPesquisaDTO
 {
     // Autor
     public ?int $id_autor = null;

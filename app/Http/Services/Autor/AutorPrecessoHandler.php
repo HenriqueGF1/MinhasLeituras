@@ -2,7 +2,10 @@
 
 namespace App\Http\Services\Autor;
 
-use App\Http\DTO\AutorDTO;
+use App\Http\DTO\Autor\AutorCadastroDTO;
+use App\Http\DTO\Autor\AutorPesquisaDTO;
+use App\Http\DTO\Autor\Strategy\AutorDTOStrategy;
+
 use App\Http\DTO\CadastroLeituraDTO;
 use App\Http\Services\Leituras\ProcessoCadastroLeituraHandler;
 
@@ -11,15 +14,23 @@ class AutorPrecessoHandler extends ProcessoCadastroLeituraHandler
     public function __construct(
         protected AutorPesquisa $autorPesquisa,
         protected AutorCadastro $autorCadastro,
+        protected AutorDTOStrategy $dtoStrategy
     ) {}
 
     public function processar(CadastroLeituraDTO $leituraDto): CadastroLeituraDTO
     {
-        $autorDto = new AutorDTO($leituraDto->toArray());
+        $factory = $this->dtoStrategy->getFactory('pesquisa');
+        $autorDto = $factory->create($leituraDto->toArray());
+
+        dd($autorDto);
 
         $this->checaSeExisteRegistro($autorDto);
 
         if (empty($autorDto->id_autor)) {
+
+            $factory = $this->dtoStrategy->getFactory('cadastro');
+            $autorDto = $factory->create($leituraDto->toArray());
+
             $this->cadastra($autorDto);
         }
 
@@ -30,17 +41,18 @@ class AutorPrecessoHandler extends ProcessoCadastroLeituraHandler
             : $leituraDto;
     }
 
-    private function checaSeExisteRegistro(AutorDTO $autorDto): void
+    private function checaSeExisteRegistro(AutorPesquisaDTO $autorDto): void
     {
-        if (! empty($autorDto->id_autor) || ! empty($autorDto->nome_autor)) {
-            $registro = $this->autorPesquisa->pesquisaAutor($autorDto);
-            $autorDto->id_autor = $registro?->id_autor ?? null;
-        }
+        $registro = $this->autorPesquisa->pesquisaAutor($autorDto);
+        $autorDto->id_autor = $registro?->id_autor ?? null;
     }
 
-    private function cadastra(AutorDTO $autorDto): void
+    private function cadastra(AutorCadastroDTO $autorDto): void
     {
-        $autorDto->id_autor = $this->autorCadastro
-            ->cadastrarAutor($autorDto)?->id_autor;
+        dd('Vai cadastrar AutorDTO', $autorDto);
+        $autorDto->id_autor =
+            $this->autorCadastro
+            ->cadastrarAutor($autorDto)
+            ?->id_autor;
     }
 }
