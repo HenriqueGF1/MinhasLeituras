@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Genero;
 
-use App\Http\DTO\GeneroLeituraDTO;
+use App\Http\DTO\GeneroLeitura\GeneroLeituraPesquisaDTO;
 use App\Models\GeneroLeitura;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,15 +12,15 @@ class GeneroPesquisa
 {
     public function __construct(protected GeneroLeitura $model) {}
 
-    public function pesquisarGeneroLeitura(GeneroLeituraDTO $dto): ?Collection
+    public function pesquisarGeneroLeitura(GeneroLeituraPesquisaDTO $dto): ?Collection
     {
+        // dd($dto);
+
         try {
-            $generosCadastrados = $this->model
+            return $this->model
                 ->where('id_leitura', $dto->id_leitura)
                 ->whereIn('id_genero', $dto->id_genero)
                 ->get();
-
-            return $generosCadastrados;
         } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;

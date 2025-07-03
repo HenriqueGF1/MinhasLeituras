@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Leituras;
 
-use App\Http\DTO\LeituraDTO;
+use App\Http\DTO\Leitura\LeituraCadastroDTO;
 use App\Models\Leituras;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +11,7 @@ class LeituraCadastro
 {
     public function __construct(protected Leituras $model, protected LeituraPesquisa $pesquisaLeitura) {}
 
-    public function cadastroDeLeitura(LeituraDTO $leituraDto): Leituras
+    public function cadastroDeLeitura(LeituraCadastroDTO $leituraDto): Leituras
     {
         DB::beginTransaction();
 

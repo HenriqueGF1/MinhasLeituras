@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Services\Usuario;
 
-use App\Http\DTO\UsuarioLeituraDTO;
+use App\Http\DTO\UsuarioLeitura\UsuarioLeituraCadastroDTO;
 use App\Models\StatusLeitura;
 use App\Models\UsuarioLeitura;
 use Exception;
@@ -14,7 +14,7 @@ class UsuarioLeituraCadastro
 {
     public function __construct(protected UsuarioLeitura $model) {}
 
-    public function cadastrarLeituraDoUsuario(UsuarioLeituraDTO $usuarioLeituraDTO): ?UsuarioLeitura
+    public function cadastrarLeituraDoUsuario(UsuarioLeituraCadastroDTO $usuarioLeituraDTO): ?UsuarioLeitura
     {
         DB::beginTransaction();
 

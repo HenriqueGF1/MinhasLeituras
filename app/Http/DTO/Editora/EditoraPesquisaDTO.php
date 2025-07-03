@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Editora;
 
-class EditoraDTO
+class EditoraPesquisaDTO
 {
     // Editora
     public ?int $id_editora = null;

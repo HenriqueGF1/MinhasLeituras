@@ -2,17 +2,26 @@
 
 namespace App\Http\Services\Leituras;
 
-use App\Http\DTO\Autor\Strategy\AutorDTOStrategy;
-use App\Http\DTO\CadastroLeituraDTO;
+use App\Http\DTO\Autor\Fabrica\AutorCadastroDTOFactory;
+use App\Http\DTO\Autor\Fabrica\AutorPesquisaDTOFactory;
+
+use App\Http\DTO\CadastroLeituraDto;
+use App\Http\DTO\Editora\Fabrica\EditoraCadastroDTOFactory;
+use App\Http\DTO\Editora\Fabrica\EditoraPesquisaDTOFactory;
+use App\Http\DTO\GeneroLeitura\Fabrica\GeneroLeituraCadastroDTOFactory;
+use App\Http\DTO\GeneroLeitura\Fabrica\GeneroLeituraPesquisaDTOFactory;
+use App\Http\DTO\Leitura\Fabrica\LeituraCadastroDTOFactory;
+use App\Http\DTO\Leitura\Fabrica\LeituraPesquisaDTOFactory;
+use App\Http\DTO\UsuarioLeitura\Fabrica\UsuarioLeituraCadastroDTOFactory;
+use App\Http\DTO\UsuarioLeitura\Fabrica\UsuarioLeituraPesquisaDTOFactory;
 use App\Http\Services\Autor\AutorCadastro;
 use App\Http\Services\Autor\AutorPesquisa;
-use App\Http\Services\Autor\AutorPrecessoHandler;
+use App\Http\Services\Autor\AutorProcessoHandler;
 use App\Http\Services\Editora\EditoraCadastro;
 use App\Http\Services\Editora\EditoraPesquisa;
-use App\Http\Services\Editora\EditoraPrecessoHandler;
+use App\Http\Services\Editora\EditoraProcessoHandler;
 use App\Http\Services\Genero\GeneroLeituraCadastro;
-
-use App\Http\Services\Genero\GeneroLeituraPrecessoHandler;
+use App\Http\Services\Genero\GeneroLeituraProcessoHandler;
 use App\Http\Services\Genero\GeneroPesquisa;
 use App\Http\Services\Usuario\LeituraUsuarioProcessoHandler;
 use App\Http\Services\Usuario\UsuarioLeituraCadastro;
@@ -35,10 +44,19 @@ class CadastramentoDeLeituraFacade
         protected LeituraPesquisa $leituraPesquisa,
         protected UsuarioLeituraCadastro $usuarioLeituraCadastro,
         protected UsuarioLeituraPesquisa $usuarioLeituraPesquisa,
-        protected AutorDTOStrategy $autorDTOStrategy
+        private AutorPesquisaDTOFactory $pesquisaAutorDtoFactory,
+        private AutorCadastroDTOFactory $cadastroAutorDtoFactory,
+        private EditoraPesquisaDTOFactory $editoraPesquisaDTOFactory,
+        private EditoraCadastroDTOFactory $editoraCadastroDTOFactory,
+        private LeituraPesquisaDTOFactory $leituraPesquisaDTOFactory,
+        private LeituraCadastroDTOFactory $leituraCadastroDTOFactory,
+        private UsuarioLeituraPesquisaDTOFactory $usuarioLeituraPesquisaDTOFactory,
+        private UsuarioLeituraCadastroDTOFactory $usuarioLeituraCadastroDTOFactory,
+        private GeneroLeituraPesquisaDTOFactory $generoLeituraPesquisaDTOFactory,
+        private GeneroLeituraCadastroDTOFactory $generoLeituraCadastroDTOFactory
     ) {}
 
-    public function processoDeCadastroDeLeitura(CadastroLeituraDTO $dtoLeitura): Leituras
+    public function processoDeCadastroDeLeitura(CadastroLeituraDto $dtoLeitura): Leituras
     {
         if (! empty($dtoLeitura->isbn)) {
             $dadosIsbn = isset($dtoLeitura->isbn)
@@ -52,20 +70,43 @@ class CadastramentoDeLeituraFacade
             }
         }
 
-        // dd($dtoLeitura);
-
         try {
             DB::beginTransaction();
 
-            $autorHandler = new AutorPrecessoHandler(
+            $autorHandler = new AutorProcessoHandler(
                 $this->autorPesquisa,
                 $this->autorCadastro,
-                $this->autorDTOStrategy
+                $this->pesquisaAutorDtoFactory,
+                $this->cadastroAutorDtoFactory
             );
-            $editoraHandler = new EditoraPrecessoHandler($this->editoraPesquisa, $this->editoraCadastro);
-            $leituraHandler = new LeituraProcessoHandler($this->leituraPesquisa, $this->leituraCadastro);
-            $leituraUsuarioHandler = new LeituraUsuarioProcessoHandler($this->usuarioLeituraPesquisa, $this->usuarioLeituraCadastro);
-            $generoLeituraPrecessoHandler = new GeneroLeituraPrecessoHandler($this->generoPesquisa, $this->generoLeituraCadastro);
+
+            $editoraHandler = new EditoraProcessoHandler(
+                $this->editoraPesquisa,
+                $this->editoraCadastro,
+                $this->editoraPesquisaDTOFactory,
+                $this->editoraCadastroDTOFactory
+            );
+
+            $leituraHandler = new LeituraProcessoHandler(
+                $this->leituraPesquisa,
+                $this->leituraCadastro,
+                $this->leituraPesquisaDTOFactory,
+                $this->leituraCadastroDTOFactory,
+            );
+
+            $leituraUsuarioHandler = new LeituraUsuarioProcessoHandler(
+                $this->usuarioLeituraPesquisa,
+                $this->usuarioLeituraCadastro,
+                $this->usuarioLeituraPesquisaDTOFactory,
+                $this->usuarioLeituraCadastroDTOFactory
+            );
+
+            $generoLeituraPrecessoHandler = new GeneroLeituraProcessoHandler(
+                $this->generoPesquisa,
+                $this->generoLeituraCadastro,
+                $this->generoLeituraPesquisaDTOFactory,
+                $this->generoLeituraCadastroDTOFactory
+            );
 
             // Passo a passo de cadastro
             $autorHandler->setNext($editoraHandler);

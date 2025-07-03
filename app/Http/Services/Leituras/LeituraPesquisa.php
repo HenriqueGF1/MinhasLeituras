@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Leituras;
 
-use App\Http\DTO\LeituraDTO;
+use App\Http\DTO\Leitura\LeituraPesquisaDTO;
 use App\Models\Leituras;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +11,7 @@ class LeituraPesquisa
 {
     public function __construct(protected Leituras $model) {}
 
-    public function pesquisaLeitura(LeituraDTO $leituraDto): ?Leituras
+    public function pesquisaLeitura(LeituraPesquisaDTO $leituraDto): ?Leituras
     {
         try {
             if (! is_null($leituraDto->id_leitura)) {

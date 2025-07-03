@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Editora;
 
-use App\Http\DTO\EditoraDTO;
+use App\Http\DTO\Editora\EditoraPesquisaDTO;
 use App\Models\Editora;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +11,7 @@ class EditoraPesquisa
 {
     public function __construct(protected Editora $model) {}
 
-    public function pesquisaEditora(EditoraDTO $dto): ?Editora
+    public function pesquisaEditora(EditoraPesquisaDTO $dto): ?Editora
     {
         try {
             if (! is_null($dto->id_editora)) {

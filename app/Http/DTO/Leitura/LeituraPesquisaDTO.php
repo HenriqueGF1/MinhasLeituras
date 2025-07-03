@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\DTO;
+namespace App\Http\DTO\Leitura;
 
-class LeituraDTO
+class LeituraPesquisaDTO
 {
     // Leitura
     public ?int $id_leitura = null;

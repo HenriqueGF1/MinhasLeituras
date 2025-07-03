@@ -2,47 +2,34 @@
 
 namespace App\Http\Services\Leituras;
 
-use App\Http\DTO\CadastroLeituraDTO;
-use App\Http\DTO\LeituraDTO;
+use App\Http\DTO\CadastroLeituraDto;
+use App\Http\DTO\Leitura\Fabrica\LeituraCadastroDTOFactory;
+use App\Http\DTO\Leitura\Fabrica\LeituraPesquisaDTOFactory;
 
 class LeituraProcessoHandler extends ProcessoCadastroLeituraHandler
 {
     public function __construct(
         protected LeituraPesquisa $leituraPesquisa,
-        protected LeituraCadastro $leituraCadastro
+        protected LeituraCadastro $leituraCadastro,
+        private LeituraPesquisaDTOFactory $leituraPesquisaDTOFactory,
+        private LeituraCadastroDTOFactory $leituraCadastroDTOFactory,
     ) {}
 
-    public function processar(CadastroLeituraDTO $cadastroDto): CadastroLeituraDTO
+    public function processar(CadastroLeituraDto $dto): CadastroLeituraDto
     {
-        $leituraDto = new LeituraDTO($cadastroDto->toArray());
+        $pesquisaDto = $this->leituraPesquisaDTOFactory->criarDTO($dto->toArray());
+        $registro = $this->leituraPesquisa->pesquisaLeitura($pesquisaDto);
 
-        if (isset($leituraDto->id_leitura)) {
-            $this->checaSeExisteRegistro($leituraDto);
+        if ($registro?->id_leitura) {
+            $dto->id_leitura = $registro->id_leitura;
+        } else {
+            $cadastroDto = $this->leituraCadastroDTOFactory->criarDTO($dto->toArray());
+            $novoId = $this->leituraCadastro->cadastroDeLeitura($cadastroDto);
+            $dto->id_leitura = $novoId?->id_leitura;
         }
-
-        if (empty($leituraDto->id_leitura)) {
-            $this->cadastra($leituraDto);
-        }
-
-        $cadastroDto->id_leitura = $leituraDto->id_leitura;
 
         return $this->next
-            ? $this->next->processar($cadastroDto)
-            : $cadastroDto;
-    }
-
-    protected function checaSeExisteRegistro(LeituraDTO $leituraDto): void
-    {
-        if (! empty($leituraDto->id_leitura) || ! empty($leituraDto->titulo)) {
-            $registro = $this->leituraPesquisa->pesquisaLeitura($leituraDto);
-            $leituraDto->id_leitura = $registro?->id_leitura ?? null;
-        }
-    }
-
-    protected function cadastra(LeituraDTO $leituraDto): void
-    {
-        dd('Vai cadastrar LeituraDTO');
-        $leituraDto->id_leitura = $this->leituraCadastro
-            ->cadastroDeLeitura($leituraDto)?->id_leitura;
+            ? $this->next->processar($dto)
+            : $dto;
     }
 }

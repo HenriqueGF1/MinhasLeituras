@@ -4,7 +4,7 @@ namespace App\Http\DTO;
 
 use InvalidArgumentException;
 
-class CadastroLeituraDTO
+class CadastroLeituraDto
 {
     // Leitura
     public ?int $id_leitura = null;
@@ -46,14 +46,14 @@ class CadastroLeituraDTO
     public function __construct(array $dados)
     {
         $this->id_leitura = $dados['id_leitura'] ?? null;
-        $this->titulo = $dados['titulo'] ?? '';
-        $this->descricao = $dados['descricao'] ?? '';
-        $this->capa = $dados['capa'] ?? null;
+        $this->titulo = $dados['titulo'];
+        $this->descricao = $dados['descricao'];
+        $this->capa = $dados['capa'];
         $this->isbn = $dados['isbn'] ?? null;
-        $this->data_publicacao = $dados['data_publicacao'] ?? null;
-        $this->data_registro = $dados['data_registro'] ?? null;
-        $this->qtd_capitulos = $dados['qtd_capitulos'] ?? null;
-        $this->qtd_paginas = $dados['qtd_paginas'] ?? null;
+        $this->data_publicacao = $dados['data_publicacao'];
+        $this->data_registro = $dados['data_registro'];
+        $this->qtd_capitulos = $dados['qtd_capitulos'];
+        $this->qtd_paginas = $dados['qtd_paginas'];
 
         $this->id_editora = $dados['id_editora'] ?? null;
         $this->descricao_editora = $dados['descricao_editora'] ?? null;
@@ -71,6 +71,10 @@ class CadastroLeituraDTO
 
     private function validar(): void
     {
+        if (! empty($this->titulo)) {
+            throw new InvalidArgumentException('Campo de titulo e obrigatorio.');
+        }
+
         if (! empty($this->id_editora) && ! empty($this->descricao_editora)) {
             throw new InvalidArgumentException('Não é permitido preencher descrição da editora quando id editora já está definido.');
         }

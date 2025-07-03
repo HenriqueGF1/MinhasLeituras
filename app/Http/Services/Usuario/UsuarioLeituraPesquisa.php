@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Usuario;
 
-use App\Http\DTO\UsuarioLeituraDTO;
+use App\Http\DTO\Usuarioleitura\UsuarioLeituraPesquisaDTO;
 use App\Models\UsuarioLeitura;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +11,7 @@ class UsuarioLeituraPesquisa
 {
     public function __construct(protected UsuarioLeitura $model) {}
 
-    public function pesquisaLeituraUsuario(UsuarioLeituraDTO $dto): ?UsuarioLeitura
+    public function pesquisaLeituraUsuario(UsuarioLeituraPesquisaDTO $dto): ?UsuarioLeitura
     {
         try {
             $leitura = $this->model

@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Genero;
 
-use App\Http\DTO\GeneroLeituraDTO;
+use App\Http\DTO\GeneroLeitura\GeneroLeituraCadastroDTO;
 use App\Models\GeneroLeitura;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +11,7 @@ class GeneroLeituraCadastro
 {
     public function __construct(protected GeneroLeitura $model) {}
 
-    public function cadastrarGeneroLeitura(GeneroLeituraDTO $generoLeituraDTO): Collection
+    public function cadastrarGeneroLeitura(GeneroLeituraCadastroDTO $generoLeituraDTO): Collection
     {
         try {
             DB::beginTransaction();

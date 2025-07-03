@@ -6,8 +6,14 @@ use App\Http\DTO\Autor\AutorCadastroDTO;
 
 class AutorCadastroDTOFactory implements AutorDTOFactory
 {
-    public function create(array $data): AutorCadastroDTO
+    public function criarDTO(array $dados): AutorCadastroDTO
     {
-        return new AutorCadastroDTO($data['nome_autor']);
+        $dadosCadastro = [
+            'nome_autor' => (string) $dados['nome_autor'],
+        ];
+
+        return new AutorCadastroDTO(
+            $dadosCadastro
+        );
     }
 }

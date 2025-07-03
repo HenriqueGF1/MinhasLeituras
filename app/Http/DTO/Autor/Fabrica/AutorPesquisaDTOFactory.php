@@ -6,8 +6,15 @@ use App\Http\DTO\Autor\AutorPesquisaDTO;
 
 class AutorPesquisaDTOFactory implements AutorDTOFactory
 {
-    public function create(array $data): AutorPesquisaDTO
+    public function criarDTO(array $dados): AutorPesquisaDTO
     {
-        return new AutorPesquisaDTO($data);
+        $dadosPesquisa = [
+            'id_autor' => (int) isset($dados['id_autor']) ? $dados['id_autor'] : null,
+            'nome_autor' => (string) isset($dados['nome_autor']) ? $dados['nome_autor'] : null,
+        ];
+
+        return new AutorPesquisaDTO(
+            $dadosPesquisa
+        );
     }
 }
