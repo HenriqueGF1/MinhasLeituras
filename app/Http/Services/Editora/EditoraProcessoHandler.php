@@ -18,6 +18,7 @@ class EditoraProcessoHandler extends ProcessoCadastroLeituraHandler
 
     public function processar(CadastroLeituraDto $dto): CadastroLeituraDto
     {
+        // dd($dto);
         $pesquisaDto = $this->editoraPesquisaDTOFactory->criarDTO($dto->toArray());
         $registro = $this->editoraPesquisa->pesquisaEditora($pesquisaDto);
 

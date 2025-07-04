@@ -9,12 +9,8 @@ class EditoraCadastroDTOFactory implements AutorDTOFactory
 {
     public function criarDTO(array $dados): EditoraCadastroDTO
     {
-        $dadosCadastro = [
-            'descricao_editora' => (string) $dados['descricao_editora'],
-        ];
-
         return new EditoraCadastroDTO(
-            $dadosCadastro
+            $dados
         );
     }
 }

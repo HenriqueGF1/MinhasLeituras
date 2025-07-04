@@ -12,8 +12,11 @@
         <testsuite name="Dto">
             <directory>tests/Unit/Dto</directory>
         </testsuite>
-        <testsuite name="Feature">
-            <directory>tests/Feature</directory>
+        <testsuite name="Service">
+            <directory>tests/Unit/Service</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory>tests/Integration</directory>
         </testsuite>
     </testsuites>
     <source>

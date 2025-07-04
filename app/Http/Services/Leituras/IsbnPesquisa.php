@@ -15,6 +15,6 @@ class IsbnPesquisa
             return null;
         }
 
-        return Leituras::where('isbn', $isbn)->first();
+        return Leituras::where('isbn', trim($isbn))->first();
     }
 }

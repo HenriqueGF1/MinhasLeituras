@@ -2,7 +2,7 @@
 
 namespace App\Http\DTO\Editora;
 
-class EditoraCadastroDTO
+readonly class EditoraCadastroDTO
 {
     public string $descricao_editora;
 

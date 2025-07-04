@@ -9,13 +9,8 @@ class EditoraPesquisaDTOFactory implements AutorDTOFactory
 {
     public function criarDTO(array $dados): EditoraPesquisaDTO
     {
-        $dadosPesquisa = [
-            'id_editora' => (int) $dados['id_editora'],
-            'descricao_editora' => (string) $dados['descricao_editora'],
-        ];
-
         return new EditoraPesquisaDTO(
-            $dadosPesquisa
+            $dados
         );
     }
 }

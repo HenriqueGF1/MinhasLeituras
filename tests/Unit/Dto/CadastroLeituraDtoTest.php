@@ -10,10 +10,8 @@ class CadastroLeituraDtoTest extends TestCase
 {
     public function test_criando_dto_sem_dados_obrigatorios()
     {
-
         // ARRANGE (Preparar)
         $livro = '{
-            "titulo": "Percy Jackson e o Ladrão de Raios",
             "descricao": "Escrito por Rick Riordan, este é o primeiro livro da série Percy Jackson e os Olimpianos. A história segue Percy, um garoto que descobre ser um semideus, filho de Poseidon, e embarca em uma missão para recuperar o raio mestre de Zeus e evitar uma guerra entre os deuses do Olimpo.",
             "capa": "https://upload.wikimedia.org/wikipedia/pt/4/4b/Percy_Jackson_Ladrao_de_Raios_capa.jpg",
             "descricao_editora": "Intrínseca",
@@ -32,7 +30,7 @@ class CadastroLeituraDtoTest extends TestCase
 
         // ASSERT (Verificar/Validar)
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Campo de titulo e obrigatorio.');
+        $this->expectExceptionMessage('Campo "titulo" é obrigatório.');
 
         // ACT (Agir/Executar)
         $cadastroLeituraDto = new CadastroLeituraDto($livroParaCadastro);
