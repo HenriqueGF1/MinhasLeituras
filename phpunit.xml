@@ -6,9 +6,9 @@
     testdox="true"
 >
     <testsuites>
-        <testsuite name="Unit">
+        <!-- <testsuite name="Unit">
             <directory>tests/Unit</directory>
-        </testsuite>
+        </testsuite> -->
         <testsuite name="Dto">
             <directory>tests/Unit/Dto</directory>
         </testsuite>

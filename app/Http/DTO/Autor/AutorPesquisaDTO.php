@@ -20,7 +20,7 @@ class AutorPesquisaDTO
     private function validar(): void
     {
         if (empty($this->id_autor) && empty($this->nome_autor)) {
-            throw new \InvalidArgumentException('É necessário informar id_autor ou nome_autor.');
+            throw new \InvalidArgumentException('É necessário informar id ou nome autor.');
         }
     }
 
