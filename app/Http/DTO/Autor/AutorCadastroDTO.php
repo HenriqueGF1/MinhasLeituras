@@ -4,18 +4,18 @@ namespace App\Http\DTO\Autor;
 
 class AutorCadastroDTO
 {
-    public string $nome_autor;
+    public readonly string $nome;
 
     public function __construct(array $dados)
     {
-        $this->nome_autor = $dados['nome_autor'];
+        $this->nome = $dados['nome'];
 
         $this->validar();
     }
 
     private function validar(): void
     {
-        if (empty($this->nome_autor)) {
+        if (empty($this->nome)) {
             throw new \InvalidArgumentException('É necessário informar nome autor.');
         }
     }
@@ -23,7 +23,7 @@ class AutorCadastroDTO
     public function toArray(): array
     {
         return [
-            'nome_autor' => $this->nome_autor,
+            'nome' => $this->nome,
         ];
     }
 }

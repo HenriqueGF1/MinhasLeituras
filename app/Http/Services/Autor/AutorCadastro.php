@@ -16,9 +16,7 @@ class AutorCadastro
         try {
             DB::beginTransaction();
 
-            $autor = $this->model->create([
-                'nome' => $autorDTO->nome_autor,
-            ]);
+            $autor = $this->model->create($autorDTO->toArray());
 
             DB::commit();
 

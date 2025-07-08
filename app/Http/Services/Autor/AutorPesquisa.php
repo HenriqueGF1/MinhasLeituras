@@ -11,28 +11,30 @@ class AutorPesquisa
 {
     public function __construct(protected Autor $model) {}
 
-    public function pesquisaAutor(AutorPesquisaDTO $autorDto): ?Autor
+    public function pesquisaAutor(AutorPesquisaDTO $autorDto): Autor
     {
         try {
-            if (! is_null($autorDto->id_autor)) {
-                $autor = $this->model->find($autorDto->id_autor);
+            $autorPesquisa = null;
 
-                if ($autor) {
-                    return $autor;
+            if (! is_null($autorDto->id_autor)) {
+                $autorPesquisa = $this->model->find($autorDto->id_autor);
+
+                if ($autorPesquisa) {
+                    return $autorPesquisa;
                 }
             }
 
             if (! is_null($autorDto->nome_autor)) {
-                $autor = $this->model
+                $autorPesquisa = $this->model
                     ->where('nome', 'LIKE', '%' . $autorDto->nome_autor . '%')
                     ->first();
 
-                if ($autor) {
-                    return $autor;
+                if ($autorPesquisa) {
+                    return $autorPesquisa;
                 }
             }
 
-            return null;
+            return $autorPesquisa;
         } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;

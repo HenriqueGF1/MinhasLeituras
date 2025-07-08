@@ -14,25 +14,27 @@ class EditoraPesquisa
     public function pesquisaEditora(EditoraPesquisaDTO $dto): ?Editora
     {
         try {
-            if (! is_null($dto->id_editora)) {
-                $editora = $this->model->find($dto->id_editora);
+            $editoraPesquisa = null;
 
-                if ($editora) {
-                    return $editora;
+            if (! is_null($dto->id_editora)) {
+                $editoraPesquisa = $this->model->find($dto->id_editora);
+
+                if ($editoraPesquisa) {
+                    return $editoraPesquisa;
                 }
             }
 
             if (! is_null($dto->descricao_editora)) {
-                $editora = $this->model
+                $editoraPesquisa = $this->model
                     ->where('descricao', 'LIKE', '%' . $dto->descricao_editora . '%')
                     ->first();
 
-                if ($editora) {
-                    return $editora;
+                if ($editoraPesquisa) {
+                    return $editoraPesquisa;
                 }
             }
 
-            return null;
+            return $editoraPesquisa;
         } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;
