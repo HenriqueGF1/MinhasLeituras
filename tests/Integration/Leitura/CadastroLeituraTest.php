@@ -83,7 +83,6 @@ class CadastroLeituraTest extends TestCase
             'Authorization' => "Bearer {$this->token}",
         ])->postJson('api/leituras/cadastrar', $dadosLivro);
 
-        $response->assertStatus(422);
         $response->assertStatus(422)
             ->assertOnlyJsonValidationErrors([
                 'titulo',

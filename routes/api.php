@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Leituras\CadastroDeLeituraController;
 use App\Http\Controllers\Leituras\PesquisarLeituraController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsuarioLeituraExcluirController;
 use Illuminate\Support\Facades\Route;
 
 // php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear && composer du && ./vendor/bin/pint
@@ -40,5 +41,6 @@ Route::prefix('leituras')->name('leituras.')->group(function () {
     Route::middleware(['auth:api'])->group(function () {
         Route::post('/isbn', PesquisarLeituraController::class)->name('pesquisaIsbn');
         Route::post('/cadastrar', CadastroDeLeituraController::class)->name('cadastrar');
+        Route::delete('/excluir/{id_usuario_leitura}', UsuarioLeituraExcluirController::class)->name('excluir');
     });
 });
