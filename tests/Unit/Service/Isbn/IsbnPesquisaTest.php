@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Leituras;
+namespace Tests\Unit\Service\Isbn;
 
 use App\Http\Services\Leituras\IsbnPesquisa;
 use App\Models\Leituras;

@@ -4,8 +4,6 @@ namespace App\Http\Services\Leituras;
 
 use App\Http\DTO\Leitura\LeituraPesquisaDTO;
 use App\Models\Leituras;
-use Exception;
-use Illuminate\Support\Facades\DB;
 
 class LeituraPesquisa
 {
@@ -13,29 +11,26 @@ class LeituraPesquisa
 
     public function pesquisaLeitura(LeituraPesquisaDTO $leituraDto): ?Leituras
     {
-        try {
-            if (! is_null($leituraDto->id_leitura)) {
-                $leitura = $this->model->find($leituraDto->id_leitura);
+        $leitura = null;
 
-                if ($leitura) {
-                    return $leitura;
-                }
+        if (! is_null($leituraDto->id_leitura)) {
+            $leitura = $this->model->find($leituraDto->id_leitura);
+
+            if ($leitura) {
+                return $leitura;
             }
-
-            if (! is_null($leituraDto->titulo)) {
-                $leitura = $this->model
-                    ->where('titulo', 'LIKE', '%' . $leituraDto->titulo . '%')
-                    ->first();
-
-                if ($leitura) {
-                    return $leitura;
-                }
-            }
-
-            return null;
-        } catch (Exception $exception) {
-            DB::rollBack();
-            throw $exception;
         }
+
+        if (! is_null($leituraDto->titulo)) {
+            $leitura = $this->model
+                ->where('titulo', 'LIKE', '%' . $leituraDto->titulo . '%')
+                ->first();
+
+            if ($leitura) {
+                return $leitura;
+            }
+        }
+
+        return $leitura;
     }
 }

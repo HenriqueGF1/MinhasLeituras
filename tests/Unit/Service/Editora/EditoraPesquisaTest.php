@@ -7,7 +7,7 @@ use App\Http\Services\Editora\EditoraPesquisa;
 use App\Models\Editora;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class EditoraPesquisaTest extends TestCase
 {
@@ -18,6 +18,12 @@ class EditoraPesquisaTest extends TestCase
         parent::setUp();
 
         $this->editoraModelMock = Mockery::mock(Editora::class);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        Mockery::close();
     }
 
     #[Test]

@@ -8,7 +8,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear && composer du && ./vendor/bin/pint
-
 Route::prefix('usuario')->name('usuario.')->controller(UserController::class)->group(function () {
     // Rotas públicas
     Route::post('/login', 'login')->name('login');

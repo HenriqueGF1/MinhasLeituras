@@ -21,8 +21,16 @@ class GeneroLeituraPesquisaDTO
 
     private function validar(): void
     {
-        if (empty($this->id_genero_leitura) && empty($this->id_genero) && empty($this->id_leitura)) {
+        if (! is_null($this->id_genero_leitura)) {
             throw new \InvalidArgumentException('É necessário informar id genero e id leitura');
+        }
+
+        if (empty($this->id_genero)) {
+            throw new \InvalidArgumentException('É necessário informar id genero');
+        }
+
+        if (empty($this->id_leitura)) {
+            throw new \InvalidArgumentException('É necessário informar id leitura');
         }
     }
 

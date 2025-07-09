@@ -8,24 +8,41 @@ class LeituraCadastroDTO
 
     public string $descricao;
 
-    public ?string $capa;
+    public string $capa;
 
     public ?string $isbn = null;
 
-    public ?string $data_publicacao = null;
+    public string $data_publicacao;
 
     public ?string $data_registro;
 
-    public ?int $qtd_capitulos;
+    public int $qtd_capitulos;
 
-    public ?int $qtd_paginas;
+    public int $qtd_paginas;
 
-    public ?int $id_editora;
+    public int $id_editora;
 
-    public ?int $id_autor;
+    public int $id_autor;
 
     public function __construct(array $dados)
     {
+        $camposObrigatorios = [
+            'titulo',
+            'descricao',
+            'capa',
+            'data_publicacao',
+            'qtd_capitulos',
+            'qtd_paginas',
+            'id_editora',
+            'id_autor',
+        ];
+
+        foreach ($camposObrigatorios as $campo) {
+            if (! array_key_exists($campo, $dados)) {
+                throw new \InvalidArgumentException("Campo obrigatório '{$campo}' não foi fornecido.");
+            }
+        }
+
         $this->titulo = $dados['titulo'];
         $this->descricao = $dados['descricao'];
         $this->capa = $dados['capa'];
@@ -36,6 +53,23 @@ class LeituraCadastroDTO
         $this->qtd_paginas = $dados['qtd_paginas'];
         $this->id_editora = $dados['id_editora'];
         $this->id_autor = $dados['id_autor'];
+
+        $this->validar();
+    }
+
+    private function validar(): void
+    {
+        if (empty($this->titulo)) {
+            throw new \InvalidArgumentException('É necessário informar titulo leitura.');
+        }
+
+        if (empty($this->descricao)) {
+            throw new \InvalidArgumentException('É necessário informar descricao leitura.');
+        }
+
+        if (empty($this->capa)) {
+            throw new \InvalidArgumentException('É necessário informar capa leitura.');
+        }
     }
 
     public function toArray(): array

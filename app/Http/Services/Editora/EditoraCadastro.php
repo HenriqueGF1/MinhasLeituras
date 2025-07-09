@@ -11,7 +11,7 @@ class EditoraCadastro
 {
     public function __construct(protected Editora $model) {}
 
-    public function cadastrarEditora(EditoraCadastroDTO $editoraDTO): ?Editora
+    public function cadastrarEditora(EditoraCadastroDTO $editoraDTO): Editora
     {
         try {
             DB::beginTransaction();

@@ -10,8 +10,20 @@ class UsuarioLeituraPesquisaDTO
 
     public function __construct(array $dados)
     {
+        $camposObrigatorios = [
+            'id_leitura',
+            'id_usuario',
+        ];
+
+        foreach ($camposObrigatorios as $campo) {
+            if (! array_key_exists($campo, $dados)) {
+                throw new \InvalidArgumentException("Campo obrigatório '{$campo}' não foi fornecido.");
+            }
+        }
+
         $this->id_leitura = $dados['id_leitura'];
         $this->id_usuario = $dados['id_usuario'];
+
         $this->validar();
     }
 

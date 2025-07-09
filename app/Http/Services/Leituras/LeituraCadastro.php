@@ -9,25 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class LeituraCadastro
 {
-    public function __construct(protected Leituras $model, protected LeituraPesquisa $pesquisaLeitura) {}
+    public function __construct(protected Leituras $model) {}
 
     public function cadastroDeLeitura(LeituraCadastroDTO $leituraDto): Leituras
     {
-        DB::beginTransaction();
-
         try {
-            $leitura = Leituras::create([
-                'titulo' => $leituraDto->titulo,
-                'descricao' => $leituraDto->descricao,
-                'capa' => $leituraDto->capa,
-                'id_editora' => $leituraDto->id_editora,
-                'id_autor' => $leituraDto->id_autor,
-                'data_publicacao' => $leituraDto->data_publicacao,
-                'qtd_capitulos' => $leituraDto->qtd_capitulos,
-                'qtd_paginas' => $leituraDto->qtd_paginas,
-                'isbn' => $leituraDto->isbn,
-                'data_registro' => $leituraDto->data_registro,
-            ]);
+            DB::beginTransaction();
+
+            $leitura = $this->model->create($leituraDto->toArray());
 
             DB::commit();
 

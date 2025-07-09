@@ -8,7 +8,7 @@ use App\Models\Autor;
 use Illuminate\Database\Eloquent\Builder;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class AutorPesquisaTest extends TestCase
 {
@@ -24,6 +24,12 @@ class AutorPesquisaTest extends TestCase
         $this->autorModelMock = Mockery::mock(Autor::class);
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        Mockery::close();
+    }
+
     #[Test]
     public function pesquisar_autor_com_id_autor(): void
     {
@@ -32,8 +38,6 @@ class AutorPesquisaTest extends TestCase
             'id_autor' => 1,
             'nome_autor' => null,
         ];
-
-        $autorDto = new AutorPesquisaDTO($dadosAutor);
 
         $this->autorModelMock
             ->expects('find')
@@ -44,8 +48,10 @@ class AutorPesquisaTest extends TestCase
                 'nome' => $dadosAutor['nome_autor'],
             ]));
 
-        // ACT
+        $autorDto = new AutorPesquisaDTO($dadosAutor);
         $serviceAutorPesquisa = new AutorPesquisa($this->autorModelMock);
+
+        // ACT
         $resultadoPesquisa = $serviceAutorPesquisa->pesquisaAutor($autorDto);
 
         // ASSERT
