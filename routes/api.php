@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Leituras\CadastroDeLeituraController;
+use App\Http\Controllers\Leituras\LeituraProgressoController;
 use App\Http\Controllers\Leituras\PesquisarLeituraController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsuarioLeituraExcluirController;
@@ -42,5 +43,6 @@ Route::prefix('leituras')->name('leituras.')->group(function () {
         Route::post('/isbn', PesquisarLeituraController::class)->name('pesquisaIsbn');
         Route::post('/cadastrar', CadastroDeLeituraController::class)->name('cadastrar');
         Route::delete('/excluir/{id_usuario_leitura}', UsuarioLeituraExcluirController::class)->name('excluir');
+        Route::post('/progresso', LeituraProgressoController::class)->name('progresso');
     });
 });

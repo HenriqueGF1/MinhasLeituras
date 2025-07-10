@@ -41,7 +41,7 @@ Este projeto é uma aplicação de **gerenciamento de leituras** onde os usuári
 -   **Login de Usuário**: Permite que os usuários se autentiquem com suas credenciais (nome e senha) utilizando um token JWT.
 -   **Cadastro de Livros, HQs, etc.**: Usuários podem cadastrar livros e materiais de leitura com informações como título, descrição, capa, editora, autor, quantidade de páginas, ISBN e status de leitura (Lendo, Lido, Gostaria de Ler). O sistema calcula o prazo estimado de leitura com base no número de páginas.
 -   **Edição e Exclusão de Livros**: Permite editar ou excluir os livros já cadastrados.
-<mark>-   **Progresso de Leitura**: O sistema permite que os usuários registrem o número de páginas lidas por dia, recalculando automaticamente o prazo de leitura. Quando o livro é completado, o status é alterado para "Lido".</mark>
+-   **Progresso de Leitura**: O sistema permite que os usuários registrem o número de páginas lidas por dia, recalculando automaticamente o prazo de leitura. Quando o livro é completado, o status é alterado para "Lido".
 -   **Avaliações de Livros**: Usuários podem avaliar livros com título, comentário, nota (de 1 a 5), e escolher se a avaliação será pública ou privada.
 -   **Metas de Leitura**: Defina metas de leitura, como número de livros ou páginas a serem lidas.
 -   **Lembretes de Leitura**: Permite que os usuários definam lembretes personalizados para ler seus livros em horários específicos.
