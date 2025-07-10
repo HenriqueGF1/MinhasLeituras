@@ -1,3 +1,4 @@
+
 CREATE TABLE usuario (
 	id_usuario SERIAL PRIMARY KEY,
 	nome VARCHAR(40) NOT NULL,
@@ -119,6 +120,7 @@ CREATE TABLE usuario_leituras (
     id_usuario INT NOT NULL,
     id_leitura INT NOT NULL,
     id_status_leitura INT,
+    qtd_paginas_lidas INT,
     data_registro TIMESTAMP DEFAULT NOW() NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario) ON DELETE CASCADE,
     FOREIGN KEY (id_leitura) REFERENCES leituras (id_leitura) ON DELETE CASCADE,
@@ -133,6 +135,7 @@ COMMENT ON COLUMN usuario_leituras.id_usuario_leitura IS 'Identificador único d
 COMMENT ON COLUMN usuario_leituras.id_usuario IS 'Identificador do usuário que realizou a leitura.';
 COMMENT ON COLUMN usuario_leituras.id_leitura IS 'Identificador da leitura associada ao usuário.';
 COMMENT ON COLUMN usuario_leituras.id_status_leitura IS 'Status da leitura (exemplo: concluída, em andamento, etc.).';
+COMMENT ON COLUMN usuario_leituras.qtd_paginas_lidas IS 'Armazena a quantidade de paginas lidas pelo usuario.';
 COMMENT ON COLUMN usuario_leituras.data_registro IS 'Data e hora do registro da relação entre usuário e leitura.';
 
 CREATE TABLE genero_leitura (
@@ -152,6 +155,28 @@ COMMENT ON COLUMN genero_leitura.id_genero_leitura IS 'Identificador único do v
 COMMENT ON COLUMN genero_leitura.id_genero IS 'Identificador do gênero literário associado à leitura.';
 COMMENT ON COLUMN genero_leitura.id_leitura IS 'Identificador da leitura vinculada ao gênero.';
 COMMENT ON COLUMN genero_leitura.data_registro IS 'Data e hora do registro do vínculo entre leitura e gênero.';
+
+CREATE TABLE leitura_progresso (
+    id_leitura_progresso SERIAL PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_leitura INTEGER NOT NULL,
+    qtd_paginas_lidas INTEGER NOT NULL CHECK (qtd_paginas_lidas > 0),
+    data_leitura DATE NOT NULL,
+	data_registro TIMESTAMP DEFAULT NOW() NOT NULL,
+    FOREIGN KEY (id_leitura) REFERENCES leituras (id_leitura) ON DELETE CASCADE,
+    FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario) ON DELETE CASCADE
+);
+
+-- Comentário geral da tabela
+COMMENT ON TABLE leitura_progresso IS 'Registra o progresso diário de leitura dos usuários, associando cada leitura a um número de páginas lidas em uma data específica.';
+
+-- Comentários nas colunas
+COMMENT ON COLUMN leitura_progresso.id_leitura_progresso IS 'Identificador único do registro de progresso de leitura.';
+COMMENT ON COLUMN leitura_progresso.id_usuario IS 'Referência ao usuário que realizou a leitura.';
+COMMENT ON COLUMN leitura_progresso.id_leitura IS 'Referência à leitura em andamento, vinculada à tabela de leituras.';
+COMMENT ON COLUMN leitura_progresso.qtd_paginas_lidas IS 'Quantidade de páginas lidas pelo usuário na data especificada.';
+COMMENT ON COLUMN leitura_progresso.data_leitura IS 'Data em que a leitura foi realizada.';
+COMMENT ON COLUMN leitura_progresso.data_registro IS 'Timestamp automático do momento em que o registro foi inserido na base de dados.';
 
 CREATE TABLE favoritos (
     id_favoritos SERIAL PRIMARY KEY,
