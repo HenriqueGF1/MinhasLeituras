@@ -195,3 +195,30 @@ COMMENT ON COLUMN favoritos.id_favoritos IS 'Identificador único da marcação 
 COMMENT ON COLUMN favoritos.id_leitura IS 'Identificador da leitura marcada como favorita.';
 COMMENT ON COLUMN favoritos.id_usuario IS 'Identificador do usuário que marcou a leitura como favorita.';
 COMMENT ON COLUMN favoritos.data_registro IS 'Data e hora do registro da leitura como favorita pelo usuário.';
+
+
+CREATE TABLE avaliacao_leitura (
+    id_avaliacao_leitura SERIAL PRIMARY KEY,
+    id_leitura INTEGER NOT NULL,
+    id_usuario INTEGER NOT NULL,
+    nota INTEGER CHECK (nota BETWEEN 0 AND 10),
+    descricao_avaliacao TEXT,
+    data_inicio DATE,
+    data_termino DATE,
+    data_registro TIMESTAMP DEFAULT NOW() NOT NULL,
+    FOREIGN KEY (id_leitura) REFERENCES leituras (id_leitura) ON DELETE CASCADE,
+    FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario) ON DELETE cascade,
+    UNIQUE (id_leitura, id_usuario),
+    -- Regra para garantir que data_termino >= data_inicio
+    CHECK (data_termino IS NULL OR data_inicio IS NULL OR data_termino >= data_inicio)
+);
+
+-- Comentários dos campos da tabela avaliacao_leitura
+COMMENT ON COLUMN avaliacao_leitura.id_avaliacao_leitura IS 'Identificador único da avaliação de leitura.';
+COMMENT ON COLUMN avaliacao_leitura.id_leitura IS 'Identificador da leitura (livro, mangá, HQ etc.) associada à avaliação.';
+COMMENT ON COLUMN avaliacao_leitura.id_usuario IS 'Identificador do usuário que realizou a avaliação.';
+COMMENT ON COLUMN avaliacao_leitura.nota IS 'Nota atribuída à leitura pelo usuário (de 0 a 10).';
+COMMENT ON COLUMN avaliacao_leitura.descricao_avaliacao IS 'Texto descritivo contendo a opinião ou resenha do usuário sobre a leitura.';
+COMMENT ON COLUMN avaliacao_leitura.data_inicio IS 'Data em que o usuário iniciou a leitura.';
+COMMENT ON COLUMN avaliacao_leitura.data_termino IS 'Data em que o usuário concluiu a leitura.';
+COMMENT ON COLUMN avaliacao_leitura.data_registro IS 'Data e hora em que a avaliação foi registrada no sistema (preenchida automaticamente).';

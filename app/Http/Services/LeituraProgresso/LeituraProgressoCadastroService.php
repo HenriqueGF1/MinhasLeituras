@@ -13,8 +13,8 @@ class LeituraProgressoCadastroService
 
     public function cadastrarProgresso(LeituraProgressoCadastroDTO $dtoLeituraProgressoDTO): LeituraProgresso
     {
-        // dd($dtoLeituraProgressoDTO->toArray());
-
+        // FAZER PARA VERIFICAR SE A QUANDIDADE DE PAGINAS QUE O USUARIO COLOCOU E MENOR QUE A QUANTIDADE DE PAGINAS
+        // DO LIVRO
         try {
             DB::beginTransaction();
 
