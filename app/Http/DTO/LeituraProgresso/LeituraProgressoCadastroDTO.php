@@ -2,6 +2,7 @@
 
 namespace App\Http\DTO\LeituraProgresso;
 
+use App\Models\Leituras;
 use Carbon\Carbon;
 use Exception;
 
@@ -25,7 +26,7 @@ class LeituraProgressoCadastroDTO
         ];
 
         foreach ($camposObrigatorios as $campo) {
-            if (! array_key_exists($campo, $dados)) {
+            if (!array_key_exists($campo, $dados)) {
                 throw new \InvalidArgumentException("Campo obrigatório '{$campo}' não foi fornecido.");
             }
         }
@@ -42,6 +43,12 @@ class LeituraProgressoCadastroDTO
 
         if ($this->data_leitura->lt(now()->startOfDay())) {
             throw new \InvalidArgumentException('A data da leitura não pode ser anterior a hoje.');
+        }
+
+        $leitura = Leituras::find($this->id_leitura);
+
+        if ($this->qtd_paginas_lidas > $leitura->qtd_paginas) {
+            throw new \InvalidArgumentException('Quantidade de páginas lidas maior que o total disponível na leitura.');
         }
 
         $this->validar();

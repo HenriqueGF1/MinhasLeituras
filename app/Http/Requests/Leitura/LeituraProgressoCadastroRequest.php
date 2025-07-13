@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Leitura;
 
+use App\Rules\Leitura\QuantidadePaginasLeitura;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LeituraProgressoCadastroRequest extends FormRequest
@@ -16,7 +17,7 @@ class LeituraProgressoCadastroRequest extends FormRequest
         return [
             'id_usuario' => 'required|exists:usuario,id_usuario',
             'id_leitura' => 'required|integer|exists:leituras,id_leitura',
-            'qtd_paginas_lidas' => 'required|integer|min:1',
+            'qtd_paginas_lidas' => ['required', 'integer', 'min:1', new QuantidadePaginasLeitura($this->id_leitura)],
             'data_leitura' => 'required|date|after_or_equal:today',
         ];
     }
