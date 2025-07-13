@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Dto;
 
-use App\Http\DTO\CadastroLeituraDto;
+use App\Http\DTO\Leitura\CadastroLeituraDto;
 use InvalidArgumentException;
 use Tests\TestCase;
 
@@ -33,6 +33,6 @@ class CadastroLeituraDtoTest extends TestCase
         $this->expectExceptionMessage('Campo "titulo" é obrigatório.');
 
         // ACT (Agir/Executar)
-        $cadastroLeituraDto = new CadastroLeituraDto($livroParaCadastro);
+        new CadastroLeituraDto($livroParaCadastro);
     }
 }

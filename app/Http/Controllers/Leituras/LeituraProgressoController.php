@@ -6,15 +6,16 @@ use App\Helpers\ApiResponse;
 
 use App\Http\Controllers\Controller;
 use App\Http\DTO\LeituraProgresso\LeituraProgressoCadastroDTO;
-use App\Http\Requests\LeituraProgressoRequest;
-use App\Http\Resources\LeituraProgressoResource;
-use App\Http\Services\LeituraProgresso\LeituraProgressoCadastroService;
+use App\Http\Requests\Leitura\LeituraProgressoCadastroRequest;
+use App\Http\Resources\Leitura\LeituraProgressoResource;
+use App\Http\Services\Leituras\LeituraProgresso\LeituraProgressoCadastro;
+use Illuminate\Http\JsonResponse;
 
 class LeituraProgressoController extends Controller
 {
-    public function __construct(protected LeituraProgressoCadastroService $leituraProgressoCadastroService) {}
+    public function __construct(protected LeituraProgressoCadastro $leituraProgressoCadastroService) {}
 
-    public function __invoke(LeituraProgressoRequest $request)
+    public function __invoke(LeituraProgressoCadastroRequest $request): JsonResponse
     {
         try {
             $dtoLeituraProgressoCadastroDTO = new LeituraProgressoCadastroDTO($request->safe()->all());

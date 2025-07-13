@@ -27,7 +27,7 @@ class UsuarioLeituraExcluirTest extends TestCase
         parent::tearDown();
     }
 
-    public function test_cadastro_leitura(): void
+    public function test_cadastro_leitura_usuario_excluir(): void
     {
         $usuarioLeitura = UsuarioLeitura::latest('id_usuario_leitura')->first();
 
@@ -52,7 +52,7 @@ class UsuarioLeituraExcluirTest extends TestCase
         ]);
     }
 
-    public function test_cadastro_leitura_validacao(): void
+    public function test_cadastro_leitura_validacao_leitura_usuario_excluir(): void
     {
         $dadosUsuarioLeitura = [
             'id_usuario_leitura' => 75,

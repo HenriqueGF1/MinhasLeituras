@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\DTO\AvaliacaoLeitura\AvaliacaoLeituraCadastroDTO;
-use App\Http\Services\AvaliacaoLeitura\AvaliacaoLeituraCadastroService;
+use App\Http\Services\AvaliacaoLeitura\AvaliacaoLeituraCadastro;
 use App\Models\AvaliacaoLeitura;
 use Illuminate\Support\Facades\DB;
 use Mockery;
@@ -56,10 +56,10 @@ class AvaliacaoLeituraCadastroServiceTest extends TestCase
         DB::expects('commit')->once();
         DB::expects('rollBack')->never();
 
-        $avaAvaliacaoLeituraCadastroServicelicao = new AvaliacaoLeituraCadastroService($this->avaliacaoLeituraMockModel);
+        $avaliacaoLeituraCadastroService = new AvaliacaoLeituraCadastro($this->avaliacaoLeituraMockModel);
 
         // ACT
-        $resultadoAvalicaoCadastro = $avaAvaliacaoLeituraCadastroServicelicao->cadastroDeAvaliacaoDeLeitura($dtoAvaliacaoLeituraCadastro);
+        $resultadoAvalicaoCadastro = $avaliacaoLeituraCadastroService->cadastroDeAvaliacaoDeLeitura($dtoAvaliacaoLeituraCadastro);
 
         // ASSERT
         $this->assertInstanceOf(AvaliacaoLeitura::class, $resultadoAvalicaoCadastro);
@@ -83,7 +83,7 @@ class AvaliacaoLeituraCadastroServiceTest extends TestCase
             'data_termino' => 'aaaaaa',
         ];
 
-        $dtoAvaliacaoLeituraCadastro = new AvaliacaoLeituraCadastroDTO($dadosAvaliacaoLeitura);
+        new AvaliacaoLeituraCadastroDTO($dadosAvaliacaoLeitura);
     }
 
     public function test_deve_lancar_excecao_para_data_leitura_inicio(): void
@@ -101,6 +101,6 @@ class AvaliacaoLeituraCadastroServiceTest extends TestCase
             'data_termino' => '2025-07-01',
         ];
 
-        $dtoAvaliacaoLeituraCadastro = new AvaliacaoLeituraCadastroDTO($dadosAvaliacaoLeitura);
+        new AvaliacaoLeituraCadastroDTO($dadosAvaliacaoLeitura);
     }
 }

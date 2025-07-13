@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 // Declara o namespace do teste (organização por pasta)
 
 namespace Tests\Unit\Service\Autor;

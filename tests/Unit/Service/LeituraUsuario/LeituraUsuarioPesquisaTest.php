@@ -2,7 +2,7 @@
 
 use App\Http\DTO\Usuarioleitura\UsuarioLeituraPesquisaDTO;
 
-use App\Http\Services\Usuario\UsuarioLeituraPesquisa;
+use App\Http\Services\Usuario\Leitura\UsuarioLeituraPesquisa;
 use App\Models\UsuarioLeitura;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;

@@ -4,13 +4,11 @@ namespace App\Http\DTO\UsuarioLeitura;
 
 class UsuarioLeituraCadastroDTO
 {
-    public int $id_usuario;
+    public readonly int $id_usuario;
 
-    public int $id_leitura;
+    public readonly int $id_leitura;
 
-    public int $id_status_leitura;
-
-    public ?string $data_registro = null;
+    public readonly int $id_status_leitura;
 
     public function __construct(array $dados)
     {
@@ -29,7 +27,6 @@ class UsuarioLeituraCadastroDTO
         $this->id_leitura = $dados['id_leitura'];
         $this->id_usuario = $dados['id_usuario'];
         $this->id_status_leitura = $dados['id_status_leitura'];
-        $this->data_registro = $dados['data_registro'] ?? null;
         $this->validar();
     }
 

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Leituras;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\LeiturasResource;
-use App\Http\Services\Leituras\LeiturasPesquisaService;
+use App\Http\Resources\Leitura\LeiturasResource;
+use App\Http\Services\Leituras\LeiturasPesquisa;
 use Illuminate\Http\Request;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class PesquisarLeituraController extends Controller
 {
     public function __construct(
-        protected LeiturasPesquisaService $service
+        protected LeiturasPesquisa $service
     ) {}
 
     /*

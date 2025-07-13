@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\DTO\LeituraProgresso\LeituraProgressoCadastroDTO;
-use App\Http\Services\LeituraProgresso\LeituraProgressoCadastroService;
+use App\Http\Services\Leituras\LeituraProgresso\LeituraProgressoCadastro;
 use App\Models\LeituraProgresso;
+use App\Models\Leituras;
 use Tests\TestCase;
 
 class LeituraProgressoCadastroServiceTest extends TestCase
@@ -29,7 +30,7 @@ class LeituraProgressoCadastroServiceTest extends TestCase
             'id_usuario' => 15,
             'id_leitura' => 13,
             'qtd_paginas_lidas' => 14,
-            'data_leitura' => '2025-07-11',
+            'data_leitura' => now(),
         ];
 
         $dtoLeituraProgressoCadastroDTO = new LeituraProgressoCadastroDTO($dadosLeituraProgresso);
@@ -50,10 +51,10 @@ class LeituraProgressoCadastroServiceTest extends TestCase
         DB::expects('commit')->once();
         DB::expects('rollBack')->never();
 
-        $serviceLeituraProgressoCadastroService = new LeituraProgressoCadastroService($this->leituraProgressoMock);
+        $leituraProgressoCadastroService = new LeituraProgressoCadastro($this->leituraProgressoMock, new Leituras);
 
         // ACT
-        $resultadoCadastrar = $serviceLeituraProgressoCadastroService->cadastrarProgresso($dtoLeituraProgressoCadastroDTO);
+        $resultadoCadastrar = $leituraProgressoCadastroService->cadastrarProgresso($dtoLeituraProgressoCadastroDTO);
 
         $this->assertInstanceOf(LeituraProgresso::class, $resultadoCadastrar);
         $this->assertSame(84, $resultadoCadastrar->id_leitura_progresso);
@@ -65,9 +66,11 @@ class LeituraProgressoCadastroServiceTest extends TestCase
 
     public function test_deve_lancar_excecao_para_data_leitura_invalida(): void
     {
+        // ASSERT
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Data inválida');
 
+        // ARRANGE
         $dadosLeituraProgresso = [
             'id_usuario' => 15,
             'id_leitura' => 13,
@@ -75,6 +78,26 @@ class LeituraProgressoCadastroServiceTest extends TestCase
             'data_leitura' => 'data-nao-valida', // inválida
         ];
 
-        $dtoLeituraProgressoCadastroDTO = new LeituraProgressoCadastroDTO($dadosLeituraProgresso);
+        // ACT
+        new LeituraProgressoCadastroDTO($dadosLeituraProgresso);
+    }
+
+    public function test_cadastro_de_progresso_de_leitura_data_antes_de_hoje(): void
+    {
+        // ARRANGE
+        $dadosLeituraProgresso = [
+            'id_leitura_progresso' => 1,
+            'id_usuario' => 15,
+            'id_leitura' => 13,
+            'qtd_paginas_lidas' => 14,
+            'data_leitura' => now()->subDay(),
+        ];
+
+        // ASERT
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('A data da leitura não pode ser anterior a hoje.');
+
+        // ACT
+        new LeituraProgressoCadastroDTO($dadosLeituraProgresso);
     }
 }

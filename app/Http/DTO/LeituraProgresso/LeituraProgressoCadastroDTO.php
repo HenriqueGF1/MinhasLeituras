@@ -7,13 +7,13 @@ use Exception;
 
 class LeituraProgressoCadastroDTO
 {
-    public int $id_usuario;
+    public readonly int $id_usuario;
 
-    public int $id_leitura;
+    public readonly int $id_leitura;
 
-    public int $qtd_paginas_lidas;
+    public readonly int $qtd_paginas_lidas;
 
-    public Carbon $data_leitura;
+    public readonly Carbon $data_leitura;
 
     public function __construct(array $dados)
     {
@@ -35,9 +35,13 @@ class LeituraProgressoCadastroDTO
         $this->qtd_paginas_lidas = $dados['qtd_paginas_lidas'];
 
         try {
-            $this->data_leitura = Carbon::createFromFormat('Y-m-d', $dados['data_leitura']);
+            $this->data_leitura = Carbon::createFromFormat('Y-m-d H:i:s', $dados['data_leitura']);
         } catch (Exception $e) {
             throw new \InvalidArgumentException("Data inválida: {$dados['data_leitura']}");
+        }
+
+        if ($this->data_leitura->lt(now()->startOfDay())) {
+            throw new \InvalidArgumentException('A data da leitura não pode ser anterior a hoje.');
         }
 
         $this->validar();

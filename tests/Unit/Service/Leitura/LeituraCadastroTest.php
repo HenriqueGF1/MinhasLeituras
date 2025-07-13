@@ -46,10 +46,12 @@ class LeituraCadastroTest extends TestCase
             'data_registro' => '2005-06-28',
         ];
 
+        $leituraCadastroDto = new LeituraCadastroDTO($dadosLeitura);
+
         $this->leiturasMockModel
             ->expects('create')
             ->once()
-            ->with($dadosLeitura)
+            ->with($leituraCadastroDto->toArray())
             ->andReturn(new Leituras([
                 'id_leitura' => 14,
                 'titulo' => $dadosLeitura['titulo'],
@@ -68,7 +70,6 @@ class LeituraCadastroTest extends TestCase
         DB::expects('commit')->once();
         DB::expects('rollBack')->never();
 
-        $leituraCadastroDto = new LeituraCadastroDTO($dadosLeitura);
         $serviceLeituraCadastro = new LeituraCadastro($this->leiturasMockModel);
 
         // ACT
@@ -97,10 +98,12 @@ class LeituraCadastroTest extends TestCase
             'data_registro' => '2005-06-28',
         ];
 
+        $leituraCadastroDto = new LeituraCadastroDTO($dadosLeitura);
+
         $this->leiturasMockModel
             ->expects('create')
             ->once()
-            ->with($dadosLeitura)
+            ->with($leituraCadastroDto->toArray())
             ->andReturn(new Leituras([
                 'id_leitura' => 82,
                 'titulo' => $dadosLeitura['titulo'],
@@ -119,7 +122,6 @@ class LeituraCadastroTest extends TestCase
         DB::expects('commit')->once();
         DB::expects('rollBack')->never();
 
-        $leituraCadastroDto = new LeituraCadastroDTO($dadosLeitura);
         $serviceLeituraCadastro = new LeituraCadastro($this->leiturasMockModel);
 
         // ACT

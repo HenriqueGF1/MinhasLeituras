@@ -4,7 +4,6 @@ namespace App\Http\DTO\Autor;
 
 class AutorPesquisaDTO
 {
-    // Autor
     public ?int $id_autor = null;
 
     public ?string $nome_autor = null;

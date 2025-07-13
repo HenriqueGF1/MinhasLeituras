@@ -6,13 +6,13 @@ use App\Helpers\ApiResponse;
 
 use App\Http\Controllers\Controller;
 use App\Http\DTO\AvaliacaoLeitura\AvaliacaoLeituraCadastroDTO;
-use App\Http\Requests\AvaliarLeituraCadastroRequest;
-use App\Http\Resources\AvaliacaoLeituraResource;
-use App\Http\Services\AvaliacaoLeitura\AvaliacaoLeituraCadastroService;
+use App\Http\Requests\AvaliacaoLeitura\AvaliarLeituraCadastroRequest;
+use App\Http\Resources\AvaliacaoLeitura\AvaliacaoLeituraResource;
+use App\Http\Services\AvaliacaoLeitura\AvaliacaoLeituraCadastro;
 
 class AvaliacaoLeituraController extends Controller
 {
-    public function __construct(protected AvaliacaoLeituraCadastroService $avaliacaoLeituraCadastroService) {}
+    public function __construct(protected AvaliacaoLeituraCadastro $avaliacaoLeituraCadastroService) {}
 
     public function __invoke(AvaliarLeituraCadastroRequest $request)
     {

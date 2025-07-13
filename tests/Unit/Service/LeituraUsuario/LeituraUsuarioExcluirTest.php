@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\DTO\UsuarioLeitura\UsuarioLeituraExcluirDTO;
-use App\Http\Services\Usuario\UsuarioLeituraExcluir;
+use App\Http\Services\Usuario\Leitura\UsuarioLeituraExcluir;
 use App\Models\UsuarioLeitura;
 use Tests\TestCase;
 
@@ -44,9 +44,6 @@ class LeituraUsuarioExcluirTest extends TestCase
 
         // Act
         $serviceUsuarioLeituraExcluir->usuarioLeituraExcluirLeitura($dtoUsuarioLeituraExcluirDTO);
-
-        // Assert
-        // Se chegou até aqui sem exceção, passou (Mockery já valida expectativas em tearDown).
     }
 
     public function test_usuario_excluir_leitura_falha_rollback()

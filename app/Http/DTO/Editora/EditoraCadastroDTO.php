@@ -4,7 +4,7 @@ namespace App\Http\DTO\Editora;
 
 readonly class EditoraCadastroDTO
 {
-    public string $descricao_editora;
+    public readonly string $descricao_editora;
 
     public function __construct(array $dados)
     {

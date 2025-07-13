@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Leituras;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\LeiturasResource;
-use App\Http\Services\Leituras\IsbnConsultaService;
+use App\Http\Resources\Leitura\LeiturasResource;
+use App\Http\Services\Leituras\IsbnPesquisa;
 use Illuminate\Http\Request;
 
 class IsbnPesquisaController extends Controller
 {
     public function __construct(
-        protected IsbnConsultaService $service
+        protected IsbnPesquisa $service
     ) {}
 
     public function __invoke(Request $request)

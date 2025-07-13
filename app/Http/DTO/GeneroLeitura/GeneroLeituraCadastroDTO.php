@@ -4,9 +4,9 @@ namespace App\Http\DTO\GeneroLeitura;
 
 class GeneroLeituraCadastroDTO
 {
-    public array $id_genero;
+    public readonly array $id_genero;
 
-    public int $id_leitura;
+    public readonly int $id_leitura;
 
     public function __construct(array $dados)
     {

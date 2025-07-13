@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Autor;
+use App\Models\AvaliacaoLeitura;
 use App\Models\Editora;
 use App\Models\Leituras;
-use App\Models\AvaliacaoLeitura;
+use App\Models\User;
+use Tests\TestCase;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AvaliacaoCadastroTest extends TestCase
 {
@@ -81,10 +80,10 @@ class AvaliacaoCadastroTest extends TestCase
             'id_usuario' => 1,
         ]);
 
-        // // Apagar Registros
-        // Autor::destroy($autor->id_autor);
-        // Editora::destroy($editora->id_editora);
-        // Leituras::destroy($leitura->id_leitura);
-        // AvaliacaoLeitura::query()->delete();
+        // Apagar Registros
+        Autor::destroy($autor->id_autor);
+        Editora::destroy($editora->id_editora);
+        Leituras::destroy($leitura->id_leitura);
+        AvaliacaoLeitura::query()->delete();
     }
 }

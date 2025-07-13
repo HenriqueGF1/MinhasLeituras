@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Leituras;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
-use App\Http\DTO\CadastroLeituraDto;
-use App\Http\Requests\LeiturasRequest;
-use App\Http\Resources\LeiturasResource;
-use App\Http\Services\Leituras\CadastramentoDeLeituraFacade;
+use App\Http\DTO\Leitura\CadastroLeituraDto;
+use App\Http\Facades\Leitura\CadastramentoDeLeituraFacade;
+use App\Http\Requests\Leitura\LeiturasRequest;
+use App\Http\Resources\Leitura\LeiturasResource;
 use Illuminate\Http\JsonResponse;
 
 class CadastroDeLeituraController extends Controller
