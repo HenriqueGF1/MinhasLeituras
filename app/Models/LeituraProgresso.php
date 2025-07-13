@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Observers\LeituraProgressoObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy([LeituraProgressoObserver::class])]
 class LeituraProgresso extends Model
 {
     protected $table = 'leitura_progresso';

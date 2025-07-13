@@ -26,7 +26,7 @@ class LeituraProgressoCadastroDTO
         ];
 
         foreach ($camposObrigatorios as $campo) {
-            if (!array_key_exists($campo, $dados)) {
+            if (! array_key_exists($campo, $dados)) {
                 throw new \InvalidArgumentException("Campo obrigatório '{$campo}' não foi fornecido.");
             }
         }

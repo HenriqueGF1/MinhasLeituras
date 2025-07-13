@@ -120,7 +120,6 @@ CREATE TABLE usuario_leituras (
     id_usuario INT NOT NULL,
     id_leitura INT NOT NULL,
     id_status_leitura INT,
-    qtd_paginas_lidas INT,
     data_registro TIMESTAMP DEFAULT NOW() NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario) ON DELETE CASCADE,
     FOREIGN KEY (id_leitura) REFERENCES leituras (id_leitura) ON DELETE CASCADE,

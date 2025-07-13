@@ -19,7 +19,7 @@ class QuantidadePaginasLeitura implements ValidationRule
     {
         $leitura = Leituras::find($this->idLeitura);
 
-        if ($value > $leitura->qtd_paginas) {
+        if ($leitura !== null && $value > $leitura->qtd_paginas) {
             $fail('A quantidade de páginas lidas excede o total de páginas da leitura.');
         }
     }

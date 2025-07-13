@@ -24,7 +24,7 @@ class AvaliacaoLeituraController extends Controller
             return ApiResponse::success(
                 new AvaliacaoLeituraResource($avaliacaoLeitura),
                 'Leitura Avaliada com sucesso'
-            );
+            ,201);
         } catch (\Throwable $exception) {
             return ApiResponse::fromException($exception);
         }
