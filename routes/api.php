@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Leituras\AvaliacaoLeituraController;
+use App\Http\Controllers\Leituras\AvaliacaoLeituraCadastroController;
 use App\Http\Controllers\Leituras\CadastroDeLeituraController;
 use App\Http\Controllers\Leituras\IsbnPesquisaApiController;
 use App\Http\Controllers\Leituras\IsbnPesquisaController;
-use App\Http\Controllers\Leituras\LeituraProgressoController;
+use App\Http\Controllers\Leituras\LeituraProgessoCadastroController;
 use App\Http\Controllers\Leituras\PesquisarLeituraController;
 use App\Http\Controllers\Usuario\UsuarioCadastroController;
 use App\Http\Controllers\Usuario\UsuarioLeituraExcluirController;
@@ -33,7 +33,7 @@ Route::prefix('leituras')->name('leituras.')->group(function () {
         Route::post('/isbn-api', IsbnPesquisaApiController::class)->name('pesquisaIsbn.api');
         Route::post('/cadastrar', CadastroDeLeituraController::class)->name('cadastrar');
         Route::delete('/excluir/{id_usuario_leitura}', UsuarioLeituraExcluirController::class)->name('excluir');
-        Route::post('/progresso', LeituraProgressoController::class)->name('progresso.cadastrar');
-        Route::post('/avaliar', AvaliacaoLeituraController::class)->name('avaliacoes.cadastrar');
+        Route::post('/progresso', LeituraProgessoCadastroController::class)->name('progresso.cadastrar');
+        Route::post('/avaliar', AvaliacaoLeituraCadastroController::class)->name('avaliacoes.cadastrar');
     });
 });

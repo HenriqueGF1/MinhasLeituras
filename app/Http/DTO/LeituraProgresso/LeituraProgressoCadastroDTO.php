@@ -47,7 +47,7 @@ class LeituraProgressoCadastroDTO
 
         $leitura = Leituras::find($this->id_leitura);
 
-        if ($this->qtd_paginas_lidas > $leitura->qtd_paginas) {
+        if ((! is_null($leitura)) && $this->qtd_paginas_lidas > $leitura->qtd_paginas) {
             throw new \InvalidArgumentException('Quantidade de páginas lidas maior que o total disponível na leitura.');
         }
 

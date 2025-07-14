@@ -1,3 +1,6 @@
+CREATE SCHEMA public;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO public;
 
 CREATE TABLE usuario (
 	id_usuario SERIAL PRIMARY KEY,
@@ -134,7 +137,6 @@ COMMENT ON COLUMN usuario_leituras.id_usuario_leitura IS 'Identificador único d
 COMMENT ON COLUMN usuario_leituras.id_usuario IS 'Identificador do usuário que realizou a leitura.';
 COMMENT ON COLUMN usuario_leituras.id_leitura IS 'Identificador da leitura associada ao usuário.';
 COMMENT ON COLUMN usuario_leituras.id_status_leitura IS 'Status da leitura (exemplo: concluída, em andamento, etc.).';
-COMMENT ON COLUMN usuario_leituras.qtd_paginas_lidas IS 'Armazena a quantidade de paginas lidas pelo usuario.';
 COMMENT ON COLUMN usuario_leituras.data_registro IS 'Data e hora do registro da relação entre usuário e leitura.';
 
 CREATE TABLE genero_leitura (
@@ -177,24 +179,6 @@ COMMENT ON COLUMN leitura_progresso.qtd_paginas_lidas IS 'Quantidade de páginas
 COMMENT ON COLUMN leitura_progresso.data_leitura IS 'Data em que a leitura foi realizada.';
 COMMENT ON COLUMN leitura_progresso.data_registro IS 'Timestamp automático do momento em que o registro foi inserido na base de dados.';
 
-CREATE TABLE favoritos (
-    id_favoritos SERIAL PRIMARY KEY,
-    id_leitura INT NOT NULL,
-    id_usuario INT NOT NULL,
-    data_registro TIMESTAMP DEFAULT NOW() NOT NULL,
-    FOREIGN KEY (id_leitura) REFERENCES leituras (id_leitura) ON DELETE CASCADE,
-    FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario) ON DELETE CASCADE,
-    UNIQUE (id_leitura, id_usuario)
-);
-
-COMMENT ON TABLE favoritos IS 'Tabela que armazena as leituras marcadas como favoritas pelos usuários.';
-
--- Comentários para a tabela favoritos
-COMMENT ON COLUMN favoritos.id_favoritos IS 'Identificador único da marcação de leitura como favorita.';
-COMMENT ON COLUMN favoritos.id_leitura IS 'Identificador da leitura marcada como favorita.';
-COMMENT ON COLUMN favoritos.id_usuario IS 'Identificador do usuário que marcou a leitura como favorita.';
-COMMENT ON COLUMN favoritos.data_registro IS 'Data e hora do registro da leitura como favorita pelo usuário.';
-
 
 CREATE TABLE avaliacao_leitura (
     id_avaliacao_leitura SERIAL PRIMARY KEY,
@@ -221,40 +205,3 @@ COMMENT ON COLUMN avaliacao_leitura.descricao_avaliacao IS 'Texto descritivo con
 COMMENT ON COLUMN avaliacao_leitura.data_inicio IS 'Data em que o usuário iniciou a leitura.';
 COMMENT ON COLUMN avaliacao_leitura.data_termino IS 'Data em que o usuário concluiu a leitura.';
 COMMENT ON COLUMN avaliacao_leitura.data_registro IS 'Data e hora em que a avaliação foi registrada no sistema (preenchida automaticamente).';
-
-CREATE TABLE usuario_notificacao (
-    id_usuario_notificacao SERIAL PRIMARY KEY,
-    id_usuario INTEGER NOT NULL,
-    fcm_token TEXT NOT NULL,
-    data_registro TIMESTAMP DEFAULT NOW() NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario) ON DELETE CASCADE,
-    UNIQUE (fcm_token, id_usuario)
-);
-
--- Comentários nas colunas
-COMMENT ON COLUMN usuario_notificacao.id_usuario_notificacao IS 'Identificador único da entrada de token';
-COMMENT ON COLUMN usuario_notificacao.id_usuario IS 'Referência ao usuário dono do token (chave estrangeira)';
-COMMENT ON COLUMN usuario_notificacao.fcm_token IS 'Token FCM do Firebase usado para envio de notificações push';
-COMMENT ON COLUMN usuario_notificacao.data_registro IS 'Data e hora de criação do notificações.';
-
-
--- Criação da tabela de lembretes de leitura
-CREATE TABLE lembretes_leitura (
-    id_lembretes_leitura SERIAL PRIMARY KEY,
-    id_leitura INTEGER NOT NULL,
-    id_usuario INTEGER NOT NULL,
-    data_lembrete TIMESTAMP NOT NULL,
-    data_registro TIMESTAMP DEFAULT NOW() NOT NULL,
-    FOREIGN KEY (id_leitura) REFERENCES leituras (id_leitura) ON DELETE CASCADE,
-    FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario) ON DELETE CASCADE,
-    UNIQUE (id_leitura, id_usuario)
-);
-
--- Comentários explicativos
-COMMENT ON TABLE lembretes_leitura IS 'Tabela que armazena lembretes associados a leituras específicas por usuários.';
-
-COMMENT ON COLUMN lembretes_leitura.id_lembretes_leitura IS 'Identificador único do lembrete de leitura.';
-COMMENT ON COLUMN lembretes_leitura.id_leitura IS 'Referência à leitura associada ao lembrete.';
-COMMENT ON COLUMN lembretes_leitura.id_usuario IS 'Referência ao usuário que criou o lembrete.';
-COMMENT ON COLUMN lembretes_leitura.data_lembrete IS 'Data e hora programadas para o lembrete de leitura.';
-COMMENT ON COLUMN lembretes_leitura.data_registro IS 'Data e hora em que o lembrete foi criado.';

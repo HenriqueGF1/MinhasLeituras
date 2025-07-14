@@ -22,6 +22,28 @@ class CadastroLeituraTest extends TestCase
     // Método executado após cada teste
     protected function tearDown(): void
     {
+        // Lista das tabelas a preservar
+        $tabelasParaIgnorar = ['usuario', 'genero', 'status_leitura'];
+
+        // Lista das tabelas conforme seu script
+        $tabelas = [
+            'avaliacao_leitura',
+            'leitura_progresso',
+            'genero_leitura',
+            'usuario_leituras',
+            'leituras',
+            'autor',
+            'editora',
+            // 'usuario', // Ignorada
+            // 'status_leitura', // Ignorada
+            // 'genero', // Ignorada
+        ];
+
+        foreach ($tabelas as $tabela) {
+            if (! in_array($tabela, $tabelasParaIgnorar)) {
+                DB::table($tabela)->truncate();
+            }
+        }
         parent::tearDown();
     }
 
@@ -49,7 +71,7 @@ class CadastroLeituraTest extends TestCase
             'Authorization' => "Bearer {$this->token}",
         ])->postJson('api/leituras/cadastrar', $dadosLivro);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $response->assertJsonFragment([
             'titulo' => 'Percy Jackson e o Ladrão de Raios',
             'isbn' => '9788598078394',

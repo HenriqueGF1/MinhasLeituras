@@ -25,8 +25,9 @@ class CadastroDeLeituraController extends Controller
 
             return ApiResponse::success(
                 new LeiturasResource($leitura),
-                'Leitura cadastrada com sucesso'
-            ,201);
+                'Leitura cadastrada com sucesso',
+                201
+            );
         } catch (\Throwable $exception) {
             return ApiResponse::fromException($exception);
         }

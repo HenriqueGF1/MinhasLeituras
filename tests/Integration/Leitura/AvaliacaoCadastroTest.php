@@ -26,6 +26,29 @@ class AvaliacaoCadastroTest extends TestCase
     // Método executado após cada teste
     protected function tearDown(): void
     {
+        // Lista das tabelas a preservar
+        $tabelasParaIgnorar = ['usuario', 'genero', 'status_leitura'];
+
+        // Lista das tabelas conforme seu script
+        $tabelas = [
+            'avaliacao_leitura',
+            'leitura_progresso',
+            'genero_leitura',
+            'usuario_leituras',
+            'leituras',
+            'autor',
+            'editora',
+            // 'usuario', // Ignorada
+            // 'status_leitura', // Ignorada
+            // 'genero', // Ignorada
+        ];
+
+        foreach ($tabelas as $tabela) {
+            if (! in_array($tabela, $tabelasParaIgnorar)) {
+                DB::table($tabela)->truncate();
+            }
+        }
+
         parent::tearDown();
     }
 
@@ -68,7 +91,7 @@ class AvaliacaoCadastroTest extends TestCase
         ])->post('api/leituras/avaliar', $dadosAvaliacaoLeitura);
 
         // ASSERT
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $response->assertJsonFragment([
             'id_leitura' => $leitura->id_leitura,
             'nota' => 9,
@@ -80,10 +103,10 @@ class AvaliacaoCadastroTest extends TestCase
             'id_usuario' => 1,
         ]);
 
-        // Apagar Registros
-        Autor::destroy($autor->id_autor);
-        Editora::destroy($editora->id_editora);
-        Leituras::destroy($leitura->id_leitura);
-        AvaliacaoLeitura::query()->delete();
+        // // Apagar Registros
+        // Autor::destroy($autor->id_autor);
+        // Editora::destroy($editora->id_editora);
+        // Leituras::destroy($leitura->id_leitura);
+        // AvaliacaoLeitura::query()->delete();
     }
 }
