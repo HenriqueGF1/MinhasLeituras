@@ -6,7 +6,7 @@ use App\Models\LeituraProgresso;
 use App\Models\Leituras;
 use Tests\TestCase;
 
-class LeituraProgressoCadastroServiceTest extends TestCase
+class LeituraProgressoCadastroTest extends TestCase
 {
     private LeituraProgresso $leituraProgressoMock;
 

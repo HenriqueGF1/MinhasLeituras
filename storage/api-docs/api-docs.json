@@ -6,72 +6,61 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/leituras": {
-            "get": {
-                "tags": [
-                    "Leituras"
-                ],
-                "summary": "Retorna a lista de leituras",
-                "description": "Listar todas as leituras.",
-                "operationId": "08f894318ef30985d6cba3435daa0e7a",
-                "responses": {
-                    "200": {
-                        "description": "Lista de leituras"
-                    }
-                }
-            },
+        "/api/leituras": {},
+        "/api/leituras/cadastrar": {
             "post": {
                 "tags": [
                     "Leituras"
                 ],
-                "summary": "Cria uma nova leitura",
-                "description": "Cadastrar uma nova leitura.",
-                "operationId": "e289dc4e27059a6e7139f84dc090f2ad",
+                "summary": "Cadastra uma nova leitura",
+                "operationId": "4ae1e189942c0306a7dbe6fea47a7b48",
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "titulo",
                                     "descricao",
-                                    "id_editora",
-                                    "id_autor",
+                                    "nome_autor",
                                     "data_publicacao",
-                                    "qtd_capitulos",
-                                    "qtd_paginas",
-                                    "isbn"
+                                    "id_status_leitura"
                                 ],
                                 "properties": {
-                                    "id_leitura": {
+                                    "token": {
+                                        "description": "Token JWT para autenticação (normalmente enviado no cabeçalho Authorization, mas pode ser enviado aqui se necessário)",
+                                        "type": "string",
+                                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                                    },
+                                    "id_usuario": {
                                         "type": "integer",
-                                        "example": 1
+                                        "example": "1"
                                     },
                                     "titulo": {
                                         "type": "string",
-                                        "example": "O Senhor dos Anéis"
+                                        "example": "Percy Jackson e o Ladrão de Raios"
                                     },
                                     "descricao": {
                                         "type": "string",
-                                        "example": "Um livro sobre uma jornada épica."
+                                        "example": "Escrito por Rick Riordan..."
                                     },
                                     "capa": {
+                                        "description": "Arquivo de imagem da capa",
                                         "type": "string",
-                                        "format": "url",
-                                        "example": "https://example.com/capa.jpg"
+                                        "format": "binary"
                                     },
-                                    "id_editora": {
-                                        "type": "integer",
-                                        "example": 10
+                                    "descricao_editora": {
+                                        "type": "string",
+                                        "example": "Intrínseca"
                                     },
-                                    "id_autor": {
-                                        "type": "integer",
-                                        "example": 5
+                                    "nome_autor": {
+                                        "type": "string",
+                                        "example": "Rick Riordan"
                                     },
                                     "data_publicacao": {
                                         "type": "string",
                                         "format": "date",
-                                        "example": "1954-07-29"
+                                        "example": "2005-06-28"
                                     },
                                     "qtd_capitulos": {
                                         "type": "integer",
@@ -79,25 +68,32 @@
                                     },
                                     "qtd_paginas": {
                                         "type": "integer",
-                                        "example": 423
+                                        "example": 400
                                     },
                                     "isbn": {
                                         "type": "string",
-                                        "example": "978-85-333-0227-0"
-                                    },
-                                    "data_inicio_leitura": {
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "2024-01-15"
-                                    },
-                                    "id_status_leitura": {
-                                        "type": "integer",
-                                        "example": 2
+                                        "example": "9788598078394"
                                     },
                                     "data_registro": {
                                         "type": "string",
-                                        "format": "date-time",
-                                        "example": "2024-03-20T14:30:00Z"
+                                        "format": "date",
+                                        "example": "2005-06-28"
+                                    },
+                                    "id_status_leitura": {
+                                        "description": "Status da leitura: 1=Para Ler, 2=Lendo, 3=Concluído",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "id_genero": {
+                                        "description": "IDs dos gêneros (enviar como array)",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            8,
+                                            9
+                                        ]
                                     }
                                 },
                                 "type": "object"
@@ -107,140 +103,52 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Leitura criada com sucesso"
-                    }
-                }
-            }
-        },
-        "/api/leituras/{id}": {
-            "put": {
-                "tags": [
-                    "Leituras"
-                ],
-                "summary": "Atualiza uma leitura existente",
-                "description": "Atualizar uma leitura existente.",
-                "operationId": "fe37a3c86e2d7c56525d90268a1b1245",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID da leitura",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "titulo",
-                                    "descricao",
-                                    "id_editora",
-                                    "id_autor",
-                                    "data_publicacao",
-                                    "qtd_capitulos",
-                                    "qtd_paginas",
-                                    "isbn"
-                                ],
-                                "properties": {
-                                    "id_leitura": {
-                                        "type": "integer",
-                                        "example": 1
+                        "description": "Leitura cadastrada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Leitura cadastrada com sucesso"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 201
+                                        },
+                                        "data": {
+                                            "$ref": "/components/schemas/LeituraResource"
+                                        }
                                     },
-                                    "titulo": {
-                                        "type": "string",
-                                        "example": "1984"
-                                    },
-                                    "descricao": {
-                                        "type": "string",
-                                        "example": "Uma distopia clássica."
-                                    },
-                                    "capa": {
-                                        "type": "string",
-                                        "format": "url",
-                                        "example": "https://example.com/1984.jpg"
-                                    },
-                                    "id_editora": {
-                                        "type": "integer",
-                                        "example": 3
-                                    },
-                                    "id_autor": {
-                                        "type": "integer",
-                                        "example": 7
-                                    },
-                                    "data_publicacao": {
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "1949-06-08"
-                                    },
-                                    "qtd_capitulos": {
-                                        "type": "integer",
-                                        "example": 24
-                                    },
-                                    "qtd_paginas": {
-                                        "type": "integer",
-                                        "example": 328
-                                    },
-                                    "isbn": {
-                                        "type": "string",
-                                        "example": "978-85-359-0277-2"
-                                    },
-                                    "data_inicio_leitura": {
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "2024-02-10"
-                                    },
-                                    "id_status_leitura": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "data_registro": {
-                                        "type": "string",
-                                        "format": "date-time",
-                                        "example": "2024-04-01T12:00:00Z"
-                                    }
-                                },
-                                "type": "object"
+                                    "type": "object"
+                                }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Não autorizado - Token inválido ou não fornecido"
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
                     }
                 },
-                "responses": {
-                    "200": {
-                        "description": "Leitura atualizada com sucesso"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Leituras"
-                ],
-                "summary": "Remove uma leitura",
-                "description": "Excluir uma leitura.",
-                "operationId": "b76cd9009a21b8af731e9063158fa3ff",
-                "parameters": [
+                "security": [
                     {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID da leitura a ser removida",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                        "bearerAuth": []
                     }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Leitura excluída com sucesso"
-                    },
-                    "404": {
-                        "description": "Leitura não encontrada"
-                    }
-                }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     },

@@ -7,13 +7,10 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class LeiturasPesquisa
 {
-    /**
-     * Pesquisas Leituras
-     *
-     * @return Leituras|null
-     */
+    public function __construct(protected Leituras $model) {}
+
     public function pesquisa(): LengthAwarePaginator
     {
-        return Leituras::paginate();
+        return $this->model->paginate();
     }
 }
