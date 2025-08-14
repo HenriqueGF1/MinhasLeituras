@@ -15,20 +15,17 @@ class LeituraProgressoCadastramento
 {
     public function __construct(
         protected LeituraProgressoCadastro $leituraProgressoCadastroService,
-        protected UsuarioLeituraPesquisa $usuarioLeituraPesquisaService,
-    ) {}
+    ) {
+    }
 
     public function cadastramentoLeituraProgesso(LeituraProgressoCadastroRequest $request): JsonResponse
     {
         try {
             $dtoLeituraProgressoCadastroDTO = new LeituraProgressoCadastroDTO($request->safe()->all());
-            $dtoUsuarioLeituraPesquisa = new UsuarioLeituraPesquisaDTO($request->safe()->all());
 
-            $pesquisaLeituraUsuario = $this->usuarioLeituraPesquisaService->pesquisaLeituraUsuario($dtoUsuarioLeituraPesquisa);
+            $leituraProgressoCadastro = $this->leituraProgressoCadastroService->cadastrarProgresso($dtoLeituraProgressoCadastroDTO);
 
-            if ($pesquisaLeituraUsuario->id_status_leitura != StatusLeitura::STATUS_LIDO) {
-                $leituraProgressoCadastro = $this->leituraProgressoCadastroService->cadastrarProgresso($dtoLeituraProgressoCadastroDTO);
-
+            if (!empty($leituraProgressoCadastro->id_leitura_progresso)) {
                 return ApiResponse::success(
                     new LeituraProgressoResource($leituraProgressoCadastro),
                     'Progresso da Leitura cadastrado com sucesso',

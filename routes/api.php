@@ -12,6 +12,9 @@ use App\Http\Controllers\Usuario\UsuarioLoginController;
 use App\Http\Controllers\Usuario\UsuarioLogoutController;
 use Illuminate\Support\Facades\Route;
 
+// SWAGGER ROTA
+// http://127.0.0.1:8000/api/rotas
+
 // php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear && composer du && ./vendor/bin/pint
 Route::prefix('usuario')->name('usuario.')->group(function () {
     Route::post('/cadastrar', UsuarioCadastroController::class)->name('cadastrar');
