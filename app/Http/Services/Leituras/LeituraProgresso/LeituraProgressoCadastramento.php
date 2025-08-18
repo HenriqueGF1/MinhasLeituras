@@ -4,19 +4,15 @@ namespace App\Http\Services\Leituras\LeituraProgresso;
 
 use App\Helpers\ApiResponse;
 use App\Http\DTO\LeituraProgresso\LeituraProgressoCadastroDTO;
-use App\Http\DTO\Usuarioleitura\UsuarioLeituraPesquisaDTO;
 use App\Http\Requests\Leitura\LeituraProgressoCadastroRequest;
 use App\Http\Resources\Leitura\LeituraProgressoResource;
-use App\Http\Services\Usuario\Leitura\UsuarioLeituraPesquisa;
-use App\Models\StatusLeitura;
 use Illuminate\Http\JsonResponse;
 
 class LeituraProgressoCadastramento
 {
     public function __construct(
         protected LeituraProgressoCadastro $leituraProgressoCadastroService,
-    ) {
-    }
+    ) {}
 
     public function cadastramentoLeituraProgesso(LeituraProgressoCadastroRequest $request): JsonResponse
     {
@@ -25,7 +21,7 @@ class LeituraProgressoCadastramento
 
             $leituraProgressoCadastro = $this->leituraProgressoCadastroService->cadastrarProgresso($dtoLeituraProgressoCadastroDTO);
 
-            if (!empty($leituraProgressoCadastro->id_leitura_progresso)) {
+            if (! empty($leituraProgressoCadastro->id_leitura_progresso)) {
                 return ApiResponse::success(
                     new LeituraProgressoResource($leituraProgressoCadastro),
                     'Progresso da Leitura cadastrado com sucesso',

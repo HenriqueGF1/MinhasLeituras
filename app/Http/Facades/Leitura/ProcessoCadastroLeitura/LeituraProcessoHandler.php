@@ -15,8 +15,7 @@ class LeituraProcessoHandler extends ProcessoCadastroLeituraHandler
         protected LeituraCadastro $leituraCadastro,
         private LeituraPesquisaDTOFactory $leituraPesquisaDTOFactory,
         private LeituraCadastroDTOFactory $leituraCadastroDTOFactory,
-    ) {
-    }
+    ) {}
 
     public function processar(CadastroLeituraDto $dto): CadastroLeituraDto
     {

@@ -32,4 +32,9 @@ class Leituras extends Model
         'qtd_capitulos' => 1,
         'qtd_paginas' => 1,
     ];
+
+    public function usuarios()
+    {
+        return $this->hasMany(UsuarioLeitura::class, 'id_leitura', 'id_leitura');
+    }
 }

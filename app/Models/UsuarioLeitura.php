@@ -20,4 +20,9 @@ class UsuarioLeitura extends Model
         'id_status_leitura',
         'data_registro',
     ];
+
+    public function leitura()
+    {
+        return $this->belongsTo(Leituras::class, 'id_leitura', 'id_leitura');
+    }
 }
