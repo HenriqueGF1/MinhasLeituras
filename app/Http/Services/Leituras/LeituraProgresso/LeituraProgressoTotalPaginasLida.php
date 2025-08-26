@@ -13,7 +13,7 @@ class LeituraProgressoTotalPaginasLida
 
     public function pesquisarLeituraProgressoTotalPaginasLida(LeituraProgressoPesquisaDTO $dto): ?LeituraProgresso
     {
-        $leituraProgresso = $this->leituraProgressoModel
+        return $this->leituraProgressoModel
             ->select(
                 'leitura_progresso.id_usuario',
                 'leitura_progresso.id_leitura',
@@ -29,9 +29,11 @@ class LeituraProgressoTotalPaginasLida
                 'leituras.isbn',
                 'leituras.data_registro'
             )
-            ->join('leituras', 'leitura_progresso.id_leitura', '=', 'leituras.id_leitura')
-            ->where('leitura_progresso.id_usuario', $dto->id_usuario)
-            ->where('leitura_progresso.id_leitura', $dto->id_leitura)
+            ->rightJoin('leituras', function ($join) use ($dto) {
+                $join->on('leituras.id_leitura', '=', 'leitura_progresso.id_leitura')
+                    ->where('leitura_progresso.id_usuario', $dto->id_usuario);
+            })
+            ->where('leituras.id_leitura', $dto->id_leitura)
             ->groupBy(
                 'leitura_progresso.id_usuario',
                 'leitura_progresso.id_leitura',
@@ -47,7 +49,5 @@ class LeituraProgressoTotalPaginasLida
                 'leituras.data_registro'
             )
             ->first();
-
-        return $leituraProgresso ?: null;
     }
 }

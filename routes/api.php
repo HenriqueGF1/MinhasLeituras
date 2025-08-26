@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Autor\PesquisarAutorController;
+use App\Http\Controllers\Avaliacao\AvaliacaoPesquisaController;
 use App\Http\Controllers\Editora\PesquisarEditoraController;
 use App\Http\Controllers\Generos\PesquisarGenerosController;
 use App\Http\Controllers\Leituras\AvaliacaoLeituraCadastroController;
@@ -61,6 +62,7 @@ Route::prefix('leituras')->name('leituras.')->group(function () {
         Route::post('/progresso', LeituraProgessoCadastroController::class)->name('progresso.cadastrar');
         Route::post('/progresso/total', PesquisarLeituraTotalPaginasLidasController::class)->name('progresso.quantidade.total.paginas.lida');
         Route::post('/avaliar', AvaliacaoLeituraCadastroController::class)->name('avaliacoes.cadastrar');
+        Route::get('/avaliar/pesquisa', AvaliacaoPesquisaController::class)->name('avaliacoes.pesquisa');
         Route::get('/usuario', PesquisarLeiturasUsuariosController::class)->name('pesquisarLeituras.usuarios');
     });
 });

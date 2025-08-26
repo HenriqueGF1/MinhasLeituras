@@ -24,4 +24,9 @@ class AvaliacaoLeitura extends Model
         'data_termino',
         'data_registro',
     ];
+
+    public function leituras()
+    {
+        return $this->hasMany(Leituras::class, 'id_leitura', 'id_leitura');
+    }
 }

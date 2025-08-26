@@ -37,4 +37,9 @@ class Leituras extends Model
     {
         return $this->hasMany(UsuarioLeitura::class, 'id_leitura', 'id_leitura');
     }
+
+    public function avaliacao()
+    {
+        return $this->belongsTo(AvaliacaoLeitura::class, 'id_leitura', 'id_leitura');
+    }
 }
