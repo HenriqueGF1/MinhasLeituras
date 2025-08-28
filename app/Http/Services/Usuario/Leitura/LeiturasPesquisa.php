@@ -13,8 +13,9 @@ class LeiturasPesquisa
     public function pesquisaLeiturasUsuario(): LengthAwarePaginator
     {
         return $this->modelUsuarioLeitura
+            ->with('avaliacao')
             ->with('leitura')
-            ->where('id_usuario', Auth::user()->id_usuario)
+            ->where('id_usuario', '=', Auth::user()->id_usuario)
             ->paginate();
     }
 }

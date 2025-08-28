@@ -51,10 +51,10 @@ Route::prefix('leituras')->name('leituras.')->group(function () {
     // Rotas públicas
 
     Route::get('/', PesquisarLeituraController::class)->name('pesquisarLeituras');
+    Route::get('/aleatoria', PesquisarLeituraAleatoriaController::class)->name('leitura.aleatoria');
 
     // Rotas protegidas por middleware de autenticação
     Route::middleware(['auth:api'])->group(function () {
-        Route::get('/aleatoria', PesquisarLeituraAleatoriaController::class)->name('leitura.aleatoria');
         Route::post('/isbn', IsbnPesquisaController::class)->name('pesquisaIsbn');
         Route::post('/isbn-api', IsbnPesquisaApiController::class)->name('pesquisaIsbn.api');
         Route::post('/cadastrar', CadastroDeLeituraController::class)->name('cadastrar');
