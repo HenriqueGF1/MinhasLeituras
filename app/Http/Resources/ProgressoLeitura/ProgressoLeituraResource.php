@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Leitura;
+namespace App\Http\Resources\ProgressoLeitura;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 
-class LeituraProgressoResource extends JsonResource
+class ProgressoLeituraResource extends JsonResource
 {
     public function toArray(Request $request): array
     {

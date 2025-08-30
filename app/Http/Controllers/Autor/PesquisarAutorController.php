@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Autor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Autores\AutoresResource;
 use App\Http\Services\Autor\AutoresPesquisa;
 
 class PesquisarAutorController extends Controller
@@ -13,6 +14,8 @@ class PesquisarAutorController extends Controller
 
     public function __invoke()
     {
-        return $this->serviceAutoresPesquisa->listarAutores();
+        return AutoresResource::collection(
+            $this->serviceAutoresPesquisa->listarAutores()
+        );
     }
 }

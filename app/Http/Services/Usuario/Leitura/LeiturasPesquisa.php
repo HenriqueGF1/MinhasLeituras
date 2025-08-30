@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class LeiturasPesquisa
 {
-    public function __construct(protected UsuarioLeitura $modelUsuarioLeitura) {}
+    public function __construct(protected UsuarioLeitura $model) {}
 
     public function pesquisaLeiturasUsuario(): LengthAwarePaginator
     {
-        return $this->modelUsuarioLeitura
+        return $this->model
             ->with('avaliacao')
             ->with('leitura')
             ->where('id_usuario', '=', Auth::user()->id_usuario)

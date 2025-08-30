@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Usuario;
+namespace App\Http\Controllers\UsuarioLeituras;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
@@ -18,10 +18,10 @@ class UsuarioLeituraCadastrarController extends Controller
         try {
             $usuarioLeituraExcluirDTO = new UsuarioLeituraCadastroDTO($request->safe()->all());
 
-            $this->service->cadastrarLeituraDoUsuario($usuarioLeituraExcluirDTO);
+            $usuarioLeitura = $this->service->cadastrarLeituraDoUsuario($usuarioLeituraExcluirDTO);
 
             return ApiResponse::success(
-                [],
+                $usuarioLeitura,
                 'Leitura Cadastrada com sucesso'
             );
         } catch (\Throwable $exception) {

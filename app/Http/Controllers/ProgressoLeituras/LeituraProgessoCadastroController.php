@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Leituras;
+namespace App\Http\Controllers\ProgressoLeituras;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Leitura\LeituraProgressoCadastroRequest;
+use App\Http\Requests\ProgressoLeitura\LeituraProgressoCadastroRequest;
 use App\Http\Services\Leituras\LeituraProgresso\LeituraProgressoCadastramento;
 use Illuminate\Http\JsonResponse;
 

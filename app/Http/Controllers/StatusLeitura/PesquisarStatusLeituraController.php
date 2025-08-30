@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\StatusLeitura;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\StatusLeitura\StatusLeituraResource;
 use App\Http\Services\StatusLeitura\StatusLeiturasPesquisa;
 
 class PesquisarStatusLeituraController extends Controller
@@ -13,6 +14,8 @@ class PesquisarStatusLeituraController extends Controller
 
     public function __invoke()
     {
-        return $this->serviceStatusLeiturasPesquisa->listarStatusLeitura();
+        return StatusLeituraResource::collection(
+            $this->serviceStatusLeiturasPesquisa->listarStatusLeitura()
+        );
     }
 }

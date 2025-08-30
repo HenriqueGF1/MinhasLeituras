@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Leituras;
+namespace App\Http\Controllers\UsuarioLeituras;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Leitura\LeiturasResource;
+use App\Http\Resources\UsuarioLeitura\UsuarioLeituraResource;
 use App\Http\Services\Usuario\Leitura\LeiturasPesquisa;
 
 /**
@@ -17,8 +17,8 @@ class PesquisarLeiturasUsuariosController extends Controller
 
     public function __invoke()
     {
-        // return LeiturasResource::collection(
-        return $this->service->pesquisaLeiturasUsuario();
-        // );
+        return UsuarioLeituraResource::collection(
+            $this->service->pesquisaLeiturasUsuario()
+        );
     }
 }

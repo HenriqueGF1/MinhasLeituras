@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Leituras;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Leitura\IsbnRequest;
 use App\Http\Resources\Leitura\LeiturasResource;
 use App\Http\Services\Leituras\IsbnPesquisa;
-use Illuminate\Http\Request;
 
 class IsbnPesquisaController extends Controller
 {
@@ -13,10 +13,10 @@ class IsbnPesquisaController extends Controller
         protected IsbnPesquisa $service
     ) {}
 
-    public function __invoke(Request $request)
+    public function __invoke(IsbnRequest $request)
     {
         return new LeiturasResource(
-            $this->service->pesquisaIsbnBase($request)
+            $this->service->pesquisaIsbnBase($request->isbn)
         );
     }
 }

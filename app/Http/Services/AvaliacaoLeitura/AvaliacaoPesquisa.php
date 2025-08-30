@@ -13,7 +13,7 @@ class AvaliacaoPesquisa
     public function pesquisa(): LengthAwarePaginator
     {
         return $this->model
-            ->with('leituras')
+            ->with('leitura')
             ->where('id_usuario', '=', Auth::user()->id_usuario)
             ->paginate();
     }

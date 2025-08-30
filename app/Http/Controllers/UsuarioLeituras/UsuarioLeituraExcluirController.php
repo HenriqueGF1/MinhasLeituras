@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Usuario;
+namespace App\Http\Controllers\UsuarioLeituras;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;

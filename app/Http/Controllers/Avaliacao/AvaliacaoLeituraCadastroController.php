@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Leituras;
+namespace App\Http\Controllers\Avaliacao;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;

@@ -4,8 +4,8 @@ namespace App\Http\Services\Leituras\LeituraProgresso;
 
 use App\Helpers\ApiResponse;
 use App\Http\DTO\LeituraProgresso\LeituraProgressoCadastroDTO;
-use App\Http\Requests\Leitura\LeituraProgressoCadastroRequest;
-use App\Http\Resources\Leitura\LeituraProgressoResource;
+use App\Http\Requests\ProgressoLeitura\LeituraProgressoCadastroRequest;
+use App\Http\Resources\ProgressoLeitura\ProgressoLeituraResource;
 use Illuminate\Http\JsonResponse;
 
 class LeituraProgressoCadastramento
@@ -23,7 +23,7 @@ class LeituraProgressoCadastramento
 
             if (! empty($leituraProgressoCadastro->id_leitura_progresso)) {
                 return ApiResponse::success(
-                    new LeituraProgressoResource($leituraProgressoCadastro),
+                    new ProgressoLeituraResource($leituraProgressoCadastro),
                     'Progresso da Leitura cadastrado com sucesso',
                     201
                 );

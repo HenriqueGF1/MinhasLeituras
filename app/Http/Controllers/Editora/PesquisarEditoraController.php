@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Editora;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Editoras\EditorasResource;
 use App\Http\Services\Editora\EditorasPesquisa;
 
 class PesquisarEditoraController extends Controller
@@ -13,6 +14,8 @@ class PesquisarEditoraController extends Controller
 
     public function __invoke()
     {
-        return $this->serviceAutoresPesquisa->listarEditoras();
+        return EditorasResource::collection(
+            $this->serviceAutoresPesquisa->listarEditoras()
+        );
     }
 }

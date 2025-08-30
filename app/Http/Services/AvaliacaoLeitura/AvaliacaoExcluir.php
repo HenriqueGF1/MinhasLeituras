@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\AvaliacaoLeitura;
 
+use App\Http\DTO\AvaliacaoLeitura\AvaliacaoLeituraExcluirDTO;
 use App\Models\AvaliacaoLeitura;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -10,12 +11,12 @@ class AvaliacaoExcluir
 {
     public function __construct(protected AvaliacaoLeitura $model) {}
 
-    public function deletarAvaliacao(int $id_avaliacao_leitura): void
+    public function deletarAvaliacao(AvaliacaoLeituraExcluirDTO $dto): void
     {
         try {
             DB::beginTransaction();
 
-            $avaliacaoLeitura = $this->model->findOrFail($id_avaliacao_leitura);
+            $avaliacaoLeitura = $this->model->findOrFail($dto->id_avaliacao_leitura);
 
             $avaliacaoLeitura->delete();
 

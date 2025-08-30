@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Leitura;
+namespace App\Http\Requests\ProgressoLeitura;
 
 use App\Rules\Leitura\QuantidadePaginasLeitura;
 use Illuminate\Foundation\Http\FormRequest;
