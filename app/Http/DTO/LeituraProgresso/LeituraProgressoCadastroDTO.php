@@ -36,7 +36,7 @@ class LeituraProgressoCadastroDTO
         $this->qtd_paginas_lidas = $dados['qtd_paginas_lidas'];
 
         try {
-            $this->data_leitura = Carbon::createFromFormat('Y-m-d H:i:s', $dados['data_leitura']);
+            $this->data_leitura = Carbon::createFromFormat('Y-m-d\TH:i:s', $dados['data_leitura'] . ':00');
         } catch (Exception $e) {
             throw new \InvalidArgumentException("Data inválida: {$dados['data_leitura']}");
         }

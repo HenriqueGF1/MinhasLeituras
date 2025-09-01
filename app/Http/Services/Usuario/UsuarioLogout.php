@@ -12,9 +12,7 @@ class UsuarioLogout
     public function logout(): JsonResponse
     {
         try {
-            $aqui = Auth::logout();
-
-            dd($aqui);
+            Auth::logout();
 
             return response()->json([
                 'code' => 200,

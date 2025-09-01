@@ -7,6 +7,7 @@ use App\Http\Requests\Editora\EditoraRequest;
 use App\Http\Requests\Genero\GeneroleituraRequest;
 use App\Http\Requests\Usuario\UsuarioLeituraRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class LeiturasRequest extends FormRequest
 {
@@ -36,6 +37,10 @@ class LeiturasRequest extends FormRequest
 
     protected function prepareForValidation()
     {
+        $this->merge([
+            'id_usuario' => Auth::user()->id_usuario,
+        ]);
+
         if (! is_null($this->isbn)) {
             $this->merge([
                 'isbn' => preg_replace('/[^0-9Xx]/', '', $this->isbn), // Remove traços e mantém o "X" (para ISBN-10)

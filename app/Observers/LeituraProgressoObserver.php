@@ -20,7 +20,11 @@ class LeituraProgressoObserver implements ShouldHandleEventsAfterCommit
     {
         $leitura = Leituras::find($leituraProgresso->id_leitura);
 
-        if ($leituraProgresso->qtd_paginas_lidas == $leitura->qtd_paginas) {
+        $totalPaginasLidasProgresso = $leituraProgresso::where('id_usuario', $leituraProgresso->id_usuario)
+            ->where('id_leitura', $leituraProgresso->id_leitura)
+            ->sum('qtd_paginas_lidas');
+
+        if ($totalPaginasLidasProgresso == $leitura->qtd_paginas) {
             $usuarioLeitura = UsuarioLeitura::where('id_usuario', '=', $leituraProgresso->id_usuario)
                 ->where('id_leitura', '=', $leituraProgresso->id_leitura)
                 ->first();

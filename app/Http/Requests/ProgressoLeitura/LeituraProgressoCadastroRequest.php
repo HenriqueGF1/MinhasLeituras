@@ -4,12 +4,20 @@ namespace App\Http\Requests\ProgressoLeitura;
 
 use App\Rules\Leitura\QuantidadePaginasLeitura;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class LeituraProgressoCadastroRequest extends FormRequest
 {
     public function authorize(): bool
     {
         return true;
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'id_usuario' => Auth::user()->id_usuario,
+        ]);
     }
 
     public function rules(): array
