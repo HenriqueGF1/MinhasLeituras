@@ -25,7 +25,7 @@ class LeituraProcessoHandler extends ProcessoCadastroLeituraHandler
         if ($registro?->id_leitura) {
             $dto->id_leitura = $registro->id_leitura;
         } else {
-            $cadastroDto = $this->leituraCadastroDTOFactory->criarDTO($dto->toArray());
+            $cadastroDto = $this->leituraCadastroDTOFactory->criarDTO($dto);
             $novoId = $this->leituraCadastro->cadastroDeLeitura($cadastroDto);
             $dto->id_leitura = $novoId?->id_leitura;
         }

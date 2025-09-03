@@ -22,6 +22,8 @@ class ApiGoogleBooks implements IsbnApiInterface
             'q' => 'isbn:' . $isbn,
             'key' => $this->apiKey,
             'maxResults' => 1,
+            'langRestrict' => 'pt',
+            'printType' => 'books',
         ]);
 
         if ($response->successful()) {

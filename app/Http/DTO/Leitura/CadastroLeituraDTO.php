@@ -2,6 +2,7 @@
 
 namespace App\Http\DTO\Leitura;
 
+use Illuminate\Http\UploadedFile;
 use InvalidArgumentException;
 
 class CadastroLeituraDto
@@ -14,6 +15,10 @@ class CadastroLeituraDto
     public string $descricao;
 
     public string $capa;
+
+    public ?UploadedFile $capa_arquivo = null;
+
+    public ?string $capa_final = null;
 
     public ?string $isbn = null;
 
@@ -40,7 +45,6 @@ class CadastroLeituraDto
 
     public int $id_status_leitura;
 
-    // Gêneros (array de inteiros)
     public array $id_genero = [];
 
     public function __construct(array $dados)
@@ -49,6 +53,7 @@ class CadastroLeituraDto
         $this->titulo = trim($dados['titulo'] ?? '');
         $this->descricao = trim($dados['descricao'] ?? '');
         $this->capa = trim($dados['capa'] ?? '');
+        $this->capa_arquivo = $dados['capa_arquivo'] ?? null;
         $this->isbn = $dados['isbn'] ?? null;
         $this->data_publicacao = $dados['data_publicacao'] ?? '';
         $this->data_registro = $dados['data_registro'] ?? null;
@@ -64,9 +69,22 @@ class CadastroLeituraDto
         $this->id_usuario = (int) ($dados['id_usuario'] ?? 0);
         $this->id_status_leitura = (int) ($dados['id_status_leitura'] ?? 0);
 
-        $this->id_genero = array_map('intval', $dados['id_genero'] ?? []);
+        if (! empty($dados['id_genero'])) {
+            $generosStr = trim($dados['id_genero'], '[]');
+            $generosArr = explode(',', $generosStr);
+            $this->id_genero = array_map('intval', $generosArr);
+        } else {
+            $this->id_genero = [];
+        }
 
         $this->validar();
+
+        // Definir capa_final
+        if (! empty($this->capa)) {
+            $this->capa_final = $this->capa;
+        } elseif (! empty($this->capa_arquivo)) {
+            $this->capa_final = $this->capa_arquivo->getClientOriginalName();
+        }
     }
 
     private function validar(): void
@@ -79,8 +97,26 @@ class CadastroLeituraDto
             throw new InvalidArgumentException('Campo "descricao" é obrigatório.');
         }
 
-        if (empty($this->capa)) {
-            throw new InvalidArgumentException('Campo "capa" é obrigatório.');
+        if (empty($this->capa) && empty($this->capa_arquivo)) {
+            throw new InvalidArgumentException('É obrigatório informar a capa como URL ou enviar um arquivo.');
+        }
+
+        if (! empty($this->capa_arquivo)) {
+            if (! $this->capa_arquivo instanceof UploadedFile) {
+                throw new InvalidArgumentException('O campo "capa_arquivo" deve ser um arquivo válido.');
+            }
+
+            $extensoesPermitidas = ['jpg', 'jpeg', 'png', 'gif'];
+            $ext = strtolower($this->capa_arquivo->getClientOriginalExtension());
+
+            if (! in_array($ext, $extensoesPermitidas)) {
+                throw new InvalidArgumentException('O arquivo da capa deve ser uma imagem (jpg, jpeg, png ou gif).');
+            }
+
+            // Máx 2MB
+            if ($this->capa_arquivo->getSize() > 2 * 1024 * 1024) {
+                throw new InvalidArgumentException('O arquivo da capa não pode ser maior que 2MB.');
+            }
         }
 
         if (empty($this->data_publicacao)) {
@@ -124,7 +160,7 @@ class CadastroLeituraDto
             'id_leitura' => $this->id_leitura,
             'titulo' => $this->titulo,
             'descricao' => $this->descricao,
-            'capa' => $this->capa,
+            'capa' => $this->capa_final,
             'isbn' => $this->isbn,
             'data_publicacao' => $this->data_publicacao,
             'data_registro' => $this->data_registro,

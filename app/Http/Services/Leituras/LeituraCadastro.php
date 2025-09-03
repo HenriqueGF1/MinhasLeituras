@@ -5,7 +5,9 @@ namespace App\Http\Services\Leituras;
 use App\Http\DTO\Leitura\LeituraCadastroDTO;
 use App\Models\Leituras;
 use Exception;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class LeituraCadastro
 {
@@ -16,7 +18,15 @@ class LeituraCadastro
         try {
             DB::beginTransaction();
 
-            $leitura = $this->model->create($leituraDto->toArray());
+            $dados = $leituraDto->toArray();
+
+            if (! empty($leituraDto->capa_arquivo) && $leituraDto->capa_arquivo instanceof UploadedFile) {
+                $path = $leituraDto->capa_arquivo->store('capas', 'public');
+                $url = Storage::url($path);
+                $dados['capa'] = $url;
+            }
+
+            $leitura = $this->model->create($dados);
 
             DB::commit();
 

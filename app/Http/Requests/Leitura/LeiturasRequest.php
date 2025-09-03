@@ -50,40 +50,49 @@ class LeiturasRequest extends FormRequest
 
     public function rules()
     {
-        $outrasValidacoes = [
-            $this->generoLeituraRequest->rules(),
-        ];
+        $outrasValidacoes = [];
+
+        // Validações de requests específicos
+        $outrasValidacoes = array_merge($outrasValidacoes, $this->generoLeituraRequest->rules());
 
         if (! is_null($this->isbn)) {
-            $outrasValidacoes[] = $this->isbnRequest->rules();
+            $outrasValidacoes = array_merge($outrasValidacoes, $this->isbnRequest->rules());
         }
 
         if (! is_null($this->id_autor)) {
-            $outrasValidacoes[] = $this->autorRequest->rulesRequiredIdAutor();
+            $outrasValidacoes = array_merge($outrasValidacoes, $this->autorRequest->rulesRequiredIdAutor());
         } else {
-            $outrasValidacoes[] = $this->autorRequest->rulesNullableIdAutor();
+            $outrasValidacoes = array_merge($outrasValidacoes, $this->autorRequest->rulesNullableIdAutor());
         }
 
         if (! is_null($this->id_editora)) {
-            $outrasValidacoes[] = $this->editoraRequest->rulesRequiredIdEditora();
+            $outrasValidacoes = array_merge($outrasValidacoes, $this->editoraRequest->rulesRequiredIdEditora());
         } else {
-            $outrasValidacoes[] = $this->editoraRequest->rulesNullableIdEditora();
+            $outrasValidacoes = array_merge($outrasValidacoes, $this->editoraRequest->rulesNullableIdEditora());
         }
 
-        $outrasValidacoes[] = $this->usuarioLeituraRequest->rules();
+        // Validação de capa
+        if (! is_null($this->capa)) {
+            $outrasValidacoes['capa'] = 'required|url';
+        } else {
+            $outrasValidacoes['capa_arquivo'] = 'required|file|mimes:jpg,jpeg,png,gif|max:2048';
+        }
 
-        $outrasValidacoes[] = [
+        // Validações do usuário de leitura
+        $outrasValidacoes = array_merge($outrasValidacoes, $this->usuarioLeituraRequest->rules());
+
+        // Regras gerais do livro
+        $outrasValidacoes = array_merge($outrasValidacoes, [
             'id_usuario' => 'required|exists:usuario,id_usuario',
             'titulo' => 'required|string|max:255',
             'descricao' => 'required|string|max:500|min:20',
-            'capa' => 'required|url',
             'data_publicacao' => 'required|date',
             'qtd_capitulos' => 'required|integer|min:1',
             'qtd_paginas' => 'required|integer|min:1',
-            'data_registro' => 'required|date',
-        ];
+            // 'data_registro' => 'required|date',
+        ]);
 
-        return call_user_func_array('array_merge', $outrasValidacoes);
+        return $outrasValidacoes;
     }
 
     public function messages()
@@ -113,8 +122,15 @@ class LeiturasRequest extends FormRequest
             'descricao.min' => 'A descrição deve ter no mínimo 20 caracteres.',
             'descricao.max' => 'A descrição não pode ter mais que 500 caracteres.',
 
-            'capa.required' => 'A URL da capa é obrigatória.',
-            'capa.url' => 'A capa deve ser uma URL válida.',
+            // Mensagens para URL
+            'capa.required' => 'O campo capa é obrigatório.',
+            'capa.url' => 'O campo capa deve ser uma URL válida.',
+
+            // Mensagens para arquivo
+            'capa_arquivo.required' => 'O campo capa_arquivo é obrigatório.',
+            'capa_arquivo.file' => 'O campo capa_arquivo deve ser um arquivo válido.',
+            'capa_arquivo.mimes' => 'O arquivo deve ser do tipo: jpg, jpeg, png ou gif.',
+            'capa_arquivo.max' => 'O arquivo não pode ser maior que 2MB.',
 
             'data_publicacao.required' => 'A data de publicação é obrigatória.',
             'data_publicacao.date' => 'A data de publicação deve ser uma data válida.',

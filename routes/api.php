@@ -38,8 +38,8 @@ Route::prefix('leituras')->name('leituras.')->group(function () {
     Route::get('/', PesquisarLeituraController::class)->name('pesquisarLeituras');
     Route::get('/aleatoria', PesquisarLeituraAleatoriaController::class)->name('aleatoria');
     Route::middleware(['auth:api'])->group(function () {
-        Route::post('/isbn', IsbnPesquisaController::class)->name('pesquisa-isbn');
-        Route::post('/isbn-api', IsbnPesquisaApiController::class)->name('pesquisa-isbn.api');
+        Route::get('/isbn/{isbn}', IsbnPesquisaController::class)->name('pesquisa-isbn');
+        Route::get('/isbn-api/{isbn}', IsbnPesquisaApiController::class)->name('pesquisa-isbn.api');
         Route::post('/', CadastroDeLeituraController::class)->name('cadastrar');
     });
 });

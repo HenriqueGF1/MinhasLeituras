@@ -118,6 +118,7 @@ class CadastroDeLeituraController extends Controller
      */
     public function __invoke(LeiturasRequest $request): JsonResponse
     {
+
         try {
             $dtoLeitura = new CadastroLeituraDto($request->validated());
 

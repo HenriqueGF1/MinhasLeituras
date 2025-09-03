@@ -10,11 +10,18 @@ class LeiturasResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        // URL base do seu site
+        $baseUrl = config('app.url'); 
+
         return [
             'id_leitura' => $this->id_leitura,
             'titulo' => $this->titulo,
             'descricao' => $this->descricao,
-            'capa' => $this->capa,
+            'capa' => $this->capa
+                ? (str_starts_with($this->capa, 'http')
+                    ? $this->capa
+                    : $baseUrl . $this->capa)
+                : null,
             'id_editora' => $this->id_editora,
             'id_autor' => $this->id_autor,
             'data_publicacao' => Carbon::parse($this->data_publicacao)->format('d/m/Y H:i:s'),

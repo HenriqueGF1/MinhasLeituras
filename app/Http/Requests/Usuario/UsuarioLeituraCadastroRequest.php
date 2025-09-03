@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Usuario;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UsuarioLeituraCadastroRequest extends FormRequest
 {
@@ -12,6 +13,13 @@ class UsuarioLeituraCadastroRequest extends FormRequest
     public function authorize(): bool
     {
         return true; // Ajuste se houver regras de autorização específicas
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'id_usuario' => Auth::user()->id_usuario,
+        ]);
     }
 
     /**

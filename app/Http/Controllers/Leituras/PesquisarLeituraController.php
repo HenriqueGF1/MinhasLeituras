@@ -29,7 +29,7 @@ class PesquisarLeituraController extends Controller
     public function __invoke()
     {
         return LeiturasResource::collection(
-            $this->service->pesquisa()
+         $this->service->pesquisa()
         );
     }
 }
