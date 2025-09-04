@@ -88,7 +88,7 @@ class AvaliacaoCadastroTest extends TestCase
         // ACT
         $response = $this->withHeaders([
             'Authorization' => "Bearer {$this->token}",
-        ])->post('api/leituras/avaliar', $dadosAvaliacaoLeitura);
+        ])->post('api/avaliacoes', $dadosAvaliacaoLeitura);
 
         // ASSERT
         $response->assertStatus(201);

@@ -30,7 +30,7 @@ class LeituraProgressoCadastroTest extends TestCase
             'id_usuario' => 15,
             'id_leitura' => 13,
             'qtd_paginas_lidas' => 14,
-            'data_leitura' => now(),
+            'data_leitura' => now()->format('Y-m-d\TH:i'),
         ];
 
         $dtoLeituraProgressoCadastroDTO = new LeituraProgressoCadastroDTO($dadosLeituraProgresso);
@@ -90,7 +90,7 @@ class LeituraProgressoCadastroTest extends TestCase
             'id_usuario' => 15,
             'id_leitura' => 13,
             'qtd_paginas_lidas' => 14,
-            'data_leitura' => now()->subDay(),
+            'data_leitura' => now()->subDay()->format('Y-m-d\TH:i'),
         ];
 
         // ASERT

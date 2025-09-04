@@ -1,70 +1,78 @@
 <?php
 
-namespace Tests\Unit\App\Controller;
+namespace Tests\Unit\Controller;
 
-use App\Http\Controllers\Leituras\CadastroDeLeituraController;
-use App\Http\Requests\LeiturasRequest;
-use App\Http\Services\Leituras\CadastroDeLeituraService;
-use App\Models\Leituras;
-use Illuminate\Http\JsonResponse;
-use Mockery;
-use Tests\TestCase;
+use App\Http\Controllers\Leituras\CadastroDeLeituraController; // Controller que será testada
+use App\Http\DTO\Leitura\CadastroLeituraDto; // DTO usado para transferência de dados
+use App\Http\Facades\Leitura\CadastramentoDeLeituraFacade; // Facade do serviço de cadastro de leitura
+use App\Http\Requests\Leitura\LeiturasRequest; // FormRequest da leitura
+use App\Models\Leituras; // Modelo Eloquent de leituras
+use Illuminate\Http\JsonResponse; // Classe de resposta JSON
+use Mockery; // Biblioteca para criação de mocks
+use PHPUnit\Framework\Attributes\Test; // Atributo para marcar testes
+use Tests\TestCase; // Classe base de testes do Laravel
 
 class CadastroDeLeituraControllerTest extends TestCase
 {
-    // php artisan test --filter=CadastroDeLeituraControllerTest::deve_cadastrar_uma_leitura_e_retornar_resposta_de_sucesso
-    /** @test */
+    // Executado após cada teste
+    protected function tearDown(): void
+    {
+        Mockery::close(); // Fecha todos os mocks do Mockery para evitar conflitos
+        parent::tearDown(); // Chama o teardown da classe base
+    }
+
+    #[Test] // Marca o método como teste
     public function deve_cadastrar_uma_leitura_e_retornar_resposta_de_sucesso()
     {
-        // GIVEN: Dados de entrada simulados
+        // ARRANGE: dados simulados da requisição que seriam enviados pelo usuário
         $dadosRequisicao = [
-            'titulo' => 'O Hobbit',
-            'descricao' => 'O Hobbit é uma obra clássica de fantasia...',
-            'capa' => 'https://upload.wikimedia.org/wikipedia/pt/2/29/Capa_O_Hobbit.jpg',
-            'descricao_editora' => 'Minha editora 02',
+            'titulo' => 'O Pequeno Príncipe',
+            'descricao' => 'Escrito por Antoine de Saint-Exupéry...',
+            'capa' => 'https://m.media-amazon.com/images/I/81a4kCNuH+L.jpg',
+            'id_editora' => 1,
             'id_autor' => 1,
-            'data_publicacao' => '1937-09-21',
-            'qtd_capitulos' => 19,
-            'qtd_paginas' => 310,
-            'isbn' => '9788595084724',
-            'data_registro' => '1937-09-21',
-            'id_usuario' => 1,
+            'data_publicacao' => '1943-04-06',
+            'qtd_capitulos' => 27,
+            'qtd_paginas' => 96,
+            'isbn' => '9780156012195',
+            'data_registro' => '1943-04-06',
             'id_status_leitura' => 1,
-            'id_genero' => [8, 9],
+            'id_genero' => [1, 3, 6],
+            'id_usuario' => 1,
         ];
 
-        // Cria uma instância real do modelo Leitura com os dados simulados
+        // Cria uma instância real do modelo Leituras com os dados simulados
         $leitura = new Leituras($dadosRequisicao);
 
-        // Cria um mock do serviço de cadastro de leitura
-        $servicoMock = Mockery::mock(CadastroDeLeituraService::class);
-        $servicoMock->shouldReceive('cadastroDeLeitura')
-            ->once()
-            ->with($dadosRequisicao)
-            ->andReturn($leitura);
+        // CRIAÇÃO DE MOCKS
 
-        // Cria um mock da requisição validada
+        // Mock da Facade do serviço de cadastro
+        $servicoMock = Mockery::mock(CadastramentoDeLeituraFacade::class);
+        $servicoMock->shouldReceive('processoDeCadastroDeLeitura') // Espera que o método processoDeCadastroDeLeitura seja chamado
+            ->once() // Deve ser chamado exatamente 1 vez
+            ->with(Mockery::type(CadastroLeituraDto::class)) // Com um argumento do tipo CadastroLeituraDto
+            ->andReturn($leitura); // Retorna o modelo de leitura criado
+
+        // Mock do FormRequest (simula a requisição validada)
         $requisicaoMock = Mockery::mock(LeiturasRequest::class);
-        $requisicaoMock->shouldReceive('safe->all')
-            ->andReturn($dadosRequisicao);
+        $requisicaoMock->shouldReceive('validated') // Espera que validated() seja chamado
+            ->once() // Deve ser chamado exatamente 1 vez
+            ->andReturn($dadosRequisicao); // Retorna os dados simulados
 
-        // Instancia a controller com o serviço mockado
+        // Controller a ser testada, injetando o mock da Facade
         $controller = new CadastroDeLeituraController($servicoMock);
 
-        // WHEN: Executa o método __invoke da controller
-        $resposta = $controller->__invoke($requisicaoMock);
+        // ACT: execução do método __invoke da controller
+        $resposta = $controller($requisicaoMock);
 
-        // THEN: Verifica se a resposta é uma instância de JsonResponse
-        $this->assertInstanceOf(JsonResponse::class, $resposta);
-        $this->assertEquals(200, $resposta->getStatusCode());
+        // ASSERT: validação do resultado
 
-        // Converte a resposta para um array associativo
+        $this->assertInstanceOf(JsonResponse::class, $resposta); // Verifica se a resposta é um JsonResponse
+        $this->assertEquals(201, $resposta->getStatusCode()); // Verifica se o status HTTP é 201 (criado)
+
+        // Converte o conteúdo da resposta JSON para array associativo
         $conteudoResposta = $resposta->getData(true);
-
-        // Verifica se a chave 'data' está presente na resposta
-        $this->assertArrayHasKey('data', $conteudoResposta);
-
-        // Verifica se a mensagem de sucesso está correta
-        $this->assertEquals('Leitura cadastrada com sucesso', $conteudoResposta['message']);
+        $this->assertArrayHasKey('data', $conteudoResposta); // Verifica se existe a chave 'data'
+        $this->assertEquals('Leitura cadastrada com sucesso', $conteudoResposta['message']); // Verifica a mensagem de sucesso
     }
 }

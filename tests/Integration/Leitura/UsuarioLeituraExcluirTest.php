@@ -92,7 +92,7 @@ class UsuarioLeituraExcluirTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => "Bearer {$this->token}",
         ])->deleteJson(
-            "/api/leituras/excluir/{$dadosUsuarioLeitura['id_usuario_leitura']}"
+            "/api/usuario-leitura/{$dadosUsuarioLeitura['id_usuario_leitura']}"
         );
 
         $response->assertStatus(200);
@@ -115,7 +115,7 @@ class UsuarioLeituraExcluirTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => "Bearer {$this->token}",
         ])->deleteJson(
-            "/api/leituras/excluir/{$dadosUsuarioLeitura['id_usuario_leitura']}"
+            "/api/usuario-leitura/{$dadosUsuarioLeitura['id_usuario_leitura']}"
         );
 
         $response

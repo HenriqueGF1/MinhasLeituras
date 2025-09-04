@@ -15,6 +15,10 @@ class IsbnPesquisa
 
     public function pesquisaIsbnBase(string $isbn): ?Leituras
     {
-        return $this->leituraModel->where('isbn', $isbn)->first();
+        if (empty($isbn)) {
+            return null;
+        }
+
+        return $this->leituraModel->where('isbn', '=', $isbn)->first();
     }
 }

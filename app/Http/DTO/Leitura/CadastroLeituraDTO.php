@@ -70,16 +70,19 @@ class CadastroLeituraDto
         $this->id_status_leitura = (int) ($dados['id_status_leitura'] ?? 0);
 
         if (! empty($dados['id_genero'])) {
-            $generosStr = trim($dados['id_genero'], '[]');
-            $generosArr = explode(',', $generosStr);
-            $this->id_genero = array_map('intval', $generosArr);
+            if (is_array($dados['id_genero'])) {
+                $this->id_genero = array_map('intval', $dados['id_genero']);
+            } else {
+                $generosStr = trim($dados['id_genero'], '[]');
+                $generosArr = explode(',', $generosStr);
+                $this->id_genero = array_map('intval', $generosArr);
+            }
         } else {
             $this->id_genero = [];
         }
 
         $this->validar();
 
-        // Definir capa_final
         if (! empty($this->capa)) {
             $this->capa_final = $this->capa;
         } elseif (! empty($this->capa_arquivo)) {

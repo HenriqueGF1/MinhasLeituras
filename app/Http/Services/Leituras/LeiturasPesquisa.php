@@ -10,7 +10,7 @@ class LeiturasPesquisa
 {
     public function __construct(protected Leituras $model) {}
 
-    public function pesquisa(int $perPage = 10): LengthAwarePaginator
+    public function pesquisa(): LengthAwarePaginator
     {
         $query = $this->model->newQuery();
 
@@ -22,6 +22,6 @@ class LeiturasPesquisa
             ]);
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate();
     }
 }

@@ -11,7 +11,7 @@ class LeiturasResource extends JsonResource
     public function toArray(Request $request): array
     {
         // URL base do seu site
-        $baseUrl = config('app.url'); 
+        $baseUrl = config('app.url');
 
         return [
             'id_leitura' => $this->id_leitura,

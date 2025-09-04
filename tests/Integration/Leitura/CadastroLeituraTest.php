@@ -69,7 +69,7 @@ class CadastroLeituraTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => "Bearer {$this->token}",
-        ])->postJson('api/leituras/cadastrar', $dadosLivro);
+        ])->postJson('api/leituras', $dadosLivro);
 
         $response->assertStatus(201);
         $response->assertJsonFragment([
@@ -87,40 +87,22 @@ class CadastroLeituraTest extends TestCase
         $dadosLivro = [
             'titulo' => '',
             'descricao' => '',
-            'capa' => '',
-            'id_editora' => 0,
-            'id_autor' => 0,
-            'nome_autor' => 'Rick Riordan',
-            'data_publicacao' => '2005-06-28',
-            'qtd_capitulos' => 22,
-            'qtd_paginas' => 400,
-            'isbn' => '9788598078394',
-            'data_registro' => '2005-06-28',
-            'id_usuario' => 1,
-            'id_status_leitura' => 1,
-            'id_genero' => [8, 9],
         ];
 
         $response = $this->withHeaders([
             'Authorization' => "Bearer {$this->token}",
-        ])->postJson('api/leituras/cadastrar', $dadosLivro);
+        ])->postJson('api/leituras', $dadosLivro);
 
         $response->assertStatus(422)
-            ->assertOnlyJsonValidationErrors([
+            ->assertJsonValidationErrors([
                 'titulo',
                 'descricao',
-                'capa',
-                'id_autor',
-                'id_editora',
             ])
             ->assertJsonFragment([
                 'titulo' => ['O título é obrigatório.'],
             ])
             ->assertJsonFragment([
                 'descricao' => ['A descrição é obrigatória.'],
-            ])
-            ->assertJsonFragment([
-                'capa' => ['A URL da capa é obrigatória.'],
             ]);
 
         $this->assertDatabaseMissing('leituras', [

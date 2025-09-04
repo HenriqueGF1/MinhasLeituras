@@ -43,7 +43,7 @@ class IsbnPesquisaTest extends TestCase
         $this->leituraModelMock
             ->shouldReceive('where')
             ->once()
-            ->with('isbn', $isbn)
+            ->with('isbn', '=', $isbn)
             ->andReturn($queryMock);
 
         $queryMock

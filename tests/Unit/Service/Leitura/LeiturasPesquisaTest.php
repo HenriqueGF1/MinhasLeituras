@@ -37,10 +37,17 @@ class LeiturasPesquisaTest extends TestCase
         $collection = collect([$item]);
         $paginator = new LengthAwarePaginator($collection, $collection->count(), 15, 1);
 
-        $this->leiturasMockModel
-            ->shouldReceive('paginate')
+        // Mock do query builder
+        $queryMock = Mockery::mock();
+        $queryMock->shouldReceive('paginate')
             ->once()
             ->andReturn($paginator);
+
+        // Mock do model para retornar o query mock
+        $this->leiturasMockModel
+            ->shouldReceive('newQuery')
+            ->once()
+            ->andReturn($queryMock);
 
         $service = new LeiturasPesquisa($this->leiturasMockModel);
 
