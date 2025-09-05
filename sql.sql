@@ -100,7 +100,7 @@ CREATE TABLE leituras (
     data_publicacao DATE NOT NULL, 
     qtd_capitulos INT NOT NULL,
     qtd_paginas INT NOT NULL CHECK (qtd_paginas > 0), 
-    isbn VARCHAR(17) NOT NULL,
+    isbn VARCHAR(17),
     data_registro TIMESTAMP DEFAULT NOW() NOT NULL,
     FOREIGN KEY (id_editora) REFERENCES editora (id_editora) ON DELETE CASCADE,
     FOREIGN KEY (id_autor) REFERENCES autor (id_autor) ON DELETE CASCADE,

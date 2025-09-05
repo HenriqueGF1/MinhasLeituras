@@ -52,7 +52,7 @@ class LeituraCadastroDTO
         $this->descricao = $dados['descricao'];
         $this->capa = trim($dados['capa'] ?? '');
         $this->capa_arquivo = $dados['capa_arquivo'] ?? null;
-        $this->isbn = $dados['isbn'] ?? null;
+        $this->isbn = empty($dados['isbn']) ? null : $dados['isbn'];
         $this->data_publicacao = $dados['data_publicacao'];
         $this->qtd_capitulos = $dados['qtd_capitulos'];
         $this->qtd_paginas = $dados['qtd_paginas'];

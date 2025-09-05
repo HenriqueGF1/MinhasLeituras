@@ -6,94 +6,129 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/leituras": {},
-        "/api/leituras/cadastrar": {
+        "/api/leituras": {
+            "get": {
+                "tags": [
+                    "Leituras"
+                ],
+                "summary": "Pesquisar Leituras",
+                "description": "Pesquisar Leituras",
+                "operationId": "183ab6aca3fcd648a5a4235dca75b442",
+                "responses": {
+                    "200": {
+                        "description": "Pesquisar Leituras",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
                     "Leituras"
                 ],
-                "summary": "Cadastra uma nova leitura",
-                "operationId": "4ae1e189942c0306a7dbe6fea47a7b48",
+                "summary": "Criar uma nova leitura",
+                "description": "Endpoint para cadastrar uma nova leitura com informações do livro",
+                "operationId": "61182173f4012ab5b021db54d7d1151c",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "multipart/form-data": {
                             "schema": {
-                                "required": [
-                                    "titulo",
-                                    "descricao",
-                                    "nome_autor",
-                                    "data_publicacao",
-                                    "id_status_leitura"
-                                ],
+                                "required": [],
                                 "properties": {
                                     "token": {
-                                        "description": "Token JWT para autenticação (normalmente enviado no cabeçalho Authorization, mas pode ser enviado aqui se necessário)",
-                                        "type": "string",
-                                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                                    },
-                                    "id_usuario": {
-                                        "type": "integer",
-                                        "example": "1"
+                                        "description": "Token de autenticação",
+                                        "type": "string"
                                     },
                                     "titulo": {
-                                        "type": "string",
-                                        "example": "Percy Jackson e o Ladrão de Raios"
+                                        "description": "Título do livro",
+                                        "type": "string"
                                     },
                                     "descricao": {
-                                        "type": "string",
-                                        "example": "Escrito por Rick Riordan..."
+                                        "description": "Descrição do livro",
+                                        "type": "string"
                                     },
                                     "capa": {
-                                        "description": "Arquivo de imagem da capa",
+                                        "description": "URL da capa",
+                                        "type": "string",
+                                        "format": "url"
+                                    },
+                                    "capa_arquivo": {
+                                        "description": "Upload do arquivo da capa",
                                         "type": "string",
                                         "format": "binary"
                                     },
+                                    "id_editora": {
+                                        "description": "ID da editora",
+                                        "type": "integer"
+                                    },
                                     "descricao_editora": {
-                                        "type": "string",
-                                        "example": "Intrínseca"
+                                        "description": "Descrição da editora",
+                                        "type": "string"
+                                    },
+                                    "id_autor": {
+                                        "description": "ID do autor",
+                                        "type": "integer"
                                     },
                                     "nome_autor": {
-                                        "type": "string",
-                                        "example": "Rick Riordan"
+                                        "description": "Nome do autor",
+                                        "type": "string"
                                     },
                                     "data_publicacao": {
+                                        "description": "Data de publicação",
                                         "type": "string",
-                                        "format": "date",
-                                        "example": "2005-06-28"
+                                        "format": "date"
                                     },
                                     "qtd_capitulos": {
-                                        "type": "integer",
-                                        "example": 22
+                                        "description": "Quantidade de capítulos",
+                                        "type": "integer"
                                     },
                                     "qtd_paginas": {
-                                        "type": "integer",
-                                        "example": 400
+                                        "description": "Quantidade de páginas",
+                                        "type": "integer"
                                     },
                                     "isbn": {
-                                        "type": "string",
-                                        "example": "9788598078394"
-                                    },
-                                    "data_registro": {
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "2005-06-28"
+                                        "description": "ISBN do livro",
+                                        "type": "string"
                                     },
                                     "id_status_leitura": {
-                                        "description": "Status da leitura: 1=Para Ler, 2=Lendo, 3=Concluído",
-                                        "type": "integer",
-                                        "example": 2
+                                        "description": "Status da leitura: 1=Não iniciado, 2=Em leitura, 3=Concluído",
+                                        "type": "integer"
                                     },
                                     "id_genero": {
-                                        "description": "IDs dos gêneros (enviar como array)",
+                                        "description": "Lista de IDs de gêneros literários",
                                         "type": "array",
                                         "items": {
                                             "type": "integer"
-                                        },
-                                        "example": [
-                                            8,
-                                            9
-                                        ]
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -103,21 +138,73 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Leitura cadastrada com sucesso",
+                        "description": "Leitura criada com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Leitura cadastrada com sucesso"
+                                        "success": {
+                                            "type": "boolean"
                                         },
-                                        "status": {
-                                            "type": "integer",
-                                            "example": 201
+                                        "message": {
+                                            "type": "string"
                                         },
                                         "data": {
-                                            "$ref": "/components/schemas/LeituraResource"
+                                            "$ref": "#"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação nos campos enviados"
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                }
+            }
+        },
+        "/api/autores": {
+            "get": {
+                "tags": [
+                    "Autores Leituras"
+                ],
+                "summary": "Pesquisar Autores da Leitura",
+                "description": "Pesquisar Autores da Leitura",
+                "operationId": "ae42a408f593471af34c8401e45259fc",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pesquisar Autores da Leitura",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -126,13 +213,1087 @@
                         }
                     },
                     "401": {
-                        "description": "Não autorizado - Token inválido ou não fornecido"
-                    },
-                    "422": {
-                        "description": "Erro de validação"
+                        "description": "Não autorizado, token inválido ou ausente"
                     },
                     "500": {
-                        "description": "Erro interno do servidor"
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/avaliacoes/{id_avaliacao_leitura}": {
+            "delete": {
+                "tags": [
+                    "Avaliacao Leituras"
+                ],
+                "summary": "Excluir Avaliação Leitura do Usuário",
+                "description": "Excluir Avaliação Leitura do Usuário",
+                "operationId": "479f4620eedeb85585159eda06f8ec87",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id_avaliacao_leitura",
+                        "in": "path",
+                        "description": "Id Avaliacao Leitura da Avaliação",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Leitura excluída com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "404": {
+                        "description": "Leitura não encontrada"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/avaliacoes": {
+            "get": {
+                "tags": [
+                    "Avaliacao Leituras"
+                ],
+                "summary": "Pesquisar Avaliação Leitura do Usuário",
+                "description": "Pesquisar Avaliação Leitura do Usuário",
+                "operationId": "11dca144d2864ad332d0a9623275383c",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pesquisar Leituras com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Avaliacao Leituras"
+                ],
+                "summary": "Cadastrar Avaliação da Leitura do Usuário",
+                "description": "Cadastrar Avaliação de uma leitura feita pelo usuário",
+                "operationId": "bb64a0735f2e7c0ba05400ee4f5907a2",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "id_leitura": {
+                                        "description": "ID da leitura",
+                                        "type": "integer"
+                                    },
+                                    "nota": {
+                                        "description": "Nota da avaliação",
+                                        "type": "integer"
+                                    },
+                                    "descricao_avaliacao": {
+                                        "description": "Descrição da avaliação",
+                                        "type": "string"
+                                    },
+                                    "data_inicio": {
+                                        "description": "Data de início da leitura",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "data_termino": {
+                                        "description": "Data de término da leitura",
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Avaliação cadastrada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados da avaliação cadastrada",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação nos campos enviados"
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/editoras": {
+            "get": {
+                "tags": [
+                    "Editoras Leituras"
+                ],
+                "summary": "Pesquisar Editoras da Leitura",
+                "description": "Pesquisar Editoras da Leitura",
+                "operationId": "7150b0385f35ad0f9919d8c49817524f",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pesquisar Editoras da Leitura",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/generos": {
+            "get": {
+                "tags": [
+                    "Generos Leituras"
+                ],
+                "summary": "Pesquisar Generos da Leitura",
+                "description": "Pesquisar Generos da Leitura",
+                "operationId": "77b9626858c180b91b3ca666885e8055",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pesquisar Generos da Leitura",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/leituras/isbn-api/{isbn}": {
+            "get": {
+                "tags": [
+                    "Leituras"
+                ],
+                "summary": "Pesquisar Leitura pelo ISBN em API externa",
+                "description": "Pesquisar Leituras pelo ISBN em API externa",
+                "operationId": "d46f2fa08188a5eadd37eb2e27ecaca0",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isbn",
+                        "in": "path",
+                        "description": "ISBN do livro a ser pesquisado",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": ""
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pesquisar Leituras com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/leituras/isbn/{isbn}": {
+            "get": {
+                "tags": [
+                    "Leituras"
+                ],
+                "summary": "Pesquisar Leitura pelo ISBN",
+                "description": "Pesquisar Leituras pelo ISBN",
+                "operationId": "bbf2c19234c51812dc78c9fba8815bbc",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isbn",
+                        "in": "path",
+                        "description": "ISBN do livro a ser pesquisado",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": ""
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pesquisar Leituras com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/leituras/aleatoria": {
+            "get": {
+                "tags": [
+                    "Leituras"
+                ],
+                "summary": "Pesquisar Leitura Aleatória",
+                "description": "Pesquisar Leitura Aleatória",
+                "operationId": "c78e33d606bea26a347953f141a16c55",
+                "responses": {
+                    "200": {
+                        "description": "Pesquisar Leitura Aleatória",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/progresso": {
+            "post": {
+                "tags": [
+                    "Progresso Leituras"
+                ],
+                "summary": "Cadastro Leitura Progresso",
+                "description": "Cadastro Leitura Progresso",
+                "operationId": "4e2696a0786d443bfe40ff5ec07ea6e0",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "data_leitura",
+                                    "id_leitura",
+                                    "qtd_paginas_lidas"
+                                ],
+                                "properties": {
+                                    "data_leitura": {
+                                        "description": "Data e hora da leitura no formato ISO 8601 (ex: 2025-09-01T14:06)",
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2025-09-01T14:06"
+                                    },
+                                    "id_leitura": {
+                                        "description": "ID da leitura",
+                                        "type": "integer"
+                                    },
+                                    "qtd_paginas_lidas": {
+                                        "description": "Quantidade de páginas lidas na leitura",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cadastro Leitura Progresso realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/progresso/total": {
+            "post": {
+                "tags": [
+                    "Progresso Leituras"
+                ],
+                "summary": "Pesquisa Leitura Progresso Total",
+                "description": "Pesquisa Leitura Progresso Total",
+                "operationId": "c9317dd7cdc491d27ee0403992b920dd",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "id_leitura"
+                                ],
+                                "properties": {
+                                    "id_leitura": {
+                                        "description": "ID da leitura",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pesquisa Leitura Progresso Total realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/status/leituras": {
+            "get": {
+                "tags": [
+                    "Status Leituras"
+                ],
+                "summary": "Pesquisar Status da Leitura",
+                "description": "Pesquisar Status da Leitura",
+                "operationId": "f4988959276fe29e77984b9fc3a52aac",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pesquisar Status da Leitura",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/usuario-leitura": {
+            "get": {
+                "tags": [
+                    "Usuario Leituras"
+                ],
+                "summary": "Pesquisar Leituras do Usuário",
+                "description": "Pesquisar Leituras do Usuário",
+                "operationId": "4c6dc60d8bdee0321a02247a788e7d65",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Usuario Leituras"
+                ],
+                "summary": "Cadastrar Leitura do Usuário",
+                "description": "Cadastrar ou atualizar a leitura do usuário",
+                "operationId": "c1ae231a915c46a15d5ec54ed07f13ee",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "id_leitura",
+                                    "id_status_leitura"
+                                ],
+                                "properties": {
+                                    "id_leitura": {
+                                        "description": "ID da leitura do usuário",
+                                        "type": "integer"
+                                    },
+                                    "id_status_leitura": {
+                                        "description": "Status da leitura: 1=Não iniciado, 2=Em leitura, 3=Concluído",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Leitura cadastrada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados da leitura cadastrada",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/usuario-leitura/{id_usuario_leitura}": {
+            "delete": {
+                "tags": [
+                    "Usuario Leituras"
+                ],
+                "summary": "Excluir Leitura do Usuário",
+                "description": "Excluir Leitura do Usuário pelo ID",
+                "operationId": "f2b3d0574321b7a34d7e10221bb83f80",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "Token de autenticação do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id_usuario_leitura",
+                        "in": "path",
+                        "description": "ID da leitura do usuário a ser excluída",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Leitura excluída com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "404": {
+                        "description": "Leitura não encontrada"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/usuario": {
+            "post": {
+                "tags": [
+                    "Usuario"
+                ],
+                "summary": "Realizar Cadastro do Usuário",
+                "description": "Endpoint para Cadastro do Usuário",
+                "operationId": "2cb82f723b1fba99fc25a54bd694da14",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do Usuário",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "E-mail do Usuário",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Senha do Usuário",
+                                        "type": "string"
+                                    },
+                                    "data_nascimento": {
+                                        "description": "Data do Usuário",
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cadastro com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação nos campos enviados"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                }
+            }
+        },
+        "/api/usuario/login": {
+            "post": {
+                "tags": [
+                    "Usuario"
+                ],
+                "summary": "Realizar Login do Usuário",
+                "description": "Endpoint para Login do Usuário",
+                "operationId": "fe1bc6703549926f5439b02d016b80c6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "email": {
+                                        "description": "E-mail do Usuário",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Senha do Usuário",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Login com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação nos campos enviados"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
+                    }
+                }
+            }
+        },
+        "/api/usuario/logout": {
+            "get": {
+                "tags": [
+                    "Usuario"
+                ],
+                "summary": "Realizar Logout do Usuário",
+                "description": "Endpoint para logout do usuário autenticado",
+                "operationId": "3700977f51662c6a3e5c3cb1cc477986",
+                "responses": {
+                    "200": {
+                        "description": "Logout realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "Dados adicionais, se houver",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado, token inválido ou ausente"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
                     }
                 },
                 "security": [
@@ -154,8 +1315,40 @@
     },
     "tags": [
         {
+            "name": "Autores Leituras",
+            "description": "Autores Leituras"
+        },
+        {
+            "name": "Avaliacao Leituras",
+            "description": "Avaliacao Leituras"
+        },
+        {
+            "name": "Editoras Leituras",
+            "description": "Editoras Leituras"
+        },
+        {
+            "name": "Generos Leituras",
+            "description": "Generos Leituras"
+        },
+        {
             "name": "Leituras",
             "description": "Leituras"
+        },
+        {
+            "name": "Progresso Leituras",
+            "description": "Progresso Leituras"
+        },
+        {
+            "name": "Status Leituras",
+            "description": "Status Leituras"
+        },
+        {
+            "name": "Usuario Leituras",
+            "description": "Usuario Leituras"
+        },
+        {
+            "name": "Usuario",
+            "description": "Usuario"
         }
     ]
 }

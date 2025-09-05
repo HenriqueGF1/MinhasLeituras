@@ -20,7 +20,7 @@ class EditoraRequest extends FormRequest
     {
         return [
             'id_editora' => 'required|exists:editora,id_editora',
-            'descricao_editora' => 'nullable|string|max:50',
+            'descricao_editora' => 'nullable',
         ];
     }
 
@@ -28,7 +28,7 @@ class EditoraRequest extends FormRequest
     {
         return [
             'id_editora' => 'nullable',
-            'descricao_editora' => 'nullable|string|max:50',
+            'descricao_editora' => 'required|string|max:50',
         ];
     }
 
@@ -38,6 +38,7 @@ class EditoraRequest extends FormRequest
             'id_editora.required' => 'O campo editora é obrigatório.',
             'id_editora.exists' => 'A editora informada não foi encontrada.',
 
+            'descricao_editora.required' => 'O campo descrição editora é obrigatório.',
             'descricao_editora.string' => 'A descrição da editora deve ser um texto.',
             'descricao_editora.max' => 'A descrição da editora não pode ter mais que 50 caracteres.',
         ];

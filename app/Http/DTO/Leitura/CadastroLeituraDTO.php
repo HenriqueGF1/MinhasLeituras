@@ -142,12 +142,14 @@ class CadastroLeituraDto
             throw new InvalidArgumentException('Campo "id_status_leitura" é obrigatório.');
         }
 
-        if (! empty($this->id_editora) && ! empty($this->descricao_editora)) {
-            throw new InvalidArgumentException('Não é permitido preencher descrição da editora quando id da editora está definido.');
-        }
+        // dd($this->id_autor,$this->nome_autor);
 
         if (! empty($this->id_autor) && ! empty($this->nome_autor)) {
             throw new InvalidArgumentException('Não é permitido preencher nome do autor quando id do autor está definido.');
+        }
+
+        if (! empty($this->id_editora) && ! empty($this->descricao_editora)) {
+            throw new InvalidArgumentException('Não é permitido preencher descrição da editora quando id da editora está definido.');
         }
 
         foreach ($this->id_genero as $genero) {

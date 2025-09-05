@@ -92,6 +92,8 @@ class LeiturasRequest extends FormRequest
             // 'data_registro' => 'required|date',
         ]);
 
+        // dd($outrasValidacoes);
+
         return $outrasValidacoes;
     }
 
