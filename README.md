@@ -1,73 +1,90 @@
-# TODO
+# 📚 Gerenciamento de Leituras
 
-Fazer o fluxo de quando a leitura ja existe no banco de dados
-E verificar todos os fluxos
+[![Laravel](https://img.shields.io/badge/Laravel-8.x-red)](https://laravel.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14-blue)](https://www.postgresql.org/)
+[![PHPUnit](https://img.shields.io/badge/PHPUnit-tested-blue)](https://phpunit.de/)
+[![Swagger](https://img.shields.io/badge/Swagger-API-blue)](https://swagger.io/)
+[![JWT](https://img.shields.io/badge/JWT-auth-orange)](https://jwt.io/)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-O sistema funcionará da seguinte forma:
-
-1 - O usuário fará o cadastro da sua leitura. <br>
-2 - Não terá como alterar a leitura.<br>
-3 - Nos dados da tabela de leitura, os usuários irão informar editora e autor. Serão os usuários e o próprio banco de dados (ou seja, no select haverá uma pesquisa para editoras e autores. Caso o usuário não encontre, ele poderá cadastrar um novo).
-Na tabela de gênero de leitura, os usuários não cadastrarão um novo, escolherão dos gêneros disponíveis (fazer uma carga com os gêneros mais utilizados).
-<br>
-3 - Quando for cadastrar a leitura, ela será cadastrada nessas 5 tabelas:
-
-leituras,
-editora,
-autor,
-gênero_leitura,
-usuario_leitura
-
-4 - Agora, tendo essa leitura no sistema, quando outro usuário for cadastrar, ele informará apenas os dados do ISBN. Caso já exista no banco, a leitura será cadastrada somente na tabela usuario_leitura.
+Este projeto é uma aplicação de **gerenciamento de leituras** que permite aos usuários cadastrar, organizar e acompanhar seu progresso em livros, HQs e outros materiais.  
+Com ele, é possível definir metas, registrar avaliações, acompanhar estatísticas, receber lembretes de leitura e muito mais.
 
 ---
 
-O cadastro da leitura funcionara da seguinte forma ,
-o usuario preenchera os dados da leitura
-e no back end sera salvo da seguinte forma ,
-caso o usuario selecione uma das editoras sera enviado o id da editora
-caso nao ele preenchera o nome da editora o mesmo para o autor e genero
+## 🚀 Tecnologias Utilizadas
 
-Fazer testes
-OK Refazer as validações nos formRequest
+-   **Backend**: [Laravel](https://laravel.com/) (PHP)
+-   **Autenticação**: JWT (JSON Web Tokens)
+-   **Testes**: PHPUnit
+-   **Documentação de API**: Swagger
+-   **Banco de Dados**: [PostgreSQL](https://www.postgresql.org/)
 
-# Gerenciamento de Leituras
+---
 
-Este projeto é uma aplicação de **gerenciamento de leituras** onde os usuários podem cadastrar, organizar e acompanhar seu progresso de leitura de livros, HQs e outros materiais. O sistema permite que os usuários gerenciem suas leituras, definam metas, escrevam avaliações, recebam lembretes para ler, e muito mais.
+## 📡 APIs Integradas
 
-## Funcionalidades
+-   **[Google Books API](https://developers.google.com/books/docs/v1/using?hl=pt-br)**  
+    Para buscar informações completas dos livros, como título, autor, ISBN, capa e descrição.
 
--   **Cadastro de Usuário**: Usuários podem criar uma conta fornecendo nome, email, senha e data de nascimento. O cadastro gera um token JWT para autenticação.
--   **Login de Usuário**: Permite que os usuários se autentiquem com suas credenciais (nome e senha) utilizando um token JWT.
--   **Cadastro de Livros, HQs, etc.**: Usuários podem cadastrar livros e materiais de leitura com informações como título, descrição, capa, editora, autor, quantidade de páginas, ISBN e status de leitura (Lendo, Lido, Gostaria de Ler). O sistema calcula o prazo estimado de leitura com base no número de páginas.
--   **Edição e Exclusão de Livros**: Permite editar ou excluir os livros já cadastrados.
--   **Progresso de Leitura**: O sistema permite que os usuários registrem o número de páginas lidas por dia, recalculando automaticamente o prazo de leitura. Quando o livro é completado, o status é alterado para "Lido".
--   **Avaliações de Livros**: Usuários podem avaliar livros com título, comentário, nota (de 1 a 5), e escolher se a avaliação será pública ou privada.
--   **Metas de Leitura**: Defina metas de leitura, como número de livros ou páginas a serem lidas.
--   **Lembretes de Leitura**: Permite que os usuários definam lembretes personalizados para ler seus livros em horários específicos.
--   **Recomendações de Livros por IA**: O sistema usa a API da OpenAI GPT para recomendar livros semelhantes aos que o usuário está visualizando ou baseado nas suas leituras anteriores.
--   **Listagem de Livros**: Tela de listagem dos livros do usuário com informações sobre o progresso de leitura, livros favoritos e gêneros mais lidos.
--   **Notificações**: Utiliza o Firebase Cloud Messaging (FCM) para enviar lembretes de leitura.
+---
 
-## APIs Utilizadas
+## 📌 Funcionalidades
 
--   **Google Books API**: Para obter informações detalhadas sobre os livros cadastrados, como título, autor, ISBN, etc.  
-    [Google Books API](https://developers.google.com/books/docs/v1/using?hl=pt-br)
--   **OpenAI GPT (ChatGPT API)**: Utilizada para recomendações de livros com base no histórico de leitura e preferências do usuário.  
-    [OpenAI GPT API](https://platform.openai.com/docs/overview)
--   **Firebase Cloud Messaging (FCM)**: Para enviar notificações push e lembretes de leitura para os usuários.  
-    [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging?hl=pt-br)
+-   **Autenticação de Usuário**
 
-## Tecnologias Utilizadas
+    -   Cadastro com nome, e-mail, senha e data de nascimento
+    -   Login com geração de token JWT
+    -   Logout
 
--   **Backend**: Laravel (PHP), JWT para autenticação, APIs externas para informações de livros e recomendações.
--   **Frontend**: React (para construir interfaces dinâmicas e interativas).
--   **Banco de Dados**: MySQL/PostgreSQL para armazenar informações dos usuários, livros e leituras.
--   **Notificações**: Firebase Cloud Messaging para enviar notificações aos usuários.
+-   **Gerenciamento de Livros**
 
-## Como Usar
+    -   Cadastro de livros, HQs, etc.
+    -   Pesquisa por ISBN
+    -   Listagem, pesquisa e exclusão de livros
 
-1. Clone este repositório:
-    ```bash
-    git clone https://github.com/usuario/repo.git
-    ```
+-   **Progresso de Leitura**
+
+    -   Registro diário do número de páginas lidas
+    -   Acompanhamento da evolução de leitura
+
+-   **Avaliações de Livros**
+    -   Criação de avaliações
+    -   Listagem e exclusão de avaliações
+
+---
+
+## 🏁 Passo a Passo para Baixar e Iniciar o Projeto
+
+PASSO A PASSO PARA BAIXAR E INICIAR O PROJETO
+
+1. Clone o repositório:
+   </br> `git clone https://github.com/HenriqueGF1/MinhasLeituras.git` </br>
+   `cd MinhasLeituras` </br>
+2. Instale as dependências do backend (Laravel):
+   </br> `composer install` </br>
+
+3. Copie o arquivo de exemplo de configuração do Laravel e configure as chaves:
+   </br> `cp .env.example .env`
+   </br> Abra o arquivo .env e configure: </br>
+   `JWT_SECRET=sua_chave_jwt_aqui` </br>
+   `GOOGLE_BOOKS_API_KEY=sua_chave_google_books_aqui` </br>
+   `` </br>
+
+4. Gere a chave do aplicativo Laravel (APP_KEY):
+   </br> `php artisan key:generate` </br>
+
+5. Execute as migrations do banco de dados:
+   </br> `php artisan migrate` </br>
+
+6. Inicie o servidor Laravel:
+   </br> `composer run dev` </br>
+
+7. Para ver a Documentação da API:
+   </br> `endereco_da_sua_aplicacao/api/rotas` </br>
+
+8. Teste a aplicação:
+   </br> `composer run testar` </br>
+
+</br></br>
+IMPORTANTE: Não compartilhe suas chaves de API ou JWT em repositórios públicos.
