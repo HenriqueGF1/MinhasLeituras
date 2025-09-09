@@ -1,0 +1,861 @@
+{
+	"info": {
+		"_postman_id": "e864b5be-4078-4d67-8f44-0675706a1370",
+		"name": "MinhasLeituras",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11959429"
+	},
+	"item": [
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "Login",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"Henrique@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBase}}api/usuario/login",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"usuario",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Julia\",\r\n    \"email\": \"Julia@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"data_nascimento\": \"2000-08-21\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBase}}api/usuario",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBase}}api/usuario/logout",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"usuario",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leituras",
+			"item": [
+				{
+					"name": "Leituras",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlBase}}api/leituras",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"leituras"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aleatoria",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlBase}}api/leituras/aleatoria",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"leituras",
+								"aleatoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "titulo",
+									"value": "ccccccccccccccccccccc",
+									"type": "text"
+								},
+								{
+									"key": "descricao",
+									"value": "Escrito por Antoine de Saint-Exupéry, o livro narra a história de um pequeno príncipe que viaja por diferentes planetas, encontrando personagens singulares e refletindo sobre amizade, amor e o sentido da vida.",
+									"type": "text"
+								},
+								{
+									"key": "capa",
+									"value": "https://m.media-amazon.com/images/I/81a4kCNuH+L.jpg",
+									"type": "text"
+								},
+								{
+									"key": "capa_arquivo",
+									"type": "file",
+									"src": "/C:/Users/henri/Downloads/O Pequeno Príncipe - Capa.jpg",
+									"disabled": true
+								},
+								{
+									"key": "id_editora",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "descricao_editora",
+									"value": "Descricao da Editora",
+									"type": "text"
+								},
+								{
+									"key": "id_autor",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nome_autor",
+									"value": "Teste Autor",
+									"type": "text"
+								},
+								{
+									"key": "data_publicacao",
+									"value": "1943-04-06",
+									"type": "text"
+								},
+								{
+									"key": "qtd_capitulos",
+									"value": "27",
+									"type": "text"
+								},
+								{
+									"key": "qtd_paginas",
+									"value": "96",
+									"type": "text"
+								},
+								{
+									"key": "isbn",
+									"value": "sdsdfs",
+									"type": "text"
+								},
+								{
+									"key": "data_registro",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "id_usuario",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id_status_leitura",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "id_leitura",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id_genero",
+									"value": "[1, 3, 6]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{urlBase}}api/leituras",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"leituras"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pesquisa Isbn Base de Dados",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBase}}api/leituras/isbn/9780575079007",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"leituras",
+								"isbn",
+								"9780575079007"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pesquisa Isbn API Terceiro",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBase}}api/leituras/isbn-api/9780575079007",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"leituras",
+								"isbn-api",
+								"9780575079007"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuario Leitura",
+			"item": [
+				{
+					"name": "Pesquisar",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlBase}}api/usuario-leitura",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"usuario-leitura"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastro",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id_leitura\": 5,\r\n    \"id_status_leitura\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBase}}api/usuario-leitura",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"usuario-leitura"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlBase}}api/usuario-leitura/27",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"usuario-leitura",
+								"27"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leitura Avaliação",
+			"item": [
+				{
+					"name": "Pesquisa",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlBase}}api/avaliacoes",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"avaliacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id_leitura\": 2,\r\n//   \"id_usuario\": 1,\r\n  \"nota\": 9,\r\n  \"descricao_avaliacao\": \"Uma história envolvente com ótimos personagens e ritmo excelente.\",\r\n  \"data_inicio\": \"2025-07-01\",\r\n  \"data_termino\": \"2025-07-05\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBase}}api/avaliacoes",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"avaliacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBase}}api/avaliacoes/120",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"avaliacoes",
+								"120"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leitura Progresso",
+			"item": [
+				{
+					"name": "Progresso",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"data_leitura\": \"2025-09-01T14:06\",\r\n  \"id_leitura\": 1,\r\n//   \"id_usuario\": 1,\r\n  \"qtd_paginas_lidas\": 2\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBase}}api/progresso",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"progresso"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Progresso Pesquisar Total Paginas Lidas",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n//   \"id_usuario\": 1,\r\n  \"id_leitura\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlBase}}api/progresso/total",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"progresso",
+								"total"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Generos",
+			"item": [
+				{
+					"name": "Pesquisa",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlBase}}api/generos",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"generos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Autores",
+			"item": [
+				{
+					"name": "Pesquisa",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlBase}}api/autores",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"autores"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Editoras",
+			"item": [
+				{
+					"name": "Pesquisa",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlBase}}api/editoras",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"editoras"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Status Leituras",
+			"item": [
+				{
+					"name": "Pesquisa",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlBase}}api/status/leituras",
+							"host": [
+								"{{urlBase}}api"
+							],
+							"path": [
+								"status",
+								"leituras"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "urlBase",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}

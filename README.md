@@ -86,9 +86,11 @@ PASSO A PASSO PARA BAIXAR E INICIAR O PROJETO
 7. Para ver a Documentação da API:
    </br> `endereco_da_sua_aplicacao/api/rotas` </br>
 
+8. Caso queira visualizar as rotas, basta importar o arquivo `MinhasLeituras.postman_collection.json` no Postman:
+
 ![Imagem Documentacao Api](/printsREADME/documentacao-api.png)
 
-8. Teste a aplicação:
+9. Teste a aplicação:
    </br> `composer run testar` </br>
 
 </br></br>
