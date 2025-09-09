@@ -74,14 +74,19 @@ PASSO A PASSO PARA BAIXAR E INICIAR O PROJETO
 4. Gere a chave do aplicativo Laravel (APP_KEY):
    </br> `php artisan key:generate` </br>
 
-5. Execute as migrations do banco de dados:
-   </br> `php artisan migrate` </br>
+<!-- 5. Execute as migrations do banco de dados:
+   </br> `php artisan migrate` </br> -->
+
+5. Gere o banco de dados , pelo arquivo
+   </br> `sql.sql` </br>
 
 6. Inicie o servidor Laravel:
    </br> `composer run dev` </br>
 
 7. Para ver a Documentação da API:
    </br> `endereco_da_sua_aplicacao/api/rotas` </br>
+
+![Imagem Documentacao Api](/printsREADME/documentacao-api.png)
 
 8. Teste a aplicação:
    </br> `composer run testar` </br>

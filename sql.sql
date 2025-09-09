@@ -46,6 +46,21 @@ COMMENT ON COLUMN editora.id_editora IS 'Identificador único da editora';
 COMMENT ON COLUMN editora.descricao IS 'Nome da editora responsável pela publicação (único no sistema)';
 COMMENT ON COLUMN editora.data_registro IS 'Data e hora do registro da editora no sistema';
 
+INSERT INTO editora (descricao) VALUES
+-- Nacionais
+('Companhia das Letras'),
+('Record'),
+('Rocco'),
+('Objetiva'),
+('Globo Livros'),
+
+-- Internacionais
+('Penguin Random House'),
+('HarperCollins'),
+('Simon & Schuster'),
+('Hachette Livre'),
+('Macmillan Publishers');
+
 CREATE TABLE autor (
     id_autor SERIAL PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
@@ -56,6 +71,21 @@ CREATE TABLE autor (
 COMMENT ON COLUMN autor.id_autor IS 'Identificador único do autor';
 COMMENT ON COLUMN autor.nome IS 'Nome do autor da obra (único no sistema)';
 COMMENT ON COLUMN autor.data_registro IS 'Data e hora em que o autor foi cadastrado';
+
+INSERT INTO autor (nome) VALUES
+-- Nacionais
+('Machado de Assis'),
+('Clarice Lispector'),
+('Carlos Drummond de Andrade'),
+('Jorge Amado'),
+('Cecília Meireles'),
+
+-- Internacionais
+('Gabriel García Márquez'),
+('José Saramago'),
+('Jorge Luis Borges'),
+('Virginia Woolf'),
+('Fyodor Dostoevsky');
 
 CREATE TABLE genero (
     id_genero SERIAL PRIMARY KEY,

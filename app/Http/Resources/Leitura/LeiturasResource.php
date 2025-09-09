@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Leitura;
 
+use App\Http\Resources\Autores\AutoresResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
@@ -24,6 +25,7 @@ class LeiturasResource extends JsonResource
                 : null,
             'id_editora' => $this->id_editora,
             'id_autor' => $this->id_autor,
+            'autor' => new AutoresResource($this->autor),
             'data_publicacao' => Carbon::parse($this->data_publicacao)->format('d/m/Y H:i:s'),
             'qtd_capitulos' => $this->qtd_capitulos,
             'qtd_paginas' => $this->qtd_paginas,

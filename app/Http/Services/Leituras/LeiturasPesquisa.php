@@ -22,6 +22,6 @@ class LeiturasPesquisa
             ]);
         }
 
-        return $query->paginate();
+        return $query->with('autor')->paginate();
     }
 }

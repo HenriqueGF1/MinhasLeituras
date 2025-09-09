@@ -42,4 +42,9 @@ class Leituras extends Model
     {
         return $this->belongsTo(AvaliacaoLeitura::class, 'id_leitura', 'id_leitura');
     }
+
+    public function autor()
+    {
+        return $this->belongsTo(Autor::class, 'id_autor', 'id_autor');
+    }
 }
