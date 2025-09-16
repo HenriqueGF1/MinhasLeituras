@@ -10,6 +10,10 @@
 Este projeto é uma aplicação de **gerenciamento de leituras** que permite aos usuários cadastrar, organizar e acompanhar seu progresso em livros, HQs e outros materiais.  
 Com ele, é possível definir metas, registrar avaliações, acompanhar estatísticas, receber lembretes de leitura e muito mais.
 
+<b>Esse projeto e somente a parte do Banck-End para ter o projeto completo baixe também a parte do Front-End </b>
+
+[MinhasLeiturasFront](https://github.com/HenriqueGF1/MinhasLeiturasFront)
+
 ---
 
 ## 🚀 Tecnologias Utilizadas
